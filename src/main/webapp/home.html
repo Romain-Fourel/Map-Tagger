@@ -9,10 +9,28 @@
 
     <body>
 
+        <script id="templateResult" type="text/template">
+            
+            <div>
+                <%= attribute %>
+            </div>
+        
+        </script>
+
         <h1>Map Tagger Website</h1>
+
+        <p>
+            <button id="getUser">get user</button>
+            <button id="postUser">post user</button>
+        </p>
+        <p> <span class="getTitle">Get users:</span>  <br/>
+            <div id="resUser"></div>
+        </p>
+        <p>END</p>
 
 	    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <script type="text/javascript" src="home.js"></script>
     </body>
 
 </html>

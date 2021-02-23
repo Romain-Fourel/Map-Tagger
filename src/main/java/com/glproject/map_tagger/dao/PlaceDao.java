@@ -18,6 +18,20 @@ public interface PlaceDao {
 	List<Place> getPlaces();
 	
 	/**
+	 * Get all places of a user
+	 * @param user
+	 * @return
+	 */
+	List<Place> getPlaces(User user);
+	
+	/**
+	 * 
+	 * @param map
+	 * @return
+	 */
+	List<Place> getPlaces(Map map);
+	
+	/**
 	 * 
 	 * @return all places in the database which has tag in their tag list
 	 */
