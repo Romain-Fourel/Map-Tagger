@@ -24,3 +24,12 @@ public interface UserDao {
 	 */
 	List<Place> getPlaceNear(int radius);
 }
+
+
+
+
+
+
+
+
+

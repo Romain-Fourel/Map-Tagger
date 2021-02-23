@@ -12,6 +12,11 @@ import javax.jdo.annotations.PersistenceCapable;
 @PersistenceCapable
 public class Map {
 	
+	public enum Confidentiality {
+		PRIVATE,
+		PUBLIC
+	}
+	
 	int id;
 	
 	Confidentiality confidentiality;
@@ -41,10 +46,6 @@ public class Map {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public enum Confidentiality {
-		PRIVATE,
-		PUBLIC
 	}
 	
 }

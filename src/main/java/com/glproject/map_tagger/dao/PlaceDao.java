@@ -21,7 +21,8 @@ public interface PlaceDao {
 	 * 
 	 * @return all places in the database which has tag in their tag list
 	 */
-	List<Place> getPlaces(String tag);
+	List<Place> getPlaces(List<String> tag);
+	
 	
 	/**
 	 * 
