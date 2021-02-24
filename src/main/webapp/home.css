@@ -6,3 +6,8 @@ h1{
 .getTitle{
     font-weight: bold;
 }
+
+body{
+    background-color: black;
+    color: rgb(0, 64, 128);
+}

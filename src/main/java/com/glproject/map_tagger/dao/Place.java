@@ -11,7 +11,8 @@ import javax.jdo.annotations.PersistenceCapable;
  */
 @PersistenceCapable
 public class Place {
-	int ID;
+	
+	String name;
 	
 	//for now, the location is in a string, maybe a class can be used to handle this better
 	String location;
@@ -22,11 +23,12 @@ public class Place {
 	List<String> tags; //a list of strings which represents tags
 	
 	
-	public int getID() {
-		return ID;
+
+	public String getName() {
+		return name;
 	}
-	public void setID(int iD) {
-		ID = iD;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getLocation() {
 		return location;

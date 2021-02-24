@@ -1,0 +1,26 @@
+package com.glproject.map_tagger.ws;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.glproject.map_tagger.dao.Place;
+
+@Path("/place")
+public class PlaceResource {
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/fakePlace")
+	public Place getPlace() {
+		Place place = new Place();
+		place.setDescription("a new place");
+		place.setName("Place 1");
+		place.setLocation("Paris");
+		
+		return place;
+	}
+	
+	
+}

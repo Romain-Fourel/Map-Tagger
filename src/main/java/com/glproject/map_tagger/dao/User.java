@@ -12,18 +12,19 @@ import javax.jdo.annotations.PersistenceCapable;
 @PersistenceCapable
 public class User {
 	
-	int id;
+	String name;
 	List<Map> mapList;
 	
 	//for now, the location is in a string, maybe a class can be used to handle this better
 	String location;
 	
-	public int getId() {
-		return id;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Map> getMapList() {

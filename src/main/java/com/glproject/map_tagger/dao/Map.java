@@ -17,17 +17,18 @@ public class Map {
 		PUBLIC
 	}
 	
-	int id;
+	String name;
 	
 	Confidentiality confidentiality;
 	List<Place> places;
 	String description;
 	
-	public int getId() {
-		return id;
+
+	public String getName() {
+		return name;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Confidentiality getConfidentiality() {
 		return confidentiality;

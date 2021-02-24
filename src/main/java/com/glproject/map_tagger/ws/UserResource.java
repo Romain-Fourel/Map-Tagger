@@ -12,8 +12,8 @@ import javax.ws.rs.core.MediaType;
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.User;
 
-@Path("/glproject")
-public class GLprojectResource {
+@Path("/user")
+public class UserResource {
 	
 	
 	/**
@@ -22,12 +22,11 @@ public class GLprojectResource {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/user")
+	@Path("/fakeUser")
 	public User getUser() {
-		System.out.println("On arrive dans le getUser!");
 		User user = new User();
-		user.setId(1);
-		user.setLocation("paris");
+		user.setName("Alfred");
+		user.setLocation("Paris");
 		user.setMapList(new ArrayList<Map>());
 		
 		return user;
@@ -39,15 +38,11 @@ public class GLprojectResource {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/user")
+	@Path("/fakeUser")
 	public void retrieveUser(User user) {
-		System.out.println(user.getId()+" "+user.getLocation());
+		System.out.println("isOK");
+		System.out.println(user.getName()+" "+user.getLocation()+" "+user.getMapList());
 	}
 	
 	
 }
-
-
-
-
-
