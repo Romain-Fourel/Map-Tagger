@@ -49,7 +49,7 @@ $(document).ready(function () {
     });
 
     $("#postUser").click(function () { 
-        var userJson = JSON.stringify({id:2,mapList:[],location:"London"});  
+        var userJson = JSON.stringify({name:"Bertrand",mapList:[],location:"London"});  
         var userJs = {id:2,mapList:[],location:"London"};
         console.log(userJson);        
         postServerData("ws/glproject/user",userJson);
