@@ -26,8 +26,9 @@ public class MapDaoImpl implements MapDao {
 		return null;
 	}
 
+
 	@Override
-	public Map getMap(int id) {
+	public Map getMap(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

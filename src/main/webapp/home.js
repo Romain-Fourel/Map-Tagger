@@ -24,34 +24,30 @@ function callDone(result){
     var resInHtml = templateHtml({
         "attribute":JSON.stringify(result)
     });
-    $("#res"+res).append(resInHtml);
+    $("#res"+objectUsed).append(resInHtml);
 
 }
 
-var res = "";
+var objectUsed = "";
 
 /* This is like the main, is launched when the document is ready*/
-$(document).ready(function () {         
+$(document).ready(function () {      
+    
+    var objList = ["User","Map","Place"];
 
-    $("#getUser").click(function () { 
-        res = "User";
-        getServerData("ws/user/fakeUser",callDone);
-    });
-
-    $("#getMap").click(function () { 
-        res = "Map";
-        getServerData("ws/map/fakeMap",callDone);
-    });
-
-    $("#getPlace").click(function () { 
-        res = "Place";
-        getServerData("ws/place/fakePlace",callDone);
-    });
+    //Initialization of all get buttons
+    for (const obj of objList) {
+        
+        $("#get"+obj).click(function () { 
+        objectUsed = obj
+        getServerData("ws/"+obj+"/fake"+obj,callDone);
+        });               
+    }
 
     $("#postUser").click(function () { 
         var userJson = JSON.stringify({name:"Bertrand",mapList:[],location:"London"});  
         var userJs = {id:2,mapList:[],location:"London"};
         console.log(userJson);        
-        postServerData("ws/glproject/user",userJson);
+        postServerData("ws/user/fakeUser",userJson);
     });
 });

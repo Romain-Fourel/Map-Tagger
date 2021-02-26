@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.User;
 
-@Path("/user")
+@Path("/User")
 public class UserResource {
 	
 	

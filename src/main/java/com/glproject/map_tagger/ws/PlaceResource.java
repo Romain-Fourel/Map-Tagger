@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.glproject.map_tagger.dao.Place;
 
-@Path("/place")
+@Path("/Place")
 public class PlaceResource {
 	
 	@GET

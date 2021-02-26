@@ -5,32 +5,11 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <!-- 
-        this link doesn't work with the server
         <link rel="stylesheet" href="home.css">
-        -->
         <title>Map Tagger</title>
     </head>
 
     <body>
-
-        <!--home.css: -->
-        <style>
-            h1{
-                text-decoration: underline;
-                color: rgb(179, 54, 9);
-            }
-
-            .getTitle{
-                font-weight: bold;
-            }
-
-            body{
-                background-color: black;
-                color: rgb(0, 64, 128);
-            }
-        </style>
-
         <script id="templateResult" type="text/template">
             
             <div>
@@ -69,73 +48,7 @@
 
 	    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-        <!-- 
-        this link doesn't work with the server
         <script type="text/javascript" src="home.js"></script>
-        -->
-
-        <!--home.js: -->
-        <script type="text/javascript">
-                
-        function getServerData(url,success){
-            $.ajax({
-                method: "GET",
-                url: url,
-                dataType: "json",
-            }).done(success);
-        }
-
-        function postServerData(url,data){
-            console.log("data: '"+data+"'");
-            $.ajax({
-                method: "POST",
-                data: data,
-                url: url,
-                dataType: "json",
-            }).done(console.log("request done"))
-              .success(console.log("request succeed"))
-              .fail(console.log("request failed"));
-        }
-
-        function callDone(result){
-            var templateHtml = _.template($("#templateResult").html());
-
-            var resInHtml = templateHtml({
-                "attribute":JSON.stringify(result)
-            });
-            $("#res"+res).append(resInHtml);
-
-        }
-
-        var res = "";
-
-        /* This is like the main, is launched when the document is ready*/
-        $(document).ready(function () {         
-
-            $("#getUser").click(function () { 
-                res = "User";
-                getServerData("ws/user/fakeUser",callDone);
-            });
-
-            $("#getMap").click(function () { 
-                res = "Map";
-                getServerData("ws/map/fakeMap",callDone);
-            });
-
-            $("#getPlace").click(function () { 
-                res = "Place";
-                getServerData("ws/place/fakePlace",callDone);
-            });
-
-            $("#postUser").click(function () { 
-                var userJson = JSON.stringify({name:"Bertrand",mapList:[],location:"London"});  
-                var userJs = {id:2,mapList:[],location:"London"};
-                console.log(userJson);        
-                postServerData("ws/user/fakeUser",userJson);
-            });
-        });
-        
-        </script>
     </body>
 
 </html>

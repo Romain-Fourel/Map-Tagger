@@ -46,6 +46,6 @@ public interface PlaceDao {
 	 */
 	List<Place> getPlaceNear(String location, int radius);
 	
-	Place getPlace(int id);	
+	Place getPlace(String name);	
 
 }

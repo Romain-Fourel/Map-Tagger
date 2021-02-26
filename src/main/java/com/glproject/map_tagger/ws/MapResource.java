@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.Map.Confidentiality;
 
-@Path("/map")
+@Path("/Map")
 public class MapResource {
 
 	@GET

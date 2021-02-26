@@ -46,9 +46,10 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
 
 	@Override
-	public Place getPlace(int id) {
+	public Place getPlace(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

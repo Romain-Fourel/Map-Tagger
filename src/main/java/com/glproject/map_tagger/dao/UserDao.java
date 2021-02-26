@@ -13,9 +13,9 @@ public interface UserDao {
 	/**
 	 * 
 	 * @param id of the user
-	 * @return the user who has id for his ID
+	 * @return the user who has a specific name
 	 */
-	User getUser(int id);
+	User getUser(String name);
 	
 	/**
 	 * 

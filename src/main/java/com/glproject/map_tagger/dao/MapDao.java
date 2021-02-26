@@ -27,9 +27,9 @@ public interface MapDao {
 	
 	/**
 	 * 
-	 * @param id of the map
-	 * @return the map which have map.id=id
+	 * @param name of the map
+	 * @return the map which has a specific name
 	 */
-	Map getMap(int id);
+	Map getMap(String name);
 
 }
