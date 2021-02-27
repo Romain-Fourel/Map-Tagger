@@ -41,40 +41,11 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
-	/**
-	 * TODO, can't be done while the location is not precisely defined
-	 */
 	@Override
-	public List<Place> getPlaceNear(int radius) {
-		
-		List<Place> places = null;
-		List<Place> detached = new ArrayList<Place>();
-		
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		
-		try {
-			tx.begin();
-			
-			Query q = pm.newQuery(Place.class);
-			q.declareParameters("");
-			q.setFilter("");
-			
-			
-			tx.commit();			
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;	
-	}
-
-	@Override
-	public User getUser(String name) {
-		User user = null;
-		User detached = new User();
+	@SuppressWarnings("unchecked")
+	public List<User> getUsers(String name) {
+		List<User> users = null;
+		List<User> detached = new ArrayList<User>();
 		
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -86,8 +57,35 @@ public class UserDaoImpl implements UserDao {
 			q.declareParameters("String username");
 			q.setFilter("name == username");
 			
-			user = (User) q.execute(name);	
-			detached = pm.detachCopy(user);
+			users = (List<User>) q.execute(name);	
+			detached = (List<User>) pm.detachCopyAll(users);
+			
+			tx.commit();
+			
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;	
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsers() {
+		List<User> users = null;
+		List<User> detached = new ArrayList<User>();
+		
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		try {
+			tx.begin();
+			
+			Query q = pm.newQuery(User.class);			
+			users = (List<User>) q.execute();	
+			detached = (List<User>) pm.detachCopyAll(users);
 			
 			tx.commit();
 			

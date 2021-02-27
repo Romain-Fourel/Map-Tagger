@@ -19,17 +19,10 @@ public interface MapDao {
 	
 	
 	/**
-	 * Get all maps of a user
-	 * @param user
-	 * @return
-	 */
-	List<Map> getMaps(User user);
-	
-	/**
 	 * 
 	 * @param name of the map
 	 * @return the map which has a specific name
 	 */
-	Map getMap(String name);
+	List<Map> getMaps(String name);
 
 }

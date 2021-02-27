@@ -17,19 +17,9 @@ public interface PlaceDao {
 	 */
 	List<Place> getPlaces();
 	
-	/**
-	 * Get all places of a user
-	 * @param user
-	 * @return
-	 */
-	List<Place> getPlaces(User user);
 	
-	/**
-	 * 
-	 * @param map
-	 * @return
-	 */
-	List<Place> getPlaces(Map map);
+	List<Place> getPlaces(String name);
+	
 	
 	/**
 	 * 
@@ -44,8 +34,6 @@ public interface PlaceDao {
 	 * @param radius
 	 * @return returns all places next to the location in the radius
 	 */
-	List<Place> getPlaceNear(String location, int radius);
-	
-	Place getPlace(String name);	
+	List<Place> getPlaceNear(String location, int radius);	
 
 }

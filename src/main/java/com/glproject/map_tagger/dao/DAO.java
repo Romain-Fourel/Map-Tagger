@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.dao;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
 import com.glproject.map_tagger.dao.impl.MapDaoImpl;
@@ -10,7 +11,7 @@ public class DAO {
 	
 	//TODO, how to put a real persistentManagerFactory??
 	public static UserDao getUserDao() {
-		PersistenceManagerFactory pmf = null;
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		return new UserDaoImpl(pmf);
 	}
 	

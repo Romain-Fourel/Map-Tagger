@@ -20,15 +20,9 @@ public class MapDaoImpl implements MapDao {
 		return null;
 	}
 
-	@Override
-	public List<Map> getMaps(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	@Override
-	public Map getMap(String name) {
+	public List<Map> getMaps(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

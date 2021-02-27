@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
@@ -18,11 +19,11 @@ import com.glproject.map_tagger.dao.impl.UserDaoImpl;
 public class DaoImplTest {
 
 	@Test
-	public void test() {
-		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Persistence");
+	public void userTest() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		UserDao userDao = new UserDaoImpl(pmf);
 
-		assertEquals(null, userDao.getUser("Alfred"));
+		assertTrue(userDao.getUsers("Alfred").isEmpty());
 
 		User user = new User();
 		user.setLocation("Paris");
@@ -30,10 +31,34 @@ public class DaoImplTest {
 		user.setMapList(new ArrayList<Map>());
 
 		userDao.addUser(user);
-
-		assertEquals(user, userDao.getUser("Alfred"));
-
-		DAO.getUserDao().getUser("Alfred");
+		
+		assertEquals(1, userDao.getUsers("Alfred").size());
+		
+		System.out.println(user.getName());
+		
+		User userRetrieved = userDao.getUsers("Alfred").get(0);
+		assertEquals("Alfred", userRetrieved.getName());
+		assertEquals("Paris", userRetrieved.getLocation()); 
+		
+		DAO.getUserDao().getUsers("Alfred");
+	}
+	
+	public void usersTest() {
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
+		UserDao userDao = new UserDaoImpl(pmf);
+		
+		String[] nameTab = {"Jean","Alfred","Eugene","Eude","Jacques"};
+		
+		for (int i = 0; i < nameTab.length; i++) {
+			userDao.addUser(new User(nameTab[i]));
+		}
+		
+		assertEquals(nameTab.length, userDao.getUsers().size());
+		for (String name : nameTab) {
+			assertEquals(1, userDao.getUsers(name).size());
+			assertEquals(name, userDao.getUsers(name).get(0).getName());
+		}
+		
 	}
 
 }

@@ -21,17 +21,6 @@ public class PlaceDaoImpl implements PlaceDao {
 		return null;
 	}
 
-	@Override
-	public List<Place> getPlaces(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Place> getPlaces(Map map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Place> getPlaces(List<String> tag) {
@@ -46,7 +35,7 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
 
 	@Override
-	public Place getPlace(String name) {
+	public List<Place> getPlaces(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

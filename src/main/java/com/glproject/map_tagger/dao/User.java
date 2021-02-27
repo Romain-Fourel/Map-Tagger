@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.PersistenceCapable;
@@ -17,6 +18,14 @@ public class User {
 	
 	//for now, the location is in a string, maybe a class can be used to handle this better
 	String location;
+	
+	public User() {}
+	
+	public User(String name) {
+		this.name = name;
+		mapList = new ArrayList<Map>();
+		location = null;
+	}
 	
 
 	public String getName() {

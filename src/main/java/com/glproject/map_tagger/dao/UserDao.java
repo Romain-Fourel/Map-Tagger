@@ -12,17 +12,17 @@ public interface UserDao {
 	
 	/**
 	 * 
-	 * @param id of the user
-	 * @return the user who has a specific name
+	 * @return all users in the database
 	 */
-	User getUser(String name);
+	List<User> getUsers();
 	
 	/**
-	 * 
-	 * @param radius
-	 * @return all places next to the user in the radius.
+	 * TODO: maybe the attribute name could be a primary key
+	 * @param id of the user
+	 * @return the users who has a specific name
 	 */
-	List<Place> getPlaceNear(int radius);
+	List<User> getUsers(String name);
+	
 }
 
 
