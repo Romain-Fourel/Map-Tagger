@@ -5,10 +5,9 @@ import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Transaction;
 import javax.jdo.Query;
+import javax.jdo.Transaction;
 
-import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.User;
 import com.glproject.map_tagger.dao.UserDao;
 

@@ -16,10 +16,12 @@ public class DAO {
 	}
 	
 	public static MapDao getMapDao() {
-		return new MapDaoImpl();
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
+		return new MapDaoImpl(pmf);
 	}
 	
 	public static PlaceDao getPlaceDao() {
-		return new PlaceDaoImpl();
+		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
+		return new PlaceDaoImpl(pmf);
 	}
 }

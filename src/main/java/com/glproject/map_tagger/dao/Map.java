@@ -6,7 +6,6 @@ import javax.jdo.annotations.PersistenceCapable;
 
 /**
  * This class represent maps that users can create and edit.
- * @author romain
  *
  */
 @PersistenceCapable

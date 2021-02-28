@@ -1,9 +1,8 @@
 package junit;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
@@ -33,8 +32,6 @@ public class DaoImplTest {
 		userDao.addUser(user);
 		
 		assertEquals(1, userDao.getUsers("Alfred").size());
-		
-		System.out.println(user.getName());
 		
 		User userRetrieved = userDao.getUsers("Alfred").get(0);
 		assertEquals("Alfred", userRetrieved.getName());

@@ -1,24 +1,68 @@
 package com.glproject.map_tagger.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.glproject.map_tagger.dao.Map;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
+import javax.jdo.Transaction;
+
 import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.PlaceDao;
-import com.glproject.map_tagger.dao.User;
 
 public class PlaceDaoImpl implements PlaceDao {
 
+	private PersistenceManagerFactory pmf;
+	
+	public PlaceDaoImpl(PersistenceManagerFactory pmf) {
+		this.pmf = pmf;
+	}
+	
 	@Override
 	public void addPlace(Place place) {
-		// TODO Auto-generated method stub
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		try {
+			tx.begin();
+			pm.makePersistent(place);
+			tx.commit();
+			
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Place> getPlaces() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Place> places = null;
+		List<Place> detached = new ArrayList<Place>();
+		
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		try {
+			tx.begin();
+			
+			Query q = pm.newQuery(Place.class);			
+			places = (List<Place>) q.execute();	
+			detached = (List<Place>) pm.detachCopyAll(places);
+			
+			tx.commit();
+			
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;	
 	}
 
 
