@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -26,6 +27,7 @@ public class UserResource {
 	public User getUser() {
 		User user = new User();
 		user.setName("Alfred");
+		user.setPassword("123456");
 		user.setLocation("Paris");
 		user.setMapList(new ArrayList<Map>());
 		
@@ -36,7 +38,7 @@ public class UserResource {
 	 * An example of implementation of the class user to make the stubs
 	 * @param user
 	 */
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/fakeUser")
 	public void retrieveUser(User user) {

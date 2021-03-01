@@ -1,4 +1,4 @@
-function getServerData(url,success){
+function getServerData(url, success) {
     $.ajax({
         method: "GET",
         url: url,
@@ -6,48 +6,47 @@ function getServerData(url,success){
     }).done(success);
 }
 
-function postServerData(url,data){
-    console.log("data: '"+data+"'");
+function postServerData(url, data) {
+    console.log("data: '" + data + "'");
     $.ajax({
         method: "POST",
         data: data,
         url: url,
         dataType: "json",
     }).done(console.log("request done"))
-      .success(console.log("request succeed"))
-      .fail(console.log("request failed"));
+        .success(console.log("request succeed"))
+        .fail(console.log("request failed"));
 }
 
-function callDone(result){
+function callDone(result) {
     var templateHtml = _.template($("#templateResult").html());
 
     var resInHtml = templateHtml({
-        "attribute":JSON.stringify(result)
+        "attribute": JSON.stringify(result)
     });
-    $("#res"+objectUsed).append(resInHtml);
+    $("#res" + objectUsed).append(resInHtml);
 
 }
 
 var objectUsed = "";
 
 /* This is like the main, is launched when the document is ready*/
-$(document).ready(function () {      
-    
-    var objList = ["User","Map","Place"];
+$(document).ready(function () {
+
+    var objList = ["User", "Map", "Place"];
 
     //Initialization of all get buttons
     for (const obj of objList) {
-        
-        $("#get"+obj).click(function () { 
-        objectUsed = obj
-        getServerData("ws/"+obj+"/fake"+obj,callDone);
-        });               
+
+        $("#get" + obj).click(function () {
+            objectUsed = obj
+            getServerData("ws/" + obj + "/fake" + obj, callDone);
+        });
     }
 
-    $("#postUser").click(function () { 
-        var userJson = JSON.stringify({name:"Bertrand",mapList:[],location:"London"});  
-        var userJs = {id:2,mapList:[],location:"London"};
-        console.log(userJson);        
-        postServerData("ws/user/fakeUser",userJson);
+    $("#postUser").click(function () {
+        var userJson = JSON.stringify({ name: "Bertrand",password:"789456", mapList: [], location: "London" });
+        console.log(userJson);
+        postServerData("ws/user/fakeUser", userJson);
     });
 });

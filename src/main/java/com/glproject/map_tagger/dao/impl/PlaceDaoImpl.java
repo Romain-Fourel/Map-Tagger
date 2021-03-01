@@ -72,16 +72,30 @@ public class PlaceDaoImpl implements PlaceDao {
 		return null;
 	}
 
-	@Override
-	public List<Place> getPlaceNear(String location, int radius) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Place> getPlaces(String name) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public Place getPlace(Long ID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Place> getPlacesNear(String location, int radius) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Place place) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

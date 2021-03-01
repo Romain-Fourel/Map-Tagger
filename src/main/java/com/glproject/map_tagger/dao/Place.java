@@ -12,18 +12,27 @@ import javax.jdo.annotations.PersistenceCapable;
 @PersistenceCapable
 public class Place {
 	
+	//primary key
+	Long ID;
+	
 	String name;
 	
 	//for now, the location is in a string, maybe a class can be used to handle this better
 	String location;
 	
 	String description;
-	List<String> pictures; //this list will store the path of all pictures
+	List<String> pictures; //not strings, maybe a java class can better handler pictures
 	List<String> messages; 
 	List<String> tags; //a list of strings which represents tags
 	
 	
 
+	public Long getID() {
+		return ID;
+	}
+	public void setID(Long iD) {
+		ID = iD;
+	}
 	public String getName() {
 		return name;
 	}

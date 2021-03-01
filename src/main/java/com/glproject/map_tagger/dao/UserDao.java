@@ -10,6 +10,7 @@ public interface UserDao {
 	 */
 	void addUser(User user);
 	
+	void delete(User user);
 	/**
 	 * 
 	 * @return all users in the database
@@ -17,8 +18,9 @@ public interface UserDao {
 	List<User> getUsers();
 	
 	/**
-	 * TODO: maybe the attribute name could be a primary key
-	 * @param id of the user
+	 * TODO: the attribute "name" will be a primary key
+	 * So his method will returns a simple user, not a list
+	 * @param name of the user
 	 * @return the users who has a specific name
 	 */
 	List<User> getUsers(String name);

@@ -97,6 +97,12 @@ public class UserDaoImpl implements UserDao {
 		return detached;	
 	}
 
+	@Override
+	public void delete(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 

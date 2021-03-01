@@ -13,7 +13,9 @@ import javax.jdo.annotations.PersistenceCapable;
 @PersistenceCapable
 public class User {
 	
+	//primary key
 	String name;
+	String password;
 	List<Map> mapList;
 	
 	//for now, the location is in a string, maybe a class can be used to handle this better
@@ -24,7 +26,6 @@ public class User {
 	public User(String name) {
 		this.name = name;
 		mapList = new ArrayList<Map>();
-		location = null;
 	}
 	
 
@@ -34,6 +35,15 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public List<Map> getMapList() {

@@ -15,7 +15,7 @@ public class MapResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/fakeMap")
 	public Map getMap() {
-		Map map = new Map();
+		Map map = new Map("Alfred");
 		map.setConfidentiality(Confidentiality.PRIVATE);
 		map.setDescription("a new map");
 		map.setName("Map 1");

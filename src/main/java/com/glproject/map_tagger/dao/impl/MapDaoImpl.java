@@ -73,4 +73,25 @@ public class MapDaoImpl implements MapDao {
 		return null;
 	}
 
+
+	@Override
+	public Map getMap(Long ID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Map> getPublicMaps() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void delete(Map map) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
