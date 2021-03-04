@@ -14,22 +14,21 @@ import com.glproject.map_tagger.dao.MapDao;
 public class MapDaoImpl implements MapDao {
 
 	private PersistenceManagerFactory pmf;
-	
+
 	public MapDaoImpl(PersistenceManagerFactory pmf) {
 		this.pmf = pmf;
 	}
-	
-	
+
 	@Override
 	public void addMap(Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
-		
+
 		try {
 			tx.begin();
 			pm.makePersistent(map);
 			tx.commit();
-			
+
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
@@ -44,28 +43,27 @@ public class MapDaoImpl implements MapDao {
 	public List<Map> getMaps() {
 		List<Map> maps = null;
 		List<Map> detached = new ArrayList<Map>();
-		
+
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
-		
+
 		try {
 			tx.begin();
-			
-			Query q = pm.newQuery(Map.class);			
-			maps = (List<Map>) q.execute();	
+
+			Query q = pm.newQuery(Map.class);
+			maps = (List<Map>) q.execute();
 			detached = (List<Map>) pm.detachCopyAll(maps);
-			
+
 			tx.commit();
-			
+
 		} finally {
 			if (tx.isActive()) {
 				tx.rollback();
 			}
 			pm.close();
 		}
-		return detached;	
+		return detached;
 	}
-
 
 	@Override
 	public List<Map> getMaps(String name) {
@@ -73,13 +71,11 @@ public class MapDaoImpl implements MapDao {
 		return null;
 	}
 
-
 	@Override
 	public Map getMap(Long ID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public List<Map> getPublicMaps() {
@@ -87,11 +83,10 @@ public class MapDaoImpl implements MapDao {
 		return null;
 	}
 
-
 	@Override
 	public void delete(Map map) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

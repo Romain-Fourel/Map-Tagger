@@ -9,7 +9,7 @@ import com.glproject.map_tagger.dao.Place;
 
 @Path("/Place")
 public class PlaceResource {
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/fakePlace")
@@ -18,9 +18,8 @@ public class PlaceResource {
 		place.setDescription("a new place");
 		place.setName("Place 1");
 		place.setLocation("Paris");
-		
+
 		return place;
 	}
-	
-	
+
 }

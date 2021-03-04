@@ -16,9 +16,9 @@ public class UserContainer {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.NATIVE)
 	protected Long id = null;
-	
+
 	protected List<User> users = null;
-	
+
 	public UserContainer() {
 		super();
 		users = new ArrayList<User>();

@@ -1,8 +1,10 @@
 package junit;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
@@ -10,7 +12,6 @@ import javax.jdo.PersistenceManagerFactory;
 import org.junit.Test;
 
 import com.glproject.map_tagger.dao.DAO;
-import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.User;
 import com.glproject.map_tagger.dao.UserDao;
 import com.glproject.map_tagger.dao.impl.UserDaoImpl;
@@ -19,55 +20,45 @@ public class DaoImplTest {
 
 	@Test
 	public void userTest() {
+
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		UserDao userDao = new UserDaoImpl(pmf);
 
-		assertTrue(userDao.getUsers("Alfred").isEmpty());
-
-		User user = new User();
+		User user = new User("Alfred");
 		user.setLocation("Paris");
-		user.setName("Alfred");
-		user.setMapList(new ArrayList<Map>());
 
 		userDao.addUser(user);
-		
-		assertEquals(1, userDao.getUsers("Alfred").size());
-		
-		User userRetrieved = userDao.getUsers("Alfred").get(0);
+
+		Long id = user.getID();
+
+		User userRetrieved = userDao.getUser(id);
 		assertEquals("Alfred", userRetrieved.getName());
-		assertEquals("Paris", userRetrieved.getLocation()); 
-		
-		DAO.getUserDao().getUsers("Alfred");
+		assertEquals("Paris", userRetrieved.getLocation());
+
+		DAO.getUserDao().getUser(id);
+
+		assertTrue(true);
 	}
-	
+
+	@Test
 	public void usersTest() {
 		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		UserDao userDao = new UserDaoImpl(pmf);
-		
-		String[] nameTab = {"Jean","Alfred","Eugene","Eude","Jacques"};
-		
+
+		String[] nameTab = { "Jean", "Alfred", "Eugene", "Eude", "Jacques" };
+		List<Long> idList = new ArrayList<Long>();
+
 		for (int i = 0; i < nameTab.length; i++) {
-			userDao.addUser(new User(nameTab[i]));
+			User user = new User(nameTab[i]);
+			userDao.addUser(user);
+			idList.add(user.getID());
 		}
-		
-		assertEquals(nameTab.length, userDao.getUsers().size());
-		for (String name : nameTab) {
-			assertEquals(1, userDao.getUsers(name).size());
-			assertEquals(name, userDao.getUsers(name).get(0).getName());
+
+		assertEquals(nameTab.length + 1, userDao.getUsers().size());
+		for (int i = 0; i < idList.size(); i++) {
+			assertEquals(nameTab[i], userDao.getUser(idList.get(i)).getName());
 		}
-		
+
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

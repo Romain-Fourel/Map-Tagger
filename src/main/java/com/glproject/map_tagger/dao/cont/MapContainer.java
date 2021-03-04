@@ -12,13 +12,13 @@ import com.glproject.map_tagger.dao.Map;
 
 @PersistenceCapable
 public class MapContainer {
-	
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.NATIVE)
 	protected Long id = null;
-	
+
 	protected List<Map> Maps = null;
-	
+
 	public MapContainer() {
 		super();
 		Maps = new ArrayList<Map>();
@@ -39,6 +39,5 @@ public class MapContainer {
 	public void setMaps(List<Map> maps) {
 		Maps = maps;
 	}
-
 
 }

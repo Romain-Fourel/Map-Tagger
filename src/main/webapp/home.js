@@ -1,22 +1,20 @@
 function getServerData(url, success) {
     $.ajax({
-        method: "GET",
         url: url,
         dataType: "json",
     }).done(success);
 }
 
-function postServerData(url, data) {
-    console.log("data: '" + data + "'");
-    $.ajax({
-        method: "POST",
-        data: data,
-        url: url,
-        dataType: "json",
-    }).done(console.log("request done"))
-        .success(console.log("request succeed"))
-        .fail(console.log("request failed"));
-}
+    function postServerData(url, data) {
+        console.log("data: '" + data + "'");
+        $.ajax({
+            type: 'POST',
+            data: data,
+            contentType :"application/json; charSet=UTF-8",
+            url: url,
+            dataType: "json",
+        }).done(console.log("data sent"));
+    }
 
 function callDone(result) {
     var templateHtml = _.template($("#templateResult").html());
@@ -45,8 +43,17 @@ $(document).ready(function () {
     }
 
     $("#postUser").click(function () {
-        var userJson = JSON.stringify({ name: "Bertrand",password:"789456", mapList: [], location: "London" });
-        console.log(userJson);
-        postServerData("ws/user/fakeUser", userJson);
+        var user = {name: "Bertrand", password: "789456", mapList: [], location: "London" };
+        postServerData("ws/User/fakeUser", user);
+    }); 
+    
+    $("#postMap").click(function () {
+        var map = {name: "A Map"};
+        postServerData("ws/User/fakeUser", map);
+    });
+
+    $("#postPlace").click(function () {
+        var place = {name: "A Place"};
+        postServerData("ws/User/fakeUser", place);
     });
 });

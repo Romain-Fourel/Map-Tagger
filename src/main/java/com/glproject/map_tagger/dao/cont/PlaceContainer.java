@@ -16,9 +16,9 @@ public class PlaceContainer {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.NATIVE)
 	protected Long id = null;
-	
+
 	protected List<Place> Places = null;
-	
+
 	public PlaceContainer() {
 		super();
 		Places = new ArrayList<Place>();

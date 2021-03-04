@@ -19,14 +19,7 @@ public class MapResource {
 		map.setConfidentiality(Confidentiality.PRIVATE);
 		map.setDescription("a new map");
 		map.setName("Map 1");
-		
+
 		return map;
 	}
 }
-
-
-
-
-
-
-
