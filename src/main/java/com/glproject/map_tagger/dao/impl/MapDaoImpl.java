@@ -73,10 +73,28 @@ public class MapDaoImpl implements MapDao {
 
 	@Override
 	public Map getMap(Long ID) {
-		// TODO Auto-generated method stub
-		return null;
+		Map map = null;
+		Map detached = null;
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			map = pm.getObjectById(Map.class, ID);
+			detached = pm.detachCopy(map);
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
 	}
 
+	
 	@Override
 	public List<Map> getPublicMaps() {
 		// TODO Auto-generated method stub

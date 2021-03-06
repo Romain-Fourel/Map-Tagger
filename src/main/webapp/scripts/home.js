@@ -5,17 +5,6 @@ function getServerData(url, success) {
     }).done(success);
 }
 
-    function postServerData(url, data) {
-        console.log("data: '" + data + "'");
-        $.ajax({
-            type: 'POST',
-            data: data,
-            contentType :"application/json; charSet=UTF-8",
-            url: url,
-            dataType: "json",
-        }).done(console.log("data sent"));
-    }
-
 function callDone(result) {
     var templateHtml = _.template($("#templateResult").html());
 
@@ -26,9 +15,22 @@ function callDone(result) {
 
 }
 
+function postServerData(url, data) {
+    $.ajax({
+        type: 'POST',
+        data: data,
+        contentType :"application/json; charSet=UTF-8",
+        url: url,
+        dataType: "json",
+    }).done(console.log("data "+JSON.stringify(data)+" sent"));
+}
+
+
 var objectUsed = "";
 
-/* This is like the main, is launched when the document is ready*/
+/**
+ * This is like the main, it is launched as soon as the document is ready
+ */
 $(document).ready(function () {
 
     var objList = ["User", "Map", "Place"];
@@ -42,6 +44,7 @@ $(document).ready(function () {
         });
     }
 
+    //Initialization of all post buttons
     $("#postUser").click(function () {
         var user = {name: "Bertrand", password: "789456", mapList: [], location: "London" };
         postServerData("ws/User/fakeUser", user);

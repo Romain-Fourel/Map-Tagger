@@ -79,8 +79,25 @@ public class PlaceDaoImpl implements PlaceDao {
 
 	@Override
 	public Place getPlace(Long ID) {
-		// TODO Auto-generated method stub
-		return null;
+		Place place = null;
+		Place detached = null;
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			place = pm.getObjectById(Place.class, ID);
+			detached = pm.detachCopy(place);
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
 	}
 
 	@Override
