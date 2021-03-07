@@ -11,77 +11,124 @@ Those ones seems to be useless, how can I use the "cascade style sheet"??
 
 */
 
-#interface{
+#interface button{
     z-index: 400;
+    position: absolute;
 }
 
 
-#buttons{
-    background-color: rgba(92, 94, 88, 0.661);
+#buttons button{
+    background-color: rgb(151, 151, 151);
     opacity: 100%;
 }
 
-#right{
-    right:10%;
+#right button{
+    right:5%;
 }
+
+#left button{
+    left:5%;
+}
+
 
 /*#################################""*/
 
-h1{
-    z-index: 400;
-    position: absolute;
-    color: rgb(10, 10, 10);
-    background-color: brown;
-    top:5%;
-    left: 45%; 
-}
-
-
 
 #communityMaps{
-    background-color: rgba(92, 94, 88, 0.661);
-    z-index: 400;
-    position: absolute;
-    right:10%;
-
     top:5%;
 }
 
 #savedMaps{
-    background-color: rgba(92, 94, 88, 0.661);
-    z-index: 400;
-    position: absolute;
-    right:10%;
+    background:url(./images/download.png) no-repeat;
+    cursor:pointer;
+    width:70px;
+    height:70px;
+    border-radius: 50%;
 
     top:15%;
 }
 
 #placesList{
-    background-color: rgba(92, 94, 88, 0.661);
-    z-index: 400;
-    position: absolute;
-    right:10%;
-
     top:25%;
 }
 
 #addAPlaceB{
-    background-color: rgba(92, 94, 88, 0.661);
-    z-index: 400;
-    position: absolute;
-    right:10%;
-
+    border: 3px solid rgb(255, 255, 255);
+    color: #FFFFFF;
+    border-radius: 12px;
+    font-size: 45px;
+    width: 650px;
+    height: 60px;
+    
     bottom: 10%;
-    left: 40%;
+    left: 30%;
+    
 }
 
 #researcher{
-    background-color: rgba(92, 94, 88, 0.661);
-    z-index: 400;
-    position: absolute;
-    right:10%;
-
     bottom: 10%;
-    left: 10%;
 }
 
+#parameter{
+    top: 10%;
+}
+
+.glow-on-hover {
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.glow-on-hover:before {
+content: '';
+background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+position: absolute;
+top: -2px;
+left:-2px;
+background-size: 400%;
+z-index: -1;
+filter: blur(5px);
+width: calc(100% + 4px);
+height: calc(100% + 4px);
+animation: glowing 20s linear infinite;
+opacity: 0;
+transition: opacity .3s ease-in-out;
+border-radius: 10px;
+}
+
+.glow-on-hover:active {
+    color: #000
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
