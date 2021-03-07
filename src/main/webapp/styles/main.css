@@ -19,17 +19,12 @@ html,body{
 }
 
 #right button{
-    right:10%;
+    right:5%;
 }
 
-
-h1{
-    color: rgb(10, 10, 10);
-    background-color: brown;
-    top:5%;
-    left: 45%; 
+#left button{
+    left: 5%;
 }
-
 
 
 #communityMaps{
@@ -51,6 +46,9 @@ h1{
 
 #researcher{
     bottom: 10%;
-    left: 10%;
+}
+
+#parameters{
+    top: 10%;
 }
 

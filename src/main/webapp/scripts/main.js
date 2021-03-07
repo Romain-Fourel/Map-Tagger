@@ -9,7 +9,7 @@ function initMap(){
 
     L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
         attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-        minZoom: 1,
+        minZoom: 3,
         maxZoom: 20
     }).addTo(mymap);
 }

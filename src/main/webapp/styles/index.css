@@ -1,9 +1,18 @@
+a:visited{
+    color:initial;
+}
+
+a{
+    text-decoration: none;
+}
+
 h1{
     color: rgb(0, 0, 0);
 }
 
+
 body{
-    background-color: coral;
+    background-color: rgb(192, 41, 41);
 }
 
 
