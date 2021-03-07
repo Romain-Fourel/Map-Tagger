@@ -1,8 +1,87 @@
-h1{
-    color: rgb(0, 0, 0);
-}
-
 html,body{
     height: 100%;
+}
+
+#mapid{
+    height: 100%
+}
+
+/*
+Those ones seems to be useless, how can I use the "cascade style sheet"??
+
+*/
+
+#interface{
+    z-index: 400;
+}
+
+
+#buttons{
+    background-color: rgba(92, 94, 88, 0.661);
+    opacity: 100%;
+}
+
+#right{
+    right:10%;
+}
+
+/*#################################""*/
+
+h1{
+    z-index: 400;
+    position: absolute;
+    color: rgb(10, 10, 10);
+    background-color: brown;
+    top:5%;
+    left: 45%; 
+}
+
+
+
+#communityMaps{
+    background-color: rgba(92, 94, 88, 0.661);
+    z-index: 400;
+    position: absolute;
+    right:10%;
+
+    top:5%;
+}
+
+#savedMaps{
+    background-color: rgba(92, 94, 88, 0.661);
+    z-index: 400;
+    position: absolute;
+    right:10%;
+
+    top:15%;
+}
+
+#placesList{
+    background-color: rgba(92, 94, 88, 0.661);
+    z-index: 400;
+    position: absolute;
+    right:10%;
+
+    top:25%;
+}
+
+#addAPlaceB{
+    background-color: rgba(92, 94, 88, 0.661);
+    z-index: 400;
+    position: absolute;
+    right:10%;
+
+    bottom: 10%;
+    left: 40%;
+}
+
+#researcher{
+    background-color: rgba(92, 94, 88, 0.661);
+    z-index: 400;
+    position: absolute;
+    right:10%;
+
+    bottom: 10%;
+    left: 10%;
 }
 
