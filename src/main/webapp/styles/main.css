@@ -6,10 +6,7 @@ html,body{
     height: 100%
 }
 
-/*
-Those ones seems to be useless, how can I use the "cascade style sheet"??
 
-*/
 
 #interface button{
     z-index: 400;
@@ -29,10 +26,6 @@ Those ones seems to be useless, how can I use the "cascade style sheet"??
 #left button{
     left:5%;
 }
-
-
-/*#################################""*/
-
 
 #communityMaps{
     top:5%;
@@ -67,6 +60,10 @@ Those ones seems to be useless, how can I use the "cascade style sheet"??
 
 #researcher{
     bottom: 10%;
+}
+
+#parameters{
+    top: 10%;
 }
 
 #parameter{
