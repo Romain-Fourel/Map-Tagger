@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * This class represent a user in our Map tagger Application
+ * This class represent a user in our Map Tagger Application
  * 
  * @author romain
  *
@@ -37,6 +37,17 @@ public class User {
 		super();
 		this.name = name;
 		mapList = new ArrayList<Map>();
+	}
+	
+	public User(String name, String password) {
+		this(name);
+		this.password = password;
+	}
+	
+	public User(String name, String password, String location) {
+		this(name,password);
+		this.location = location;
+		
 	}
 
 	public Long getID() {
@@ -74,5 +85,30 @@ public class User {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+	/**
+	 * Add a map to the map list of the user
+	 * @param map
+	 */
+	public void addMap(Map map) {
+		mapList.add(map);
+	}
+	
+	/**
+	 * return true if the user has this specific password
+	 * @param password: the password tested
+	 * @return
+	 */
+	public boolean hasPassword(String password) {
+		return this.password.equals(password);
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }
+
+
+

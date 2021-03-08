@@ -94,10 +94,33 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsers(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> users = null;
+		List<User> detached = null;
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			Query q = pm.newQuery(User.class);
+			q.declareParameters("String username");
+			q.setFilter("name == username");
+			
+			users = (List<User>) q.execute(name);
+			detached = (List<User>) pm.detachCopyAll(users);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
 	}
 
 }

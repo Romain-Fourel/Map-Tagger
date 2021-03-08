@@ -1,6 +1,7 @@
 package com.glproject.map_tagger.ws;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -10,12 +11,71 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.glproject.map_tagger.dao.DAO;
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.User;
 
 @Path("/User")
 public class UserResource {
 
+	/**
+	 * get into the database the user who has this specific identity
+	 * TODO: returns to the webapp the user in order to load his profile 
+	 * @param identity
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/connection")
+	public Response retrieveIdentity(String identity) {
+		
+		String username = identity.split("\n")[0];
+		String password = identity.split("\n")[1];
+		
+		System.out.println("username: "+username+"\n"+"password: "+password);
+		
+		List<User> usersRegistered = DAO.getUserDao().getUsers(username);
+		
+		System.out.println(usersRegistered);
+		
+		if (usersRegistered.isEmpty()) {
+			
+			System.out.println("We can return a 'no' response");
+		}
+		
+		for (User user : usersRegistered) {
+			if (user.hasPassword(password)) {
+				System.out.println("the user "+user+" is the right one!!");
+				return Response.accepted(user).build();
+			}
+		}	
+		
+		//We want to return an "not accepted" response
+		return Response.ok().build();
+		
+	}
+	
+	/**
+	 * TODO for now, I don't know how to create a new user by using the userJson
+	 * @param userJson
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/creation")	
+	public Response createUser(String userJson) {
+		
+		System.out.println(userJson);
+		
+		return Response.ok().build();
+	}
+	
+	
+	
+	
+	
 	/**
 	 * An example of implementation of the class user to make the stubs
 	 * 

@@ -29,7 +29,7 @@ public interface UserDao {
 	/**
 	 * 
 	 * @param name
-	 * @return all users in which their name contains the word "name"
+	 * @return all users who have this specific name 
 	 */
 	List<User> getUsers(String name);
 

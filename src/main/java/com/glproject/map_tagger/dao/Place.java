@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -34,6 +35,15 @@ public class Place {
 
 	public Place() {
 		super();
+		pictures = new ArrayList<String>();
+		messages = new ArrayList<String>();
+		tags = new ArrayList<String>();
+	}
+	
+	public Place(String name, String location) {
+		this();
+		this.name=name;
+		this.location=location;
 	}
 
 	public Long getID() {
@@ -87,5 +97,20 @@ public class Place {
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
+	
+	public void addPicture(String picturePath) {
+		pictures.add(picturePath);
+	}
+	
+	public void addMessage(String message) {
+		messages.add(message);
+	}
+	
+	public void addTag(String tag) {
+		tags.add(tag);
+	}
 
 }
+
+
+
