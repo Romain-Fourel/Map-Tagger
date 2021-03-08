@@ -15,8 +15,24 @@ html,body{
 
 
 #buttons button{
-    background-color: rgb(151, 151, 151);
+    background-color: rgb(150, 150, 150);
     opacity: 100%;
+}
+
+#circleButton button{
+    background-size:cover;
+    cursor:pointer;
+    width:70px;
+    height:70px;
+    border-radius: 50%;
+    border: 5px solid rgb(255, 255, 255);
+    transition-duration: 0.4s;
+    outline: none;
+}
+
+#circleButton button:hover{
+    background-size:cover;
+    transition-duration: 0.4s;
 }
 
 #right button{
@@ -28,26 +44,34 @@ html,body{
 }
 
 #communityMaps{
+    background:url(./images/earth.png) no-repeat;
     top:5%;
 }
+#communityMaps:hover{
+    background:url(./images/earthb.png) no-repeat;
+}
+
 
 #savedMaps{
-    background:url(./images/download.png) no-repeat;
-    cursor:pointer;
-    width:70px;
-    height:70px;
-    border-radius: 50%;
-
+    background:url(./images/Tmap.png) no-repeat;
     top:15%;
 }
+#savedMaps:hover{
+    background:url(./images/Tmapb.png) no-repeat;
+}
+
 
 #placesList{
+    background:url(./images/Ftag.png) no-repeat;
     top:25%;
 }
+#placesList:hover{
+    background:url(./images/Ftagb.png) no-repeat;
+}
+
 
 #addAPlaceB{
     border: 3px solid rgb(255, 255, 255);
-    color: #FFFFFF;
     border-radius: 12px;
     font-size: 45px;
     width: 650px;
@@ -55,7 +79,6 @@ html,body{
     
     bottom: 10%;
     left: 30%;
-    
 }
 
 #researcher{
@@ -68,6 +91,54 @@ html,body{
 
 #parameter{
     top: 10%;
+}
+
+.hoverL {
+    background-color: rgb(150, 150, 150);
+    color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition-duration: 0.7s;
+}
+
+.hoverL:before {
+    content: '';
+    background: linear-gradient(45deg, #fafafa, #c7c7c7, #fafafa);
+    position: absolute;
+    top: -6px;
+    left:-6px;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    animation: glowing 15s linear infinite;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    border-radius: 10px;
+    }
+
+.hoverL:hover{
+    background-color: #ffffff;
+    color: rgb(150, 150, 150);
+    opacity: 0;
+
+    border: 5px solid rgb(150, 150, 150);
+}
+.hoverL:hover:before {
+    opacity: 1;
+}
+
+.hoverL:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(150, 150, 150, 0);
+    left: 0;
+    top: 0;
+    border-radius: 10px;
 }
 
 .glow-on-hover {
