@@ -40,13 +40,34 @@ public class UserResource {
 		System.out.println(usersRegistered);
 		
 		if (usersRegistered.isEmpty()) {
+			
 			System.out.println("We can return a 'no' response");
 		}
+		
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
 				System.out.println("the user "+user+" is the right one!!");
+				return Response.accepted(user).build();
 			}
 		}	
+		
+		//We want to return an "not accepted" response
+		return Response.ok().build();
+		
+	}
+	
+	/**
+	 * TODO for now, I don't know how to create a new user by using the userJson
+	 * @param userJson
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/creation")	
+	public Response createUser(String userJson) {
+		
+		System.out.println(userJson);
 		
 		return Response.ok().build();
 	}
