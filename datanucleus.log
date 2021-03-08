@@ -1710,3 +1710,59 @@
 15:24:07,916 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
 15:24:07,917 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
 15:24:07,918 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+17:37:14,804 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+17:37:14,956 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Map" is already enhanced.
+17:37:14,958 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Place" is already enhanced.
+17:37:14,959 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.User" is already enhanced.
+17:37:14,960 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.MapContainer" is already enhanced.
+17:37:14,962 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
+17:37:14,964 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
+17:37:14,965 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+18:38:55,994 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+18:38:56,164 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Map" is already enhanced.
+18:38:56,166 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Place" is already enhanced.
+18:38:56,167 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.User" is already enhanced.
+18:38:56,234 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.MapContainer" is already enhanced.
+18:38:56,237 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
+18:38:56,240 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
+18:38:56,241 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+22:16:13,418 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+22:16:13,601 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Map" is already enhanced.
+22:16:13,602 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Place" is already enhanced.
+22:16:13,602 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.User" is already enhanced.
+22:16:13,604 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.MapContainer" is already enhanced.
+22:16:13,605 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
+22:16:13,607 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
+22:16:13,607 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+22:17:11,110 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+22:17:11,288 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Map" is already enhanced.
+22:17:11,290 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Place" is already enhanced.
+22:17:11,291 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.User" is already enhanced.
+22:17:11,293 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.MapContainer" is already enhanced.
+22:17:11,294 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
+22:17:11,296 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
+22:17:11,296 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+22:21:03,644 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+22:21:03,842 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Map" is already enhanced.
+22:21:03,844 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Place" is already enhanced.
+22:21:03,845 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.User" is already enhanced.
+22:21:03,847 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.MapContainer" is already enhanced.
+22:21:03,848 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
+22:21:03,850 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
+22:21:03,850 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+22:21:55,997 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+22:21:56,326 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Map" is already enhanced.
+22:21:56,329 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.Place" is already enhanced.
+22:21:56,331 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.User" is already enhanced.
+22:21:56,334 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.MapContainer" is already enhanced.
+22:21:56,336 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.PlaceContainer" is already enhanced.
+22:21:56,338 (main) INFO  [DataNucleus.Enhancer] - Class "com.glproject.map_tagger.dao.cont.UserContainer" is already enhanced.
+22:21:56,338 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.
+22:31:31,614 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer (version 4.0.3) for API "JDO"
+22:31:31,857 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\EIDD\Genie Logiciel\TP\Map-Tagger\target\classes\com\glproject\map_tagger\dao\Map.class" with enhanced definition
+22:31:31,871 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\EIDD\Genie Logiciel\TP\Map-Tagger\target\classes\com\glproject\map_tagger\dao\Place.class" with enhanced definition
+22:31:31,881 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\EIDD\Genie Logiciel\TP\Map-Tagger\target\classes\com\glproject\map_tagger\dao\User.class" with enhanced definition
+22:31:31,889 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\EIDD\Genie Logiciel\TP\Map-Tagger\target\classes\com\glproject\map_tagger\dao\cont\MapContainer.class" with enhanced definition
+22:31:31,895 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\EIDD\Genie Logiciel\TP\Map-Tagger\target\classes\com\glproject\map_tagger\dao\cont\PlaceContainer.class" with enhanced definition
+22:31:31,902 (main) INFO  [DataNucleus.Enhancer] - Writing class file "D:\EIDD\Genie Logiciel\TP\Map-Tagger\target\classes\com\glproject\map_tagger\dao\cont\UserContainer.class" with enhanced definition
+22:31:31,902 (main) INFO  [DataNucleus.Enhancer] - DataNucleus Enhancer completed with success for 6 classes.

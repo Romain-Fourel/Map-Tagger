@@ -16,17 +16,30 @@ function connection(username,password){
         contentType : "text/plain; charSet=UTF-8",
         dataType: "text",
     });
+    
+    //TODO: will return true only if the user has been found in the database
+    return true;
 }
 
 
-//main:
+/**
+ * Main
+ */
 $(document).ready(function () {
     console.log("javascript file operational");
 
     $("#login").click(function () { 
         var username = $("#usernameId").val();
         var password = $("#passwordId").val(); 
-        connection(username,password);
+
+        var connected = connection(username,password);
+
+        if (connected){
+            //TODO load the informations of the user connecte
+            
+            window.location.href="main.html";//here we go to the map tagger!
+        }
+        
     });
     
 });

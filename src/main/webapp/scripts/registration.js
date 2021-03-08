@@ -31,8 +31,10 @@ function createNewUser(username,password,confirmedPassword){
  */
 $(document).ready(function () {
     console.log("javascript file operational");
+    console.log("test");
 
-    $("#login").click(function () { 
+    $("#registration").click(function () { 
+        console.log("clicked");
         var username = $("#usernameId").val();
         var password = $("#passwordId").val(); 
         var confirmedPassword = $("#confirmPasswordId").val();
