@@ -38,6 +38,13 @@ public class User {
 		this.name = name;
 		mapList = new ArrayList<Map>();
 	}
+	
+	public User(String name, String password, String location) {
+		this(name);
+		this.password = password;
+		this.location = location;
+		
+	}
 
 	public Long getID() {
 		return ID;
@@ -74,5 +81,21 @@ public class User {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+	public void addMap(Map map) {
+		mapList.add(map);
+	}
+	
+	public boolean hasPassword(String password) {
+		return this.password.equals(password);
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }
+
+
+
