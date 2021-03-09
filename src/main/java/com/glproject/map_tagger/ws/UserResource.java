@@ -78,12 +78,18 @@ public class UserResource {
 	 * @return
 	 */
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/creation")	
-	public Response createUser(String userJson) {
+	@Path("/create")	
+	public Response createUser(String identity) {
 		
-		System.out.println(userJson);
+		String username = identity.split("\n")[0];
+		String password = identity.split("\n")[1];
+		
+		User newUser = new User(username, password);
+		DAO.getUserDao().addUser(newUser);
+		
+		currentSession = newUser.getID();
 		
 		return Response.ok().build();
 	}

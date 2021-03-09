@@ -41,7 +41,7 @@ function loadUser(){
     }).done(function(currentUser){
         console.log(currentUser);
         console.log("Welcome "+currentUser.name+" #"+currentUser.id);
-        console.log("Your maps: "+currentUser.maList);
+        console.log("Your maps: "+currentUser.mapList);
         
         /**
          * TODO: here we will load all panels which need datas from the user

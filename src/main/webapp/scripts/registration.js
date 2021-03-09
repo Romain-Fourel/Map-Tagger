@@ -11,14 +11,16 @@ function createNewUser(username,password,confirmedPassword){
         //TODO: later, the message will be printed directly in the page
         console.log("creation can be done");
         
-        var newUser = {name: username,password:password,mapList:"[]",location:""} 
+        var newUser = username+"\n"+password;
         $.ajax({
             type: "POST",
-            url: "ws/User/creation",
+            url: "ws/User/create",
             data: newUser,
-            contentType : "application/json; charSet=UTF-8",
-            dataType: "json",
-        }).success(console.log("user successfully created"));
+            contentType : "text/plain; charSet=UTF-8",
+            dataType: "text",
+        }).success(function(){
+            window.location.href="main.html"; //go to the main page!
+        });
     }
     else{
         console.log("Sorry the confirmed password doesn't match with the password");
