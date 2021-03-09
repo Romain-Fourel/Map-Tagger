@@ -18,10 +18,10 @@ function createNewUser(username,password,confirmedPassword){
             data: newUser,
             contentType : "application/json; charSet=UTF-8",
             dataType: "json",
-        }).success("user successfully created");
+        }).success(console.log("user successfully created"));
     }
     else{
-        console.log("creation can't be done");
+        console.log("Sorry the confirmed password doesn't match with the password");
     }
 }
 
@@ -30,11 +30,10 @@ function createNewUser(username,password,confirmedPassword){
  * Main
  */
 $(document).ready(function () {
-    console.log("javascript file operational");
-    console.log("test");
+    //to ckeck if the file is correctly loaded
+    console.log(Date());
 
     $("#registration").click(function () { 
-        console.log("clicked");
         var username = $("#usernameId").val();
         var password = $("#passwordId").val(); 
         var confirmedPassword = $("#confirmPasswordId").val();

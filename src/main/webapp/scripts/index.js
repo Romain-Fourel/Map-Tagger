@@ -1,4 +1,6 @@
 
+var userConnected = "test";
+
 
 /**
  * try to get the user who has the given name and test if he has
@@ -6,8 +8,8 @@
  */
 function connection(username,password){
 
-    console.log("connection");
-    data = username+"\n"+password;
+    console.log("connection...");
+    var data = username+"\n"+password;
 
     $.ajax({
         type: "POST",
@@ -15,31 +17,30 @@ function connection(username,password){
         data: data,
         contentType : "text/plain; charSet=UTF-8",
         dataType: "text",
+        success: function (response) { 
+            if (response === "failed"){
+                return "failed";
+            }
+            else{
+                window.location.href="main.html";//here we go to the map tagger!
+                return response;
+            }
+         }
     });
-    
-    //TODO: will return true only if the user has been found in the database
-    return true;
 }
-
 
 /**
  * Main
  */
 $(document).ready(function () {
-    console.log("javascript file operational");
+    //to ckeck if the file is correctly loaded
+    console.log(Date());
 
     $("#login").click(function () { 
         var username = $("#usernameId").val();
         var password = $("#passwordId").val(); 
 
-        var connected = connection(username,password);
-
-        if (connected){
-            //TODO load the informations of the user connecte
-            
-            window.location.href="main.html";//here we go to the map tagger!
-        }
-        
+        connection(username,password);
     });
     
 });

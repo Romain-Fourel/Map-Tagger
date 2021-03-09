@@ -26,33 +26,30 @@ public class UserResource {
 	 */
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/connection")
 	public Response retrieveIdentity(String identity) {
 		
 		String username = identity.split("\n")[0];
 		String password = identity.split("\n")[1];
 		
+		System.out.println("Searching for:");
 		System.out.println("username: "+username+"\n"+"password: "+password);
 		
 		List<User> usersRegistered = DAO.getUserDao().getUsers(username);
 		
-		System.out.println(usersRegistered);
-		
-		if (usersRegistered.isEmpty()) {
-			
-			System.out.println("We can return a 'no' response");
-		}
+		System.out.println("usernames matched: "+usersRegistered);
 		
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
-				System.out.println("the user "+user+" is the right one!!");
-				return Response.accepted(user).build();
+				System.out.println("the user "+user+" is the good one!!");
+				return Response.ok(user.toString(), MediaType.TEXT_PLAIN).build();
 			}
 		}	
 		
+		System.out.println("No user in the database has matched");
 		//We want to return an "not accepted" response
-		return Response.ok().build();
+		return Response.ok("failed", MediaType.TEXT_PLAIN).build();
 		
 	}
 	

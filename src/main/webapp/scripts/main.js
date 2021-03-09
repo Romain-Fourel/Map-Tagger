@@ -1,5 +1,4 @@
 
-
 /**
  * Initialization of the leaflet map
  * The map chosen is one from openstreetmap because it is open source
@@ -30,12 +29,29 @@ function initMap(){
 
 }
 
+/**
+ * TODO: this function will load all characteristics of the user
+ * (places and maps)
+ * @param {the user who is connected to the app} userConnected 
+ */
+function loadUser(userConnected){
+    console.log("welcome "+userConnected+" !");
+}
+
 
 /**
  * Main
  */
 $(document).ready(function () {
-    console.log("javascript file operational");
+    //to ckeck if the file is correctly loaded
+    console.log(Date());
 
-    initMap();
+    $.getScript("scripts/index.js", function () {
+        console.log("user loaded: "+userConnected);
+        loadUser(userConnected);
+
+        initMap();
+    });
+
+
 });
