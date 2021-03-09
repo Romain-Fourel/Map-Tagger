@@ -103,6 +103,9 @@ public class User {
 		return this.password.equals(password);
 	}
 	
+	/**
+	 * Every user has is toString() unique
+	 */
 	@Override
 	public String toString() {
 		return name + " #"+ID;

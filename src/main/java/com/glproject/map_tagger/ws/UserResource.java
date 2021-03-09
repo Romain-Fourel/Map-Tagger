@@ -17,6 +17,11 @@ import com.glproject.map_tagger.dao.User;
 
 @Path("/User")
 public class UserResource {
+	
+	/**
+	 * The ID of the user currently connected
+	 */
+	static Long currentSession = null;
 
 	/**
 	 * get into the database the user who has this specific identity
@@ -43,6 +48,7 @@ public class UserResource {
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
 				System.out.println("the user "+user+" is the good one!!");
+				currentSession = user.getID();
 				return Response.ok(user.toString(), MediaType.TEXT_PLAIN).build();
 			}
 		}	
@@ -53,8 +59,21 @@ public class UserResource {
 		
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/currentSession")
+	public User getCurrentUser() {
+		User user = DAO.getUserDao().getUser(currentSession);
+		
+		System.out.println("ID: "+user.getID());
+		
+		return user;
+	}
+	
+	
+	
 	/**
-	 * TODO for now, I don't know how to create a new user by using the userJson
+	 * TODO for now, I don't know how to create a new user from the userJson
 	 * @param userJson
 	 * @return
 	 */

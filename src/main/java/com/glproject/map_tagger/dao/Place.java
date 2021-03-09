@@ -109,6 +109,11 @@ public class Place {
 	public void addTag(String tag) {
 		tags.add(tag);
 	}
+	
+	@Override
+	public String toString() {
+		return name+" #"+ID;
+	}
 
 }
 

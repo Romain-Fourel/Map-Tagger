@@ -30,12 +30,25 @@ function initMap(){
 }
 
 /**
- * TODO: this function will load all characteristics of the user
+ * This function loads all characteristics of the current user
  * (places and maps)
- * @param {the user who is connected to the app} userConnected 
  */
-function loadUser(userConnected){
-    console.log("welcome "+userConnected+" !");
+function loadUser(){
+
+    $.ajax({
+        url: "ws/User/currentSession",
+        dataType: "json",
+    }).done(function(currentUser){
+        console.log(currentUser);
+        console.log("Welcome "+currentUser.name+" #"+currentUser.id);
+        console.log("Your maps: "+currentUser.maList);
+        
+        /**
+         * TODO: here we will load all panels which need datas from the user
+         */
+
+
+    });
 }
 
 
@@ -43,15 +56,9 @@ function loadUser(userConnected){
  * Main
  */
 $(document).ready(function () {
-    //to ckeck if the file is correctly loaded
     console.log(Date());
 
-    $.getScript("scripts/index.js", function () {
-        console.log("user loaded: "+userConnected);
-        loadUser(userConnected);
-
-        initMap();
-    });
-
+    loadUser();
+    initMap();
 
 });

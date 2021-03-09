@@ -97,5 +97,10 @@ public class Map {
 	public void addPlace(Place place) {
 		places.add(place);
 	}
+	
+	@Override
+	public String toString() {
+		return name+" #"+ID;
+	}
 
 }

@@ -1,7 +1,4 @@
 
-var userConnected = "test";
-
-
 /**
  * try to get the user who has the given name and test if he has
  * entered the right password
@@ -18,12 +15,11 @@ function connection(username,password){
         contentType : "text/plain; charSet=UTF-8",
         dataType: "text",
         success: function (response) { 
-            if (response === "failed"){
-                return "failed";
+            if (response !== "failed"){
+                window.location.href="main.html";//here we go to the map tagger!
             }
             else{
-                window.location.href="main.html";//here we go to the map tagger!
-                return response;
+                console.log("Error: the username and the password doesn't match");
             }
          }
     });
@@ -38,7 +34,7 @@ $(document).ready(function () {
 
     $("#login").click(function () { 
         var username = $("#usernameId").val();
-        var password = $("#passwordId").val(); 
+        var password = $("#passwordId").val();
 
         connection(username,password);
     });
