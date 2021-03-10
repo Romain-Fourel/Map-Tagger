@@ -20,13 +20,15 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void addUser(User user) {
+	public User addUser(User user) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
-
+		
+		User detached = new User();
+		
 		try {
 			tx.begin();
-			pm.makePersistent(user);
+			detached = pm.makePersistent(user);
 			tx.commit();
 
 		} finally {
@@ -35,6 +37,7 @@ public class UserDaoImpl implements UserDao {
 			}
 			pm.close();
 		}
+		return detached;
 
 	}
 

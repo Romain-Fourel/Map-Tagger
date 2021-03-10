@@ -12,6 +12,8 @@ import javax.jdo.PersistenceManagerFactory;
 import org.junit.Test;
 
 import com.glproject.map_tagger.dao.DAO;
+import com.glproject.map_tagger.dao.Map;
+import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.User;
 import com.glproject.map_tagger.dao.UserDao;
 import com.glproject.map_tagger.dao.impl.UserDaoImpl;
@@ -60,5 +62,48 @@ public class DaoImplTest {
 		}
 
 	}
+	
+	@Test
+	public void retrieveUsersMapsTest() {
+		User user1 = new User("user1", "password1");
+		
+		for (int i = 0; i < 5; i++) {
+			Map map = new Map("user1", "map"+i);
+			for (int j = 0; j < 5; j++) {
+				Place place = new Place("place"+j, "location"+j);
+				DAO.getPlaceDao().addPlace(place);
+				map.addPlace(place);
+			}
+			DAO.getMapDao().addMap(map);
+			user1.addMap(map);
+		}
+		
+		DAO.getUserDao().addUser(user1);
+		
+		Long id = user1.getID();
+		
+		User userRetrieved = DAO.getUserDao().getUser(id);
+		
+		System.out.println(userRetrieved.getMapList());
+		
+		assertTrue(userRetrieved.getMapList()!=null);
+
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

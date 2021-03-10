@@ -8,8 +8,9 @@ public interface MapDao {
 	 * Add a new map to the database
 	 * 
 	 * @param map
+	 * @return 
 	 */
-	void addMap(Map map);
+	Map addMap(Map map);
 
 	void delete(Map map);
 

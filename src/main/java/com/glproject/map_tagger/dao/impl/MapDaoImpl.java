@@ -20,13 +20,16 @@ public class MapDaoImpl implements MapDao {
 	}
 
 	@Override
-	public void addMap(Map map) {
+	public Map addMap(Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
-
+		
+		Map detached = null;
+		
 		try {
 			tx.begin();
-			pm.makePersistent(map);
+			detached = pm.makePersistent(map);
+			
 			tx.commit();
 
 		} finally {
@@ -35,6 +38,7 @@ public class MapDaoImpl implements MapDao {
 			}
 			pm.close();
 		}
+		return detached;
 
 	}
 

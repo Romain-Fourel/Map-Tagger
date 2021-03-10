@@ -8,8 +8,9 @@ public interface PlaceDao {
 	 * Add a new place to the database
 	 * 
 	 * @param user
+	 * @return 
 	 */
-	void addPlace(Place place);
+	Place addPlace(Place place);
 
 	void delete(Place place);
 

@@ -47,8 +47,33 @@ function loadUser(){
          * TODO: here we will load all panels which need datas from the user
          */
 
-
     });
+}
+
+
+function hideRightButtons(){
+    $("#right button").css("z-index", function(){
+        return -5;
+    });
+}
+
+function printRightButtons(){
+    $("#right button").css("z-index", function(){
+        return 400;
+    });
+}
+
+
+function hideButtons(){
+    $("#buttons button").css("z-index", function(){
+        return -5;
+    });
+}
+
+function printButtons(){
+    $("#buttons button").css("z-index", function(){
+        return 400;
+    }); 
 }
 
 
@@ -57,6 +82,8 @@ function loadUser(){
  */
 $(document).ready(function () {
     console.log(Date());
+
+    $("#addAPlaceB").click(hideButtons);
 
     loadUser();
     initMap();

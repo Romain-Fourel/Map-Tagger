@@ -20,13 +20,15 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
 
 	@Override
-	public void addPlace(Place place) {
+	public Place addPlace(Place place) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
-
+		
+		Place detached = null;
+		
 		try {
 			tx.begin();
-			pm.makePersistent(place);
+			detached = pm.makePersistent(place);
 			tx.commit();
 
 		} finally {
@@ -35,7 +37,8 @@ public class PlaceDaoImpl implements PlaceDao {
 			}
 			pm.close();
 		}
-
+		
+		return detached;
 	}
 
 	@SuppressWarnings("unchecked")

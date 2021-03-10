@@ -14,54 +14,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.glproject.map_tagger.dao.DAO;
-import com.glproject.map_tagger.dao.Map;
-import com.glproject.map_tagger.dao.Place;
-import com.glproject.map_tagger.dao.User;
 
 public class JettyMain {
-	
-	/**
-	 * Just to put fake objects into the database in order to test
-	 * features of the application
-	 */
-	private static void generateFakeObjects() {
-		User user = new User("Jean","123456","paris");
-		
-		Map map = new Map("Jean","Gardens of Paris");
-		map.setDescription("All gardens I have visited during my holidays in Paris");
-		
-		user.addMap(map);
-		
-		Place place = new Place("Pretty garden","Paris");
-		place.setDescription("A pretty garden in Paris");
-		place.addTag("nature");
-		place.addTag("Green");
-		
-		map.addPlace(place);
-		
-		DAO.getUserDao().addUser(user);
-		
-		User user2 = new User("Paul","paul123456","London");
-		Map map2 = new Map("Paul","Gardens of London");
-		map2.setDescription("All gardens I have visited during my holidays in London");
-		user2.addMap(map2);
-		
-		Place place2 = new Place("Pretty garden","London");
-		place2.setDescription("A pretty garden in London");
-		place2.addTag("nature");
-		place2.addTag("England");
-		
-		map2.addPlace(place2);
-		
-		DAO.getUserDao().addUser(user2);
-		
-		
-		User auriane = new User("enairuA","Camelias1408","Alfortville");
-		DAO.getUserDao().addUser(auriane);
-		
-	}
-	
-	
 	
 	public static void main(String[] args) throws Exception {
 
@@ -102,6 +56,6 @@ public class JettyMain {
 		// Start server
 		server.start();
 		
-		generateFakeObjects();
+		DAO.generateFakeObjects();
 	}
 }

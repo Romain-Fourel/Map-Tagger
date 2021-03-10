@@ -8,8 +8,9 @@ public interface UserDao {
 	 * Add a new user to the database
 	 * 
 	 * @param user
+	 * @return 
 	 */
-	void addUser(User user);
+	User addUser(User user);
 
 	void delete(User user);
 
