@@ -43,15 +43,15 @@
                 <div class="popup">
                     <p>
                         <form>
-                            <input type="text" id="placeId" placeholder="Name this place..." name="place" autocomplete=off required>
-                            <textarea name="description" id="description" placeholder="Describe this place..." rows=3 cols=30 autocomplete=off></textarea>
+                            <input name="place" type="text" id="namePlace" placeholder="Name this place..." autocomplete=off required>
+                            <textarea name="description" id="descriptionPlace" placeholder="Describe this place..." rows=3 cols=30 autocomplete=off></textarea>
                             <style>
                             textarea {
                                 resize: none;
                             }
                             </style>
                             <button id="closeButton" type="reset">x</button>
-                            <c id="addImages"></c>
+                            <input id="addImages">
                             <select name="mapchoice" id="mapchoiceID" placeholder="Choose a map">
                                 <option value="france">France</option>
                                 <option value="espagne">Espagne</option>

@@ -9,6 +9,7 @@ html,body{
 #interface button{
     z-index: 400;
     position: absolute;
+    visibility: visible;
 }
 
 
