@@ -29,6 +29,18 @@ function initMap(){
 
 }
 
+function showOverlay(){
+    $(".overlay").css("visibility", function(){
+        return "visible";
+    });
+}
+
+function hideOverlay(){
+    $(".overlay").css("visibility", function(){
+        return "hidden";
+    });
+}
+
 /**
  * This function loads all characteristics of the current user
  * (places and maps)
@@ -87,5 +99,6 @@ $(document).ready(function () {
 
     loadUser();
     initMap();
-
+    $("#addAPlaceB").click(showOverlay);
+    $("#closeButton").click(hideOverlay);
 });
