@@ -30,7 +30,7 @@
                     </div>
 
                     <div id="left">
-                        <button id="researcher">Search something</button>
+                        <button id="researcher" href="#popup1">Search something</button>
                         <button id="parameters">Parameters</button>
                     </div>
 
@@ -38,6 +38,30 @@
                 
                 <button class="hoverL" id="addAPlaceB">+</button>
 
+            </div>
+            <div class="overlay">
+                <div class="popup">
+                    <p>
+                        <form>
+                            <input type="text" id="placeId" placeholder="Name this place..." name="place" autocomplete=off required>
+                            <textarea name="description" id="description" placeholder="Describe this place..." rows=3 cols=30 autocomplete=off></textarea>
+                            <style>
+                            textarea {
+                                resize: none;
+                            }
+                            </style>
+                            <button id="closeButton" type="reset">x</button>
+                            <c id="addImages"></c>
+                            <select name="mapchoice" id="mapchoiceID" placeholder="Choose a map">
+                                <option value="france">France</option>
+                                <option value="espagne">Espagne</option>
+                                <option value="italie">Italie</option>
+                            </select>
+                            <h2>Tags :</h2>
+                            <button id="Ok">OK</button>
+                        </form>
+                    </p>
+                </div>
             </div>
         </div>
 
