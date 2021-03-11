@@ -24,9 +24,8 @@ public class Place {
 
 	String name;
 
-	// for now, the location is in a string, maybe a class can be used to handle
-	// this better
-	String location;
+	double latitude; // the latitude of the place
+	double longitude; // the longitude of the place
 
 	String description;
 	List<String> pictures; // not strings, maybe a java class can better handler pictures
@@ -40,10 +39,9 @@ public class Place {
 		tags = new ArrayList<String>();
 	}
 	
-	public Place(String name, String location) {
+	public Place(String name) {
 		this();
 		this.name=name;
-		this.location=location;
 	}
 
 	public Long getID() {
@@ -58,12 +56,27 @@ public class Place {
 		this.name = name;
 	}
 
-	public String getLocation() {
-		return location;
+	
+
+	public double getLatitude() {
+		return latitude;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	
+	public void setLocation(double lat, double lng) {
+		latitude = lat;
+		longitude = lng;
 	}
 
 	public String getDescription() {

@@ -22,6 +22,14 @@ public class UserResource {
 	 * The ID of the user currently connected
 	 */
 	static Long currentSession = null;
+	
+	/**
+	 * set the user currenlty connected by his id
+	 * @return
+	 */
+	public static void setCurrentSession(Long currentSession) {
+		UserResource.currentSession = currentSession;
+	}
 
 	/**
 	 * get into the database the user who has this specific identity
@@ -63,10 +71,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentSession")
 	public User getCurrentUser() {
-		User user = DAO.getUserDao().getUser(currentSession);
-		
-		System.out.println("ID: "+user.getID());
-		
+		User user = DAO.getUserDao().getUser(currentSession);		
 		return user;
 	}
 	
@@ -109,7 +114,6 @@ public class UserResource {
 	public User getUser() {
 		User user = new User("Alfred");
 		user.setPassword("123456");
-		user.setLocation("Paris");
 		user.setMapList(new ArrayList<Map>());
 
 		return user;

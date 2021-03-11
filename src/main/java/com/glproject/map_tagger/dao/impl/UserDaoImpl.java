@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.User;
 import com.glproject.map_tagger.dao.UserDao;
 
@@ -79,6 +80,14 @@ public class UserDaoImpl implements UserDao {
 		try {
 			tx.begin();
 			user = pm.getObjectById(User.class, ID);
+			
+			//TODO, is it really like that we could debug???
+			user.getMapList();
+			for (Map map : user.getMapList()) {
+				map.getPlaces();
+			}
+			//TODO 
+			
 			detached = pm.detachCopy(user);
 			tx.commit();
 

@@ -37,7 +37,9 @@ public class JettyMain {
 		ResourceHandler handlerPortal = new ResourceHandler();
 		handlerPortal.setResourceBase("src/main/webapp");
 		handlerPortal.setDirectoriesListed(false);
-		handlerPortal.setWelcomeFiles(new String[] { "index.html" });
+		
+		//TODO: index.html has been replaced by main.html ONLY FOR THE TESTS
+		handlerPortal.setWelcomeFiles(new String[] { "main.html" });
 		ContextHandler handlerPortalCtx = new ContextHandler();
 		handlerPortalCtx.setContextPath("/");
 		handlerPortalCtx.setHandler(handlerPortal);
@@ -56,6 +58,6 @@ public class JettyMain {
 		// Start server
 		server.start();
 		
-		DAO.generateFakeObjects();
+		DAO.generateFakeUser();
 	}
 }

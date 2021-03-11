@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManagerFactory;
 import com.glproject.map_tagger.dao.impl.MapDaoImpl;
 import com.glproject.map_tagger.dao.impl.PlaceDaoImpl;
 import com.glproject.map_tagger.dao.impl.UserDaoImpl;
+import com.glproject.map_tagger.ws.UserResource;
 
 public class DAO {
 	
@@ -13,40 +14,31 @@ public class DAO {
 	 * Just to put fake objects into the database in order to test
 	 * features of the application
 	 */
-	public static void generateFakeObjects() {
-		User user = new User("Jean","123456","paris");
+	public static void generateFakeUser() {
+	
+		User user = new User("user1", "password1");
 		
-		Map map = new Map("Jean","Gardens of Paris");
-		map.setDescription("All gardens I have visited during my holidays in Paris");
+		double[][][] locations = {{{47.387452, 0.678244},{47.387648, 0.666612},{47.381151, 0.663797}},
+								  {{47.512352, 1.455964},{47.508095, 1.453173},{47.512779, 1.459159}},
+								  {{48.802605, 2.42433},{48.868944, 2.334906},{48.85747, 2.359041}}
+								 };
 		
-		user.addMap(map);
-		
-		Place place = new Place("Pretty garden","Paris");
-		place.setDescription("A pretty garden in Paris");
-		place.addTag("nature");
-		place.addTag("Green");
-		
-		map.addPlace(place);
+		for (int i = 0; i < 3; i++) {
+			Map map = new Map("user1");
+			map.setName("map"+i);
+			for (int j = 0; j < 3; j++) {
+				Place place = new Place("place"+i+""+j);
+				place.setLocation(locations[i][j][0],locations[i][j][1]);
+				place.setDescription("description"+i+""+j);
+				map.addPlace(place);
+			}
+			map.setDescription("description"+i);
+			user.addMap(map);
+		}
 		
 		getUserDao().addUser(user);
 		
-		User user2 = new User("Alfred","alfred123456","London");
-		Map map2 = new Map("Alfred","Gardens of London");
-		map2.setDescription("All gardens I have visited during my holidays in London");
-		user2.addMap(map2);
-		
-		Place place2 = new Place("Pretty garden","London");
-		place2.setDescription("A pretty garden in London");
-		place2.addTag("nature");
-		place2.addTag("England");
-		
-		map2.addPlace(place2);
-		
-		getUserDao().addUser(user2);
-		
-		
-		User auriane = new User("enairuA","Camelias1408","Alfortville");
-		getUserDao().addUser(auriane);
+		UserResource.setCurrentSession(user.getID());
 		
 	}
 	

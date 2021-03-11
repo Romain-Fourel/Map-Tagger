@@ -19,6 +19,18 @@ import com.glproject.map_tagger.dao.UserDao;
 import com.glproject.map_tagger.dao.impl.UserDaoImpl;
 
 public class DaoImplTest {
+	
+	static void generateMaps(User user) {
+		
+		for (int i = 0; i < 5; i++) {
+			Map map = new Map("user1", "map"+i);
+			for (int j = 0; j < 5; j++) {
+				Place place = new Place("place"+j);
+				map.addPlace(place);
+			}
+			user.addMap(map);
+		}		
+	}
 
 	@Test
 	public void userTest() {
@@ -27,7 +39,6 @@ public class DaoImplTest {
 		UserDao userDao = new UserDaoImpl(pmf);
 
 		User user = new User("Alfred");
-		user.setLocation("Paris");
 
 		userDao.addUser(user);
 
@@ -35,7 +46,6 @@ public class DaoImplTest {
 
 		User userRetrieved = userDao.getUser(id);
 		assertEquals("Alfred", userRetrieved.getName());
-		assertEquals("Paris", userRetrieved.getLocation());
 
 		DAO.getUserDao().getUser(id);
 
@@ -67,27 +77,38 @@ public class DaoImplTest {
 	public void retrieveUsersMapsTest() {
 		User user1 = new User("user1", "password1");
 		
-		for (int i = 0; i < 5; i++) {
-			Map map = new Map("user1", "map"+i);
-			for (int j = 0; j < 5; j++) {
-				Place place = new Place("place"+j, "location"+j);
-				DAO.getPlaceDao().addPlace(place);
-				map.addPlace(place);
-			}
-			DAO.getMapDao().addMap(map);
-			user1.addMap(map);
-		}
+		generateMaps(user1);
 		
-		DAO.getUserDao().addUser(user1);
+		DAO.getUserDao().addUser(user1);		
 		
 		Long id = user1.getID();
 		
 		User userRetrieved = DAO.getUserDao().getUser(id);
 		
-		System.out.println(userRetrieved.getMapList());
+		System.out.println("userRetrieved: "+userRetrieved.getMapList());
 		
 		assertTrue(userRetrieved.getMapList()!=null);
 
+	}
+	
+	@Test
+	public void retrieveUsersPlaces() {
+		
+		User user1 = new User("user1", "password1");
+		generateMaps(user1);	
+		DAO.getUserDao().addUser(user1);
+		Long id = user1.getID();	
+		User userRetrieved = DAO.getUserDao().getUser(id);
+		
+		assertTrue(userRetrieved.getMapList()!=null);
+		
+		for (Map map : userRetrieved.getMapList()) {
+			System.out.println(map+" : "+map.getPlaces());
+			assertTrue(map.getPlaces()!=null);
+		}
+		
+		
+		
 	}
 
 }

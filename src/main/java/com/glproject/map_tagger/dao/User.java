@@ -25,10 +25,6 @@ public class User {
 	String password;
 	List<Map> mapList;
 
-	// for now, the location is in a string, maybe a class can be used to handle
-	// this better
-	String location;
-
 	public User() {
 		super();
 	}
@@ -42,12 +38,6 @@ public class User {
 	public User(String name, String password) {
 		this(name);
 		this.password = password;
-	}
-	
-	public User(String name, String password, String location) {
-		this(name,password);
-		this.location = location;
-		
 	}
 
 	public Long getID() {
@@ -76,14 +66,6 @@ public class User {
 
 	public void setMapList(List<Map> mapList) {
 		this.mapList = mapList;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 	
 	/**

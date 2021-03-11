@@ -17,9 +17,17 @@ public class PlaceResource {
 		Place place = new Place();
 		place.setDescription("a new place");
 		place.setName("Place 1");
-		place.setLocation("Paris");
+		place.setLocation(48.123654, 2.342148);
 
 		return place;
 	}
 
 }
+
+
+
+
+
+
+
+
