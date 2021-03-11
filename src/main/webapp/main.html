@@ -44,15 +44,11 @@
                     <p>
                         <form>
                             <input name="place" type="text" id="namePlace" placeholder="Name this place..." autocomplete=off required>
-                            <textarea name="description" id="descriptionPlace" placeholder="Describe this place..." rows=3 cols=30 autocomplete=off></textarea>
-                            <style>
-                            textarea {
-                                resize: none;
-                            }
-                            </style>
+                            <textarea name="description" id="descriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button id="closeButton" type="reset">x</button>
-                            <input id="addImages">
+                            <button id="addImages" type="button"></button>
                             <select name="mapchoice" id="mapchoiceID" placeholder="Choose a map">
+                                <option value="CAMap">--- Choose a map ---</option>
                                 <option value="france">France</option>
                                 <option value="espagne">Espagne</option>
                                 <option value="italie">Italie</option>
