@@ -25,7 +25,7 @@ public class DaoImplTest {
 		for (int i = 0; i < 5; i++) {
 			Map map = new Map("user1", "map"+i);
 			for (int j = 0; j < 5; j++) {
-				Place place = new Place("place"+j);
+				Place place = new Place("place"+i+""+j);
 				map.addPlace(place);
 			}
 			user.addMap(map);
@@ -105,10 +105,42 @@ public class DaoImplTest {
 		for (Map map : userRetrieved.getMapList()) {
 			System.out.println(map+" : "+map.getPlaces());
 			assertTrue(map.getPlaces()!=null);
-		}
+		}	
+	}
+	
+	@Test
+	public void addPlaceToMapTest() {
+		User user = new User("user","pw");
 		
+		//generate 4 maps with 4 places in each of them and add the maps to the user
+		generateMaps(user);
 		
+		DAO.getUserDao().addUser(user);
+		Long id = user.getID();	
+		User userRetrieved = DAO.getUserDao().getUser(id);
+
+		Long mapId = userRetrieved.getMapList().get(0).getID();
+		System.out.println(mapId);
+
+		Place place = new Place("A new place");
+		place.setDescription("a pretty place");
+		place.setLocation(3.14, 1.414);
 		
+		Place detached;
+		
+		detached = DAO.getPlaceDao().addPlace(place);
+		
+		System.out.println(detached+" : ["+detached.getDescription()+"] at {"+detached.getLatitude()+","+detached.getLongitude()+"}");	
+		
+		DAO.getMapDao().getMap(mapId).addPlace(place);
+		//Map map = DAO.getMapDao().getMap(mapId);
+		
+		System.out.println(place+" : ["+place.getDescription()+"] at {"+place.getLatitude()+","+place.getLongitude()+"}");	
+		
+		System.out.println(DAO.getPlaceDao().getPlaces());
+		
+		//System.out.println(map.getPlaces());
+		System.out.println(DAO.getMapDao().getMap(mapId).getPlaces());
 	}
 
 }

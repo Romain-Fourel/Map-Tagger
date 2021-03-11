@@ -15,6 +15,7 @@ function connection(username,password){
         contentType : "text/plain; charSet=UTF-8",
         dataType: "text",
         success: function (response) { 
+            //TODO: we really will let "failed" in the succeed response???
             if (response !== "failed"){
                 window.location.href="main.html";//here we go to the map tagger!
             }

@@ -159,7 +159,7 @@ html,body{
     border: 5px solid rgb(255, 255, 255);
     outline: none;
 }
-#mapchoiceID{
+#mapChoicePlace{
     position: absolute;
     bottom: 10%;
     right: 30%;
@@ -175,7 +175,7 @@ h2{
     left: 5%;
     font-size: 20px;
   }
-#Ok{
+#createPlace{
     font-size: 17px;
     position: absolute;
     bottom: 5%;

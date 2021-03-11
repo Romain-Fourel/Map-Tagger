@@ -30,7 +30,7 @@ function showOverlay(){
     });
     console.log(currentUser);
     for (const map of currentUser.mapList) {
-        var mapChoice = "<option value='"+map.name+"'>"+map.name+"</option>";
+        var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
         $("#mapChoicePlace").append(mapChoice);
     }
 }
@@ -94,16 +94,23 @@ function showUserPlaces(user){
     for (const map of user.mapList) {
         if (map.isVisible) {
             for (const place of map.places) {
-                L.marker([place.latitude,place.longitude]).addTo(mymap);
+                showPlace(place);
             }
         }
     }
 }
 
+/**
+ * TODO, we have to show also other data of the place
+ * @param {the place we want to show} place 
+ */
+function showPlace(place) {
+    L.marker([place.latitude,place.longitude]).addTo(mymap);
+}
+
 
 
 function addAPlaceMode(){
-    console.log("test1");
     hideButtons();
     mymap.on('click',showOverlay);
 }
@@ -119,18 +126,19 @@ function createPlace(){
     console.log(descriptionPlace);
     console.log(mapChose);
 
-    /*
+    var dataToSend = namePlace+"\n"+descriptionPlace+"\n"+mapChose;
+
     $.ajax({
         type: "POST",
         contentType: "text/plain; charset=utf-8",
-        dataType: "dataType",
-        url: "url",
-        data: "data",
-        success: function (response) {
-            
+        dataType: "text",
+        url: "ws/Place/create",
+        data: dataToSend,
+        success: function (newPlace) {
+            console.log(newPlace);
+            L.marker([newPlace.latitude,newPlace.longitude]).addTo(mymap);
         }
     });
-    */
 }
 
 
@@ -143,6 +151,7 @@ var currentUser;
  */
 $(document).ready(function () {
     console.log(Date());
+    console.log("test 3");
       
     loadUser();
     initMap();
