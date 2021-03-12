@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.ws;
 
+import javax.jdo.PersistenceManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.glproject.map_tagger.dao.DAO;
+import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.Place;
 
 @Path("/Place")
@@ -16,7 +18,7 @@ public class PlaceResource {
 
 	/**
 	 * The data newPlaceData has to be like that:
-	 * "name\ndescription\nid"
+	 * "name\ndescription\nid\nlatitude\nlongitude"
 	 * @param newPlaceDatas
 	 * @return
 	 */
@@ -31,11 +33,18 @@ public class PlaceResource {
 		String name  = dataTab[0];
 		String description = dataTab[1];
 		Long mapId = Long.parseLong(dataTab[2]);
+		double latitude = Double.parseDouble(dataTab[3]);
+		double longitude = Double.parseDouble(dataTab[4]);
 		
 		Place place = new Place(name);
 		place.setDescription(description);
-		place = DAO.getPlaceDao().addPlace(place);
-		DAO.getMapDao().getMap(mapId).addPlace(place);
+		place.setLocation(latitude, longitude);
+		
+		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
+		
+		Map map = pm.getObjectById(Map.class, mapId);
+		map.addPlace(place);
+		pm.close();
 		
 		System.out.println(place+" : ["+place.getDescription()+"] at {"+place.getLatitude()+","+place.getLongitude()+"}");
 		

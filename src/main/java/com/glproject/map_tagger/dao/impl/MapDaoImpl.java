@@ -14,10 +14,12 @@ import com.glproject.map_tagger.dao.MapDao;
 public class MapDaoImpl implements MapDao {
 
 	private PersistenceManagerFactory pmf;
+	
 
 	public MapDaoImpl(PersistenceManagerFactory pmf) {
 		this.pmf = pmf;
 	}
+	
 
 	@Override
 	public Map addMap(Map map) {
@@ -106,6 +108,8 @@ public class MapDaoImpl implements MapDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 	@Override
 	public void delete(Map map) {

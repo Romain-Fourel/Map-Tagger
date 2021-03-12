@@ -32,5 +32,6 @@ public interface MapDao {
 	 *         "name" into their user name
 	 */
 	List<Map> getMaps(String name);
+		
 
 }

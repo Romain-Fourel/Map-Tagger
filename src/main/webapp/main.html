@@ -47,11 +47,11 @@
                             <textarea name="description" id="descriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button id="closeButton" type="reset">x</button>
                             <button id="addImages" type="button">add image</button>
-                            <select name="mapChoice" id="mapChoicePlace" placeholder="Choose a map">
+                            <select name="mapChoice" id="mapChoicePlace" placeholder="Choose a map" required>
                                 <option value="CAMap">--- Choose a map ---</option>
                             </select>
                             <h2>Tags :</h2>
-                            <button id="createPlace">Create the place</button>
+                            <button id="createPlace" type="button">Ok</button>
                         </form>
                     </p>
                 </div>
@@ -67,6 +67,7 @@
         crossorigin=""></script>
 
         <script type="text/javascript" src="scripts/main.js"></script>
+
     </body>
 </html>
 

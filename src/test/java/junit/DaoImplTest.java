@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
 import org.junit.Test;
@@ -109,6 +110,30 @@ public class DaoImplTest {
 	}
 	
 	@Test
+	public void modifyMapsTest() {
+		User user = new User("user","pw");
+		
+		//generate 4 maps with 4 places in each of them and add the maps to the user
+		generateMaps(user);
+		DAO.getUserDao().addUser(user);
+		
+		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
+		
+		Map map = pm.getObjectById(Map.class, (long)0 );
+		map.setName("a new name");
+		map.setDescription("a new description");
+		
+		pm.close();
+		
+		System.out.println(DAO.getMapDao().getMap((long)0));
+		
+		assertEquals("a new name", DAO.getMapDao().getMap((long)0).getName());
+		assertEquals("a new description", DAO.getMapDao().getMap((long)0).getDescription());
+		
+	}
+	
+	
+	@Test
 	public void addPlaceToMapTest() {
 		User user = new User("user","pw");
 		
@@ -126,21 +151,19 @@ public class DaoImplTest {
 		place.setDescription("a pretty place");
 		place.setLocation(3.14, 1.414);
 		
-		Place detached;
+		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
 		
-		detached = DAO.getPlaceDao().addPlace(place);
+		Map map = pm.getObjectById(Map.class, mapId);
 		
-		System.out.println(detached+" : ["+detached.getDescription()+"] at {"+detached.getLatitude()+","+detached.getLongitude()+"}");	
+		map.addPlace(place);
 		
-		DAO.getMapDao().getMap(mapId).addPlace(place);
-		//Map map = DAO.getMapDao().getMap(mapId);
+		pm.close();
 		
-		System.out.println(place+" : ["+place.getDescription()+"] at {"+place.getLatitude()+","+place.getLongitude()+"}");	
+		assertEquals(6, DAO.getMapDao().getMap(mapId).getPlaces().size());
 		
-		System.out.println(DAO.getPlaceDao().getPlaces());
-		
-		//System.out.println(map.getPlaces());
 		System.out.println(DAO.getMapDao().getMap(mapId).getPlaces());
+		
+
 	}
 
 }

@@ -23,23 +23,21 @@ function showButtons(){
     }); 
 }
 
-
-function showOverlay(){
-    $(".overlay").css("visibility", function(){
-        return "visible";
-    });
-    console.log(currentUser);
-    for (const map of currentUser.mapList) {
-        var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
-        $("#mapChoicePlace").append(mapChoice);
-    }
+function resetAddAPlaceMenu(){
+    $("#namePlace").val("");
+    $("#descriptionPlace").val("");
+    $("#mapChoicePlace").val("CAMap");
 }
+
 
 function hideOverlay(){
     $(".overlay").css("visibility", function(){
         return "hidden";
     });
     showButtons();
+
+    resetAddAPlaceMenu();
+
     mymap.off('click');
 }
 
@@ -78,11 +76,17 @@ function loadUser(){
         showUserPlaces(user);
 
         currentUser = user;
-        
+
         /**
          * TODO: here we will load all panels which need datas from the user
          */
-        return user;
+
+        //"add a place" panel
+        for (const map of currentUser.mapList) {
+            var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
+            $("#mapChoicePlace").append(mapChoice);
+        }
+
     });
 }
 
@@ -109,6 +113,15 @@ function showPlace(place) {
 }
 
 
+function showOverlay(event){
+
+    pointClicked.latitude = event.latlng.lat;
+    pointClicked.longitude = event.latlng.lng;
+
+    $(".overlay").css("visibility", function(){
+        return "visible";
+    });
+}
 
 function addAPlaceMode(){
     hideButtons();
@@ -116,17 +129,30 @@ function addAPlaceMode(){
 }
 
 
-function createPlace(){
+function createPlace(e){
 
     var namePlace = $("#namePlace").val();
     var descriptionPlace = $("#descriptionPlace").val();
     var mapChose = $("#mapChoicePlace").val();
 
-    console.log(namePlace);
-    console.log(descriptionPlace);
-    console.log(mapChose);
+    if (namePlace==="" && mapChose==="CAMap"){
+        alert("Please name this place and choose a map to put it in");
+        return false;
+    }
+    else if(namePlace==="" ){
+        alert("Please name this place");
+        return false;       
+    }
+    else if(mapChose==="CAMap"){
+        alert("Please choose a map to put your place in");
+        return false;       
+    }
 
-    var dataToSend = namePlace+"\n"+descriptionPlace+"\n"+mapChose;
+    var dataToSend = namePlace+"\n"
+                    +descriptionPlace+"\n"
+                    +mapChose+"\n"
+                    +pointClicked.latitude+"\n"
+                    +pointClicked.longitude;
 
     $.ajax({
         type: "POST",
@@ -135,23 +161,27 @@ function createPlace(){
         url: "ws/Place/create",
         data: dataToSend,
         success: function (newPlace) {
-            console.log(newPlace);
+            newPlace = JSON.parse(newPlace);
             L.marker([newPlace.latitude,newPlace.longitude]).addTo(mymap);
         }
     });
+
+    hideOverlay();
+    return true;
 }
 
 
 
-var mymap;
-var currentUser;
+var mymap; // the map shown on the screen
+var currentUser; // the current user
+var pointClicked = {latitude:0,longitude:0}; // the last point where the user has clicked
 
 /**
  * Main
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("test 3");
+    console.log("test 8");
       
     loadUser();
     initMap();

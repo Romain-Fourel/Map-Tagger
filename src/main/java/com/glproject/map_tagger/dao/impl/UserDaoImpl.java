@@ -102,8 +102,23 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void delete(User user) {
-		// TODO Auto-generated method stub
 
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			
+			pm.deletePersistent(user);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
 
 	@SuppressWarnings("unchecked")

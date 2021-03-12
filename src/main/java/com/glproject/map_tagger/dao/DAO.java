@@ -10,6 +10,14 @@ import com.glproject.map_tagger.ws.UserResource;
 
 public class DAO {
 	
+	
+	static PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
+	
+	public static PersistenceManagerFactory getPmf() {
+		return pmf;
+	}
+	
+	
 	/**
 	 * Just to put fake objects into the database in order to test
 	 * features of the application
@@ -43,17 +51,14 @@ public class DAO {
 	}
 	
 	public static UserDao getUserDao() {
-		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		return new UserDaoImpl(pmf);
 	}
 
 	public static MapDao getMapDao() {
-		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		return new MapDaoImpl(pmf);
 	}
 
 	public static PlaceDao getPlaceDao() {
-		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("Glproject");
 		return new PlaceDaoImpl(pmf);
 	}
 }
