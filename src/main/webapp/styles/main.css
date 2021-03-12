@@ -1,5 +1,7 @@
 html,body{
     height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 #mapid{
@@ -43,29 +45,29 @@ html,body{
     left:5%;
 }
 
-#communityMaps{
+#communityMapsB{
     background:url(./images/earth.png) no-repeat;
     top:5%;
 }
-#communityMaps:hover{
+#communityMapsB:hover{
     background:url(./images/earthb.png) no-repeat;
 }
 
 
-#savedMaps{
+#savedMapsB{
     background:url(./images/Tmap.png) no-repeat;
     top:15%;
 }
-#savedMaps:hover{
+#savedMapsB:hover{
     background:url(./images/Tmapb.png) no-repeat;
 }
 
 
-#placesList{
+#placesListB{
     background:url(./images/Ftag.png) no-repeat;
     top:25%;
 }
-#placesList:hover{
+#placesListB:hover{
     background:url(./images/Ftagb.png) no-repeat;
 }
 
@@ -104,7 +106,7 @@ html,body{
     
 }
 
-.popup {
+#addAPlaceMenu {
   background-color: rgb(204, 204, 204);
   border-radius: 20px;
   width:50%;
@@ -238,3 +240,39 @@ h2{
     50% { background-position: 400% 0; }
     100% { background-position: 0 0; }
 }
+
+
+/**
+ *#######################  BELOW: CSS CODE FOR #savedMapsListMenu ############################################
+ */
+
+#savedMapsMenu{
+	position: absolute;
+	right: -270px; top: 55px;
+    z-index: 400;
+    width: 250px;
+	padding: 10px;
+	background: #474d43;
+    color: #fff;
+
+    -webkit-transition: all .5s ease-in;
+	transition: all .5s ease-in;
+}
+
+#savedMapsMenu:target {
+	right: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

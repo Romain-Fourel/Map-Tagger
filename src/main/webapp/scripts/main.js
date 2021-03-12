@@ -170,6 +170,14 @@ function createPlace(e){
     return true;
 }
 
+function savedMapsMode(){
+    $("#savedMapsMenu").css("right", 0);
+}
+
+function savedMapsQuit(){
+    $("#savedMapsMenu").css("right", -270);
+}
+
 
 
 var mymap; // the map shown on the screen
@@ -181,15 +189,17 @@ var pointClicked = {latitude:0,longitude:0}; // the last point where the user ha
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("test 8");
-      
+    console.log("test 9");
+
     loadUser();
     initMap();
-
     /**
      * all "clicks" features
      */
+    $("#savedMapsMenuQuit").click(savedMapsQuit);
+    $("#savedMapsB").click(savedMapsMode);
     $("#createPlace").click(createPlace);
     $("#closeButton").click(hideOverlay);
     $("#addAPlaceB").click(addAPlaceMode);
+
 });

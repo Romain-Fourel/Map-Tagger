@@ -17,6 +17,7 @@
 
         <div id="mapid"></div>
 
+        <!--All panels which are shown on the map:-->
         <div id="interface">
 
             <div id="buttons">
@@ -24,9 +25,9 @@
                 <div id ="circleButton">
 
                     <div id="right">
-                        <button id="communityMaps"></button>
-                        <button id="savedMaps"></button>     
-                        <button id="placesList"></button>
+                        <button id="communityMapsB"></button>
+                        <button id="savedMapsB"></button>     
+                        <button id="placesListB"></button>
                     </div>
 
                     <div id="left">
@@ -38,9 +39,12 @@
                 
                 <button class="hoverL" id="addAPlaceB">+</button>
 
-            </div>
+            </div><!--End of buttons div-->
+
+            <!--Code to create the add a place menu panel-->
+
             <div class="overlay">
-                <div class="popup">
+                <div id="addAPlaceMenu">
                     <p>
                         <form>
                             <input name="place" type="text" id="namePlace" placeholder="Name this place..." autocomplete=off required>
@@ -55,8 +59,14 @@
                         </form>
                     </p>
                 </div>
+            </div><!--End of overlay div-->
+        
+            <div id="savedMapsMenu">
+                <p>Lorem Elsass ipsum réchime amet sed bissame so libero. DNA, leo Richard Schirmeck tellus</p>
+                <button id="savedMapsMenuQuit">></button>
             </div>
-        </div>
+        
+        </div> <!--End of interface div-->
 
 	    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
