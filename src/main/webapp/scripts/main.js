@@ -170,12 +170,21 @@ function createPlace(e){
     return true;
 }
 
+function rightMenuMode(id){
+    $("#"+id).css("right", -50);
+}
+
+function rightMenuQuit(id){
+    $("#"+id).css("right", -370)
+}
+
+
 function savedMapsMode(){
-    $("#savedMapsMenu").css("right", 0);
+    $("#savedMapsMenu").css("right", -50);
 }
 
 function savedMapsQuit(){
-    $("#savedMapsMenu").css("right", -270);
+    $("#savedMapsMenu").css("right", -370);
 }
 
 
@@ -193,11 +202,44 @@ $(document).ready(function () {
 
     loadUser();
     initMap();
+    
     /**
      * all "clicks" features
      */
-    $("#savedMapsMenuQuit").click(savedMapsQuit);
-    $("#savedMapsB").click(savedMapsMode);
+    id = "";
+    $("#savedMapsMenuQuit").click(function(){
+        id="savedMapsMenu";
+        rightMenuQuit(id);
+    });
+
+    $("#communityMapsMenuQuit").click(function () { 
+        id = "communityMapsMenu";
+        rightMenuQuit(id)      
+    });
+
+    $("#placesListMenuQuit").click(function (e) { 
+        id = "placesListMenu";
+        rightMenuQuit(id);    
+    });
+
+
+
+    $("#savedMapsB").click(function (){
+        id="savedMapsMenu";
+        rightMenuMode(id);
+    });
+
+    $("#communityMapsB").click(function () { 
+        id = "communityMapsMenu";
+        rightMenuMode(id)      
+    });
+
+    $("#placesListB").click(function () { 
+        id = "placesListMenu";
+        rightMenuMode(id);
+        
+    });
+
     $("#createPlace").click(createPlace);
     $("#closeButton").click(hideOverlay);
     $("#addAPlaceB").click(addAPlaceMode);

@@ -246,22 +246,21 @@ h2{
  *#######################  BELOW: CSS CODE FOR #savedMapsListMenu ############################################
  */
 
-#savedMapsMenu{
+.Menu{
 	position: absolute;
-	right: -270px; top: 55px;
+	right: -370px; top: 55px;
     z-index: 400;
-    width: 250px;
+    width: 350px;
+    height: 650px;
 	padding: 10px;
 	background: #474d43;
     color: #fff;
+    border-radius: 20%;
 
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
 }
 
-#savedMapsMenu:target {
-	right: 0;
-}
 
 
 
