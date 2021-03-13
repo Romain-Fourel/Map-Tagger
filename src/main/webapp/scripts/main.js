@@ -87,6 +87,12 @@ function loadUser(){
             $("#mapChoicePlace").append(mapChoice);
         }
 
+        //savedMaps panel:
+        for (const map of currentUser.mapList) {
+            buttonMap = "<input type='checkbox' name='"+map.name+"' id='map"+map.id+"' > <label for='"+map.name+"'>"+map.name+"</label><br />"
+            $("#savedMapsButtons").append(buttonMap);
+        }
+
     });
 }
 
