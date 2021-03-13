@@ -108,13 +108,17 @@ html,body{
 
 #addAPlaceMenu {
   background-color: rgb(204, 204, 204);
-  border-radius: 20px;
+  border-radius: 50px;
   width:50%;
   height:80%;
   position: absolute;
   top: 10%;
   left: 27%;
   border: 5px solid rgb(255, 255, 255);
+}
+
+#addAPlaceMenu input,textarea,select,button{
+    border-radius: 20px;
 }
 
 #closeButton {
@@ -248,14 +252,14 @@ h2{
 
 .Menu{
 	position: absolute;
-	right: -370px; top: 55px;
+	right: -370px; top: 35px;
     z-index: 400;
     width: 350px;
     height: 650px;
 	padding: 10px;
-	background: #474d43;
+	background: #545553;
     color: #fff;
-    border-radius: 20%;
+    border-radius: 80px;
 
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
