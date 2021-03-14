@@ -30,15 +30,19 @@ public class DAO {
 								  {{47.512352, 1.455964},{47.508095, 1.453173},{47.512779, 1.459159}},
 								  {{48.802605, 2.42433},{48.868944, 2.334906},{48.85747, 2.359041}}
 								 };
+		String[] mapNames = {"Tours","Blois","Paris"};
 		
 		for (int i = 0; i < 3; i++) {
 			Map map = new Map("user1");
-			map.setName("map"+i);
+			map.setName(mapNames[i]);
 			for (int j = 0; j < 3; j++) {
 				Place place = new Place("place"+i+""+j);
 				place.setLocation(locations[i][j][0],locations[i][j][1]);
 				place.setDescription("description"+i+""+j);
 				map.addPlace(place);
+			}
+			if(i==0) {
+				map.setVisibility(false);
 			}
 			map.setDescription("description"+i);
 			user.addMap(map);
@@ -48,6 +52,30 @@ public class DAO {
 		
 		UserResource.setCurrentSession(user.getID());
 		
+	}
+	
+	public static void generateManyMapsFakeUser() {
+		User user = new User("user1", "password1");
+		
+		for (int i = 0; i < 50; i++) {
+			Map map = new Map("user1");
+			map.setName("map"+i);
+			for (int j = 0; j < 3; j++) {
+				Place place = new Place("place"+i+""+j);
+				place.setLocation(47.387648, 0.666612);
+				place.setDescription("description"+i+""+j);
+				map.addPlace(place);
+			}
+			if(i==0) {
+				map.setVisibility(false);
+			}
+			map.setDescription("description"+i);
+			user.addMap(map);
+		}
+		
+		getUserDao().addUser(user);
+		
+		UserResource.setCurrentSession(user.getID());		
 	}
 	
 	public static UserDao getUserDao() {

@@ -16,7 +16,19 @@ import javax.jdo.annotations.PrimaryKey;
 public class Map {
 
 	public enum Confidentiality {
-		PRIVATE, PUBLIC
+		PRIVATE, PUBLIC;
+		
+		public static Confidentiality parseConfidentiality(String confidentiality) {
+			if (confidentiality.equals("PRIVATE")) {
+				return PRIVATE;
+			}
+			else if(confidentiality.equals("PUBLIC")) {
+				return PUBLIC;
+			}
+			else {
+				return null;
+			}
+		}
 	}
 
 	@PrimaryKey
@@ -58,11 +70,11 @@ public class Map {
 		this.name = name;
 	}
 
-	public Boolean getIsVisible() {
+	public Boolean getVisibility() {
 		return isVisible;
 	}
 
-	public void setIsVisible(Boolean isVisible) {
+	public void setVisibility(Boolean isVisible) {
 		this.isVisible = isVisible;
 	}
 

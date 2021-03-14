@@ -30,6 +30,10 @@ public class UserResource {
 	public static void setCurrentSession(Long currentSession) {
 		UserResource.currentSession = currentSession;
 	}
+	
+	public static Long getCurrentSession() {
+		return currentSession;
+	}
 
 	/**
 	 * get into the database the user who has this specific identity

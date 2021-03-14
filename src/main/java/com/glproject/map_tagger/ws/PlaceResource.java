@@ -18,7 +18,11 @@ public class PlaceResource {
 
 	/**
 	 * The data newPlaceData has to be like that:
-	 * "name\ndescription\nid\nlatitude\nlongitude"
+	 * "name
+	 * description
+	 * id
+	 * latitude
+	 * longitude"
 	 * @param newPlaceDatas
 	 * @return
 	 */

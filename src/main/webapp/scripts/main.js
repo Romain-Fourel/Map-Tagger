@@ -23,22 +23,29 @@ function showButtons(){
     }); 
 }
 
-function resetAddAPlaceMenu(){
-    $("#namePlace").val("");
-    $("#descriptionPlace").val("");
-    $("#mapChoicePlace").val("CAMap");
+function hideOverlay(){
+    $(".overlay").css("visibility", "hidden");
+    $(".overlay .PopupMenu").css("visibility", "hidden");
+    showButtons();
+
+    mymap.off('click');
+}
+
+function rightMenuMode(id){
+    $("#"+id).css("right", -50);
+}
+
+function rightMenuQuit(id){
+    $("#"+id).css("right", -370)
 }
 
 
-function hideOverlay(){
-    $(".overlay").css("visibility", function(){
-        return "hidden";
-    });
-    showButtons();
+function savedMapsMode(){
+    $("#savedMapsMenu").css("right", -50);
+}
 
-    resetAddAPlaceMenu();
-
-    mymap.off('click');
+function savedMapsQuit(){
+    $("#savedMapsMenu").css("right", -370);
 }
 
 
@@ -62,6 +69,66 @@ function initMap(){
 }
 
 /**
+ * Create all buttons needed to handle the map in the whole application
+ * @param {the map we want to add in the app} map 
+ */
+function createMapButtons(map){
+
+    console.log(map);
+
+    //------"add a place" panel--------:
+    var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
+    $("#mapChoicePlace").append(mapChoice);
+
+    //-------savedMaps panel-------:
+    isVisible="";
+    if (map.visibility) {
+        isVisible="checked";
+    }
+
+    buttonMap = "<input type='checkbox' name='"+map.name+"' id='map"+map.id+"' "+isVisible+"> <label for='"+map.name+"'>"+map.name+"</label><br />"
+    $("#savedMapsButtons").append(buttonMap);
+
+    $("#map"+map.id).click(function(){
+        var data = map.id+"\n";
+        if($("#map"+map.id).prop("checked")){
+            mymap.addLayer(dict.get(map.id));
+            data = data+"True";
+        }
+        else{
+            mymap.removeLayer(dict.get(map.id));
+            data = data+"False";
+        }
+
+        $.ajax({
+            type: "POST",
+            contentType: "text/plain; charset=utf-8",
+            dataType: "text",
+            url: "ws/Map/update/visibility",
+            data: data,
+        });
+
+    });  
+
+    //------------- To show places on the leaflet map and store them -----------
+    var myLayerGroup = L.layerGroup();
+    if(map.places!==undefined){
+        for (const place of map.places) {
+            L.marker([place.latitude,place.longitude]).addTo(myLayerGroup);  
+        }   
+    }
+    
+    if(map.visibility){
+        mymap.addLayer(myLayerGroup);
+        myLayerGroup.addTo(mymap);
+    }
+    
+    dict.set(map.id,myLayerGroup);
+    
+}
+
+
+/**
  * This function loads all characteristics of the current user
  * (places and maps)
  */
@@ -72,73 +139,50 @@ function loadUser(){
         dataType: "json",
     }).done(function(user){
         console.log("Welcome "+user.name+" #"+user.id);
-
-        showUserPlaces(user);
-
         currentUser = user;
-
-        /**
-         * TODO: here we will load all panels which need datas from the user
-         */
-
-        //"add a place" panel
+        
         for (const map of currentUser.mapList) {
-            var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
-            $("#mapChoicePlace").append(mapChoice);
-        }
-
-        //savedMaps panel:
-        for (const map of currentUser.mapList) {
-            buttonMap = "<input type='checkbox' name='"+map.name+"' id='map"+map.id+"' > <label for='"+map.name+"'>"+map.name+"</label><br />"
-            $("#savedMapsButtons").append(buttonMap);
+            createMapButtons(map);
         }
 
     });
 }
 
-/**
- * Shows on the map all places of a specific user
- * @param {the user who we want to show his places} user 
- */
-function showUserPlaces(user){
-    for (const map of user.mapList) {
-        if (map.isVisible) {
-            for (const place of map.places) {
-                showPlace(place);
-            }
-        }
-    }
-}
 
-/**
- * TODO, we have to show also other data of the place
- * @param {the place we want to show} place 
- */
-function showPlace(place) {
-    L.marker([place.latitude,place.longitude]).addTo(mymap);
-}
-
-
-function showOverlay(event){
-
-    pointClicked.latitude = event.latlng.lat;
-    pointClicked.longitude = event.latlng.lng;
-
+function showOverlay(){
+    
     $(".overlay").css("visibility", function(){
         return "visible";
     });
 }
 
+
+
+function showAddAMapMenu(){
+    console.log("show add a map menu!!");
+    showOverlay();
+    $("#addAMapMenu").css("visibility", "visible");
+}
+
+function showAddAPlaceMenu(event){
+    pointClicked.latitude = event.latlng.lat;
+    pointClicked.longitude = event.latlng.lng;
+
+    showOverlay();
+
+    $("#addAPlaceMenu").css("visibility", "visible");
+}
+
 function addAPlaceMode(){
     hideButtons();
-    mymap.on('click',showOverlay);
+    mymap.on('click',showAddAPlaceMenu);
 }
 
 
-function createPlace(e){
+function createPlace(){
 
-    var namePlace = $("#namePlace").val();
-    var descriptionPlace = $("#descriptionPlace").val();
+    var namePlace = $("#addNamePlace").val();
+    var descriptionPlace = $("#addDescriptionPlace").val();
     var mapChose = $("#mapChoicePlace").val();
 
     if (namePlace==="" && mapChose==="CAMap"){
@@ -167,8 +211,9 @@ function createPlace(e){
         url: "ws/Place/create",
         data: dataToSend,
         success: function (newPlace) {
-            newPlace = JSON.parse(newPlace);
-            L.marker([newPlace.latitude,newPlace.longitude]).addTo(mymap);
+            newPlace = JSON.parse(newPlace);         
+            var mapid= parseInt(mapChose);
+            L.marker([newPlace.latitude,newPlace.longitude]).addTo(dict.get(mapid));
         }
     });
 
@@ -176,23 +221,37 @@ function createPlace(e){
     return true;
 }
 
-function rightMenuMode(id){
-    $("#"+id).css("right", -50);
+
+function createMap(){
+    var nameMap = $("#addNameMap").val();
+    var descriptionMap = $("#addDescriptionMap").val();
+    var confidentiality = $("#confidentialityChoiceMap").val();
+
+    if(nameMap===""){
+        alert("Please name this map");
+        return false;           
+    }
+    
+    var dataToSend = nameMap+"\n"
+                    +descriptionMap+"\n"
+                    +confidentiality+"\n"
+                    +currentUser.name;
+
+    $.ajax({
+        type: "POST",
+        contentType: "text/plain; charset=utf-8",
+        dataType: "text",
+        url: "ws/Map/create",
+        data: dataToSend,
+        success: function (newMap) {
+            newMap = JSON.parse(newMap);
+            createMapButtons(newMap);
+        }
+    });
+
+    hideOverlay();
+
 }
-
-function rightMenuQuit(id){
-    $("#"+id).css("right", -370)
-}
-
-
-function savedMapsMode(){
-    $("#savedMapsMenu").css("right", -50);
-}
-
-function savedMapsQuit(){
-    $("#savedMapsMenu").css("right", -370);
-}
-
 
 
 var mymap; // the map shown on the screen
@@ -200,11 +259,16 @@ var currentUser; // the current user
 var pointClicked = {latitude:0,longitude:0}; // the last point where the user has clicked
 
 /**
+ * The dictionnary (map) has map.id for its keys and a LayerGroup for its values
+ */
+const dict = new Map();
+
+/**
  * Main
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("test 9");
+    console.log("test 21");
 
     loadUser();
     initMap();
@@ -212,42 +276,26 @@ $(document).ready(function () {
     /**
      * all "clicks" features
      */
-    id = "";
-    $("#savedMapsMenuQuit").click(function(){
-        id="savedMapsMenu";
-        rightMenuQuit(id);
-    });
 
-    $("#communityMapsMenuQuit").click(function () { 
-        id = "communityMapsMenu";
-        rightMenuQuit(id)      
-    });
+    listMenus = ["savedMaps","communityMaps","placesList"];
 
-    $("#placesListMenuQuit").click(function (e) { 
-        id = "placesListMenu";
-        rightMenuQuit(id);    
-    });
+    for (const menu of listMenus) {
+        $("#"+menu+"MenuQuit").click(function(){
+            rightMenuQuit(menu+"Menu");
+        });
 
+        $("#"+menu+"B").click(function (){
+            rightMenuMode(menu+"Menu");
+        });
+    
+    }
 
-
-    $("#savedMapsB").click(function (){
-        id="savedMapsMenu";
-        rightMenuMode(id);
-    });
-
-    $("#communityMapsB").click(function () { 
-        id = "communityMapsMenu";
-        rightMenuMode(id)      
-    });
-
-    $("#placesListB").click(function () { 
-        id = "placesListMenu";
-        rightMenuMode(id);
-        
-    });
-
-    $("#createPlace").click(createPlace);
-    $("#closeButton").click(hideOverlay);
     $("#addAPlaceB").click(addAPlaceMode);
+    $(".CloseButton").click(hideOverlay);
+    $("#createPlace").click(createPlace);
+    $("#createMap").click(createMap);
+    
+    $("#addAMapB").click(showAddAMapMenu);
+    $("#addAMapMenuCloseB").click(hideOverlay);
 
 });

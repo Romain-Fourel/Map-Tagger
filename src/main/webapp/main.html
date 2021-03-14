@@ -41,43 +41,62 @@
 
             </div><!--End of buttons div-->
 
-            <!--Code to create the add a place menu panel-->
-
+            
             <div class="overlay">
-                <div id="addAPlaceMenu">
+                <div class="PopupMenu" id="addAPlaceMenu">
                     <p>
                         <form>
-                            <input name="place" type="text" id="namePlace" placeholder="Name this place..." autocomplete=off required>
-                            <textarea name="description" id="descriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
-                            <button id="closeButton" type="reset">x</button>
+                            <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off required>
+                            <textarea name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
+                            <button class="CloseButton" type="reset">x</button>
                             <button id="addImages" type="button">add image</button>
-                            <select name="mapChoice" id="mapChoicePlace" placeholder="Choose a map" required>
+                            <select name="mapChoice" class="PopupChoice" id="mapChoicePlace" placeholder="Choose a map" required>
                                 <option value="CAMap">--- Choose a map ---</option>
                             </select>
                             <h2>Tags :</h2>
-                            <button id="createPlace" type="button">Ok</button>
+                            <button class="createOkButton" id="createPlace" type="reset">Ok</button>
                         </form>
                     </p>
                 </div>
-            </div><!--End of overlay div-->
+
+                <div class="PopupMenu" id="addAMapMenu"> 
+                    <p>
+                        <form>
+                            <input name="map" type="text" class="AddNameInput" id="addNameMap" placeholder="Name this map..." autocomplete=off required>
+                            <textarea name="description" class="AddDescriptionInput" id="addDescriptionMap" placeholder="Describe this map..." rows=10 cols=72 autocomplete=off></textarea>
+                            <button class="CloseButton" type="reset">x</button>
+                            <select name="confidentiality" class="PopupChoice" id="confidentialityChoiceMap" placeholder="confidentiality" required>
+                                <option value="PUBLIC">Public</option>
+                                <option value="PRIVATE">Private</option>
+                            </select>
+                            <button class="createOkButton" id="createMap" type="reset">Ok</button>
+                        </form>
+                    </p>
+
+                </div>
+
+            </div>
+         
+            
 
             <div class="Menu" id="communityMapsMenu">
                 <h1>Community Maps</h1>
-                <button id="communityMapsMenuQuit">></button>
+                <button class="MenuQuit" id="communityMapsMenuQuit">></button>
             </div>
         
             <div class="Menu" id="savedMapsMenu">
                 <h1>Saved Maps</h1>
                 <div id="savedMapsButtons">
                     <!--Here are dynamically added the maps of the current user-->
+                    <button id="addAMapB">Add a map</button>
                 </div>
-                <button id="savedMapsMenuQuit">></button>
+                <button class="MenuQuit" id="savedMapsMenuQuit">></button>
                 
             </div>
 
             <div class="Menu" id="placesListMenu">
                 <h1>Places List</h1>
-                <button id="placesListMenuQuit">></button>
+                <button class="MenuQuit" id="placesListMenuQuit">></button>            
             </div>
         
         </div> <!--End of interface div-->
