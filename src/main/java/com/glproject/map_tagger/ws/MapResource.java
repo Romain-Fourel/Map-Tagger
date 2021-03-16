@@ -72,8 +72,6 @@ public class MapResource {
 		owner.addMap(map);
 		
 		pm.close();
-		
-		System.out.println(DAO.getMapDao().getMaps());
 			
 		return Response.ok(map).build();
 	}
