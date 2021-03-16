@@ -103,17 +103,58 @@ public class MapDaoImpl implements MapDao {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map> getPublicMaps() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Map> maps = null;
+		List<Map> detached = null;
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			Query q = pm.newQuery(Map.class);
+			q.declareParameters("String conf");
+			q.setFilter("confidentiality.toString() == conf");
+			
+			maps = (List<Map>) q.execute("PUBLIC");
+			for (Map map : maps) {
+				map.getPlaces();
+			}
+			detached = (List<Map>) pm.detachCopyAll(maps);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
 	}
 	
 	
 
 	@Override
 	public void delete(Map map) {
-		// TODO Auto-generated method stub
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			
+			pm.deletePersistent(map);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
 
 	}
 

@@ -32,11 +32,11 @@ function hideOverlay(){
 }
 
 function rightMenuMode(id){
-    $("#"+id).css("right", -50);
+    $(id).css("right", -50);
 }
 
 function rightMenuQuit(id){
-    $("#"+id).css("right", -370)
+    $(id).css("right", -370)
 }
 
 
@@ -73,8 +73,6 @@ function initMap(){
  * @param {the map we want to add in the app} map 
  */
 function createMapButtons(map){
-
-    console.log(map);
 
     //------"add a place" panel--------:
     var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
@@ -114,7 +112,7 @@ function createMapButtons(map){
     var myLayerGroup = L.layerGroup();
     if(map.places!==undefined){
         for (const place of map.places) {
-            L.marker([place.latitude,place.longitude]).addTo(myLayerGroup);  
+            addPlaceToApp(place,myLayerGroup);
         }   
     }
     
@@ -125,6 +123,44 @@ function createMapButtons(map){
     
     dict.set(map.id,myLayerGroup);
     
+}
+
+function addPlaceToApp(place,myLayerGroup){
+    var myMarker = L.marker([place.latitude,place.longitude]);
+    myMarker.bindPopup("<b>"+place.name+"</b>");
+    myMarker.on('mouseover',function(e){
+        this.openPopup();
+    })
+    myMarker.on('mouseout',function(e){
+        this.closePopup();
+    })
+    myMarker.on('click',function(e){
+        console.log(place);
+
+        $("#onePlaceMenu h1").text(place.name);
+        $("#onePlaceMenu p").text(place.description);
+
+        rightMenuMode("#onePlaceMenu");
+    })
+
+    myMarker.addTo(myLayerGroup);  
+}
+
+
+function loadCommunityMapsButtons(){
+
+    $.ajax({
+        type: "GET",
+        url: "ws/Map/allPublic",
+        dataType: "json",
+        success: function (mapList) {
+            console.log(mapList);
+            for (const map of mapList) {
+                var mapButtonHtml = "<button id='communityMap"+map.id+"'>"+map.name+"</button></br>";
+                $("#communityMapsButtons").append(mapButtonHtml);
+            }
+        }
+    });
 }
 
 
@@ -159,7 +195,6 @@ function showOverlay(){
 
 
 function showAddAMapMenu(){
-    console.log("show add a map menu!!");
     showOverlay();
     $("#addAMapMenu").css("visibility", "visible");
 }
@@ -213,7 +248,7 @@ function createPlace(){
         success: function (newPlace) {
             newPlace = JSON.parse(newPlace);         
             var mapid= parseInt(mapChose);
-            L.marker([newPlace.latitude,newPlace.longitude]).addTo(dict.get(mapid));
+            addPlaceToApp(newPlace,dict.get(mapid));
         }
     });
 
@@ -268,7 +303,7 @@ const dict = new Map();
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("test 21");
+    console.log("Test 1.1");
 
     loadUser();
     initMap();
@@ -281,14 +316,21 @@ $(document).ready(function () {
 
     for (const menu of listMenus) {
         $("#"+menu+"MenuQuit").click(function(){
-            rightMenuQuit(menu+"Menu");
+            rightMenuQuit("#"+menu+"Menu");
         });
 
         $("#"+menu+"B").click(function (){
-            rightMenuMode(menu+"Menu");
+            rightMenuMode("#"+menu+"Menu");
         });
     
     }
+
+    $("#onePlaceMenuQuit").click(function (e) { 
+        rightMenuQuit("#onePlaceMenu");     
+    });
+
+    $("#communityMapsB").click(loadCommunityMapsButtons);
+    
 
     $("#addAPlaceB").click(addAPlaceMode);
     $(".CloseButton").click(hideOverlay);

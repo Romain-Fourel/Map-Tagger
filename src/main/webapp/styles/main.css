@@ -147,7 +147,7 @@ button{
     outline: none;
 }
 .CloseButton:hover {
-    color: #df0000;
+    color: #f11d1d;
   }
 
 .AddNameInput{
@@ -290,6 +290,9 @@ h2{
 
 
 
+/**
+ *#######################  BELOW: CSS CODE FOR #onePlaceMenu ############################################
+ */
 
 
 

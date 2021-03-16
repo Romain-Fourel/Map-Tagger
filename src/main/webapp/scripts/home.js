@@ -46,7 +46,7 @@ $(document).ready(function () {
 
     //Initialization of all post buttons
     $("#postUser").click(function () {
-        var user = {name: "Bertrand", password: "789456", mapList: [], location: "London" };
+        var user = {name: "Bertrand", password: "789456", mapList: []};
         postServerData("ws/User/fakeUser", user);
     }); 
     
