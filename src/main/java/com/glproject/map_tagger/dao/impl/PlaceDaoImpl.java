@@ -111,7 +111,22 @@ public class PlaceDaoImpl implements PlaceDao {
 
 	@Override
 	public void delete(Place place) {
-		// TODO Auto-generated method stub
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			
+			pm.deletePersistent(place);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
 
 	}
 

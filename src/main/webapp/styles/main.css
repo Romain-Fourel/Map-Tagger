@@ -147,7 +147,7 @@ button{
     outline: none;
 }
 .CloseButton:hover {
-    color: #df0000;
+    color: #f11d1d;
   }
 
 .AddNameInput{
@@ -254,7 +254,7 @@ h2{
 
 
 /**
- *#######################  BELOW: CSS CODE FOR #savedMapsListMenu ############################################
+ *#######################  BELOW: CSS CODE FOR right sliding panels ############################################
  */
 
 .Menu{
@@ -280,6 +280,15 @@ h2{
     height: 60px;
 }
 
+.modifyButton{
+    position: absolute;
+    left: 250px;
+    top: 20px;
+    width: 60px;
+    height: 60px;
+}
+
+
 #addAMapB{
     position: absolute;
     left: 250px;
@@ -287,7 +296,6 @@ h2{
     width: 60px;
     height: 60px;
 }
-
 
 
 

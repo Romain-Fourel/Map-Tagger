@@ -1,5 +1,7 @@
 package com.glproject.map_tagger.ws;
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -70,10 +72,15 @@ public class MapResource {
 		owner.addMap(map);
 		
 		pm.close();
-		
-		System.out.println(DAO.getMapDao().getMaps());
 			
 		return Response.ok(map).build();
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/allPublic")
+	public List<Map> getPublicMap(){
+		return DAO.getMapDao().getPublicMaps();
 	}
 	
 	

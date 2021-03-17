@@ -31,21 +31,12 @@ function hideOverlay(){
     mymap.off('click');
 }
 
-function rightMenuMode(id){
-    $("#"+id).css("right", -50);
+function openSlidingPanel(id){
+    $(id).css("right", -50);
 }
 
-function rightMenuQuit(id){
-    $("#"+id).css("right", -370)
-}
-
-
-function savedMapsMode(){
-    $("#savedMapsMenu").css("right", -50);
-}
-
-function savedMapsQuit(){
-    $("#savedMapsMenu").css("right", -370);
+function closeSlidingPanel(id){
+    $(id).css("right", -370)
 }
 
 
@@ -74,8 +65,6 @@ function initMap(){
  */
 function createMapButtons(map){
 
-    console.log(map);
-
     //------"add a place" panel--------:
     var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
     $("#mapChoicePlace").append(mapChoice);
@@ -86,12 +75,19 @@ function createMapButtons(map){
         isVisible="checked";
     }
 
-    buttonMap = "<input type='checkbox' name='"+map.name+"' id='map"+map.id+"' "+isVisible+"> <label for='"+map.name+"'>"+map.name+"</label><br />"
-    $("#savedMapsButtons").append(buttonMap);
+    checkBoxMap = "<input type='checkbox' name='"+map.name+"' id='checkBoxMap"+map.id+"' "+isVisible+">";
+    labelMap= "<label for='"+map.name+"'>"+map.name+"</label>"
+    buttonModifyMap= "<button id='buttonModifyMap"+map.id+"'> > </button> </br>";
+    $("#savedMapsButtons").append(checkBoxMap+labelMap+buttonModifyMap);
 
-    $("#map"+map.id).click(function(){
+    $("#buttonModifyMap"+map.id).click(function (e) { 
+        console.log("clicked on map#"+map.id);
+        oneMapMenuMode(map);
+    });
+
+    $("#checkBoxMap"+map.id).click(function(){
         var data = map.id+"\n";
-        if($("#map"+map.id).prop("checked")){
+        if($("#checkBoxMap"+map.id).prop("checked")){
             mymap.addLayer(dict.get(map.id));
             data = data+"True";
         }
@@ -114,7 +110,7 @@ function createMapButtons(map){
     var myLayerGroup = L.layerGroup();
     if(map.places!==undefined){
         for (const place of map.places) {
-            L.marker([place.latitude,place.longitude]).addTo(myLayerGroup);  
+            addPlaceToApp(place,myLayerGroup);
         }   
     }
     
@@ -125,6 +121,63 @@ function createMapButtons(map){
     
     dict.set(map.id,myLayerGroup);
     
+}
+
+function oneMapMenuMode(map){
+    $("#oneMapMenu h1").text(map.name);
+    $("#oneMapMenu p").text(map.description);
+    openSlidingPanel("#oneMapMenu");
+
+    $("#oneMapPlaces").text("");
+    for (const place of map.places) {
+        $("#oneMapPlaces").append("<label id='oneMapPlace"+place.id+"'>"+place.name+"</label> </br>");
+    }
+
+    $("#modifyMap").click(function (e) { 
+        fillAddAMapMenu(map);
+        showAddAMapMenu();       
+    });
+
+}
+
+
+function addPlaceToApp(place,myLayerGroup){
+    var myMarker = L.marker([place.latitude,place.longitude]);
+    myMarker.bindPopup("<b>"+place.name+"</b>");
+    myMarker.on('mouseover',function(e){
+        this.openPopup();
+    })
+    myMarker.on('mouseout',function(e){
+        this.closePopup();
+    })
+    myMarker.on('click',function(e){
+
+        $("#onePlaceMenu h1").text(place.name);
+        $("#onePlaceMenu p").text(place.description);
+
+        openSlidingPanel("#onePlaceMenu");
+    })
+
+    myMarker.addTo(myLayerGroup);  
+}
+
+/**
+ * Create buttons of all public maps in the community maps sliding panel
+ */
+function loadCommunityMapsButtons(){
+
+    $.ajax({
+        type: "GET",
+        url: "ws/Map/allPublic",
+        dataType: "json",
+        success: function (mapList) {
+            $("#communityMapsButtons").text("");
+            for (const map of mapList) {
+                var mapButtonHtml = "<button id='communityMap"+map.id+"'>"+map.name+"</button></br>";
+                $("#communityMapsButtons").append(mapButtonHtml);
+            }
+        }
+    });
 }
 
 
@@ -156,10 +209,18 @@ function showOverlay(){
     });
 }
 
-
+/**
+ * When the user want to modify a map, we want to show the map creation panel. But not empty!
+ * We want to put in the data already put by ther user! So He can CHANGE the map, and not CREATE it
+ * @param {the map we want to show informations} map 
+ */
+function fillAddAMapMenu(map){
+    $("#addNameMap").val(map.name);
+    $("#addDescriptionMap").val(map.description);
+    $("#confidentialityChoiceMap").val(map.confidentiality);
+}
 
 function showAddAMapMenu(){
-    console.log("show add a map menu!!");
     showOverlay();
     $("#addAMapMenu").css("visibility", "visible");
 }
@@ -213,7 +274,7 @@ function createPlace(){
         success: function (newPlace) {
             newPlace = JSON.parse(newPlace);         
             var mapid= parseInt(mapChose);
-            L.marker([newPlace.latitude,newPlace.longitude]).addTo(dict.get(mapid));
+            addPlaceToApp(newPlace,dict.get(mapid));
         }
     });
 
@@ -268,7 +329,7 @@ const dict = new Map();
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("test 21");
+    console.log("Test 1.2");
 
     loadUser();
     initMap();
@@ -281,14 +342,24 @@ $(document).ready(function () {
 
     for (const menu of listMenus) {
         $("#"+menu+"MenuQuit").click(function(){
-            rightMenuQuit(menu+"Menu");
+            closeSlidingPanel("#"+menu+"Menu");
         });
 
         $("#"+menu+"B").click(function (){
-            rightMenuMode(menu+"Menu");
+            openSlidingPanel("#"+menu+"Menu");
         });
     
     }
+
+    $("#onePlaceMenuQuit").click(function (e) { 
+        closeSlidingPanel("#onePlaceMenu");     
+    });
+    $("#oneMapMenuQuit").click(function (e) { 
+        closeSlidingPanel("#oneMapMenu"); 
+    });
+
+    $("#communityMapsB").click(loadCommunityMapsButtons);
+    
 
     $("#addAPlaceB").click(addAPlaceMode);
     $(".CloseButton").click(hideOverlay);
