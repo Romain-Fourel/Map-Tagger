@@ -1,1 +1,5 @@
 /target/
+datanucleus.log
+.classpath
+.project
+.settings/org.eclipse.core.resources.prefs
