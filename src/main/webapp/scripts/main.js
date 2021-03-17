@@ -66,7 +66,7 @@ function initMap(){
 function createMapButtons(map){
 
     //------"add a place" panel--------:
-    var mapChoice = "<option value="+map.id+">"+map.name+"</option>";
+    var mapChoice = "<option value="+map.id+" id='optionMap"+map.id+"'>"+map.name+"</option>";
     $("#mapChoicePlace").append(mapChoice);
 
     //-------savedMaps panel-------:
@@ -75,13 +75,13 @@ function createMapButtons(map){
         isVisible="checked";
     }
 
+    beginDiv="<div id='oneMapDiv"+map.id+"'>";
     checkBoxMap = "<input type='checkbox' name='"+map.name+"' id='checkBoxMap"+map.id+"' "+isVisible+">";
-    labelMap= "<label for='"+map.name+"'>"+map.name+"</label>"
-    buttonModifyMap= "<button id='buttonModifyMap"+map.id+"'> > </button> </br>";
-    $("#savedMapsButtons").append(checkBoxMap+labelMap+buttonModifyMap);
+    labelMap= "<label for='"+map.name+"'>"+map.name+"</label>";
+    buttonOneMapMenu= "<button id='buttonOneMapMenu"+map.id+"'> > </button> </br>";
+    $("#savedMapsButtons").append(beginDiv+checkBoxMap+labelMap+buttonOneMapMenu+"</div>");
 
-    $("#buttonModifyMap"+map.id).click(function (e) { 
-        console.log("clicked on map#"+map.id);
+    $("#buttonOneMapMenu"+map.id).click(function (e) { 
         oneMapMenuMode(map);
     });
 
@@ -123,21 +123,54 @@ function createMapButtons(map){
     
 }
 
-function oneMapMenuMode(map){
-    $("#oneMapMenu h1").text(map.name);
-    $("#oneMapMenu p").text(map.description);
-    openSlidingPanel("#oneMapMenu");
+
+function updateMapButtons(map){
+    //--------update "add a place" panel-------- 
+    $("#optionMap"+map.id).text(map.name);
+
+    //--------update "saved map list" panel--------
+    $("#oneMapDiv"+map.id+" label").text(map.name);
+
+    //---update "one map menu" panel which is currently open---
+    setOneMapMenu(map);
+
+    $("#buttonOneMapMenu"+map.id).unbind("click");
+    $("#buttonOneMapMenu"+map.id).click(function (e) { 
+        oneMapMenuMode(map);
+    });
+
+}
+
+function setOneMapMenu(map){
+    $("#nameOneMapMenu").text(map.name);
+    $("#descriptionOneMapMenu").text(map.description);
+    
 
     $("#oneMapPlaces").text("");
-    for (const place of map.places) {
+   for (const place of map.places) {
         $("#oneMapPlaces").append("<label id='oneMapPlace"+place.id+"'>"+place.name+"</label> </br>");
     }
 
+    $("#modifyMap").unbind("click");
     $("#modifyMap").click(function (e) { 
-        fillAddAMapMenu(map);
-        showAddAMapMenu();       
-    });
+        console.log("lets go to modifiy!!");
 
+        fillAddAMapMenu(map);
+        showOverlay();
+        $("#addAMapMenu").css("visibility", "visible");   
+
+        $("#editMap").unbind("click");
+        $("#editMap").click(function(){
+            console.log("to update");       
+            updateMap(map);
+        });
+
+    });
+}
+
+function oneMapMenuMode(map){
+    openSlidingPanel("#oneMapMenu");
+    setOneMapMenu(map);
 }
 
 
@@ -221,6 +254,11 @@ function fillAddAMapMenu(map){
 }
 
 function showAddAMapMenu(){
+    $("#editMap").unbind("click");//we unbind the button before assignment
+    $("#editMap").click(function(){
+        console.log("to create");
+        createMap()
+    });
     showOverlay();
     $("#addAMapMenu").css("visibility", "visible");
 }
@@ -295,8 +333,7 @@ function createMap(){
     
     var dataToSend = nameMap+"\n"
                     +descriptionMap+"\n"
-                    +confidentiality+"\n"
-                    +currentUser.name;
+                    +confidentiality+"\n";
 
     $.ajax({
         type: "POST",
@@ -306,6 +343,7 @@ function createMap(){
         data: dataToSend,
         success: function (newMap) {
             newMap = JSON.parse(newMap);
+            console.log(newMap);
             createMapButtons(newMap);
         }
     });
@@ -313,6 +351,38 @@ function createMap(){
     hideOverlay();
 
 }
+
+function updateMap(map){
+    var nameMap = $("#addNameMap").val();
+    var descriptionMap = $("#addDescriptionMap").val();
+    var confidentiality = $("#confidentialityChoiceMap").val();
+
+    if(nameMap===""){
+        alert("Please name this map");
+        return false;           
+    }
+    
+    var dataToSend = map.id+"\n"                
+                    +nameMap+"\n"
+                    +descriptionMap+"\n"
+                    +confidentiality+"\n";
+
+    $.ajax({
+        type: "POST",
+        contentType: "text/plain; charset=utf-8",
+        dataType: "text",
+        url: "ws/Map/update",
+        data: dataToSend,
+        success: function (updatedMap) {
+            updatedMap = JSON.parse(updatedMap);
+            console.log(updatedMap);
+            updateMapButtons(updatedMap);
+        }
+    });
+
+    hideOverlay();   
+}
+
 
 
 var mymap; // the map shown on the screen
@@ -329,7 +399,7 @@ const dict = new Map();
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("Test 1.2");
+    console.log("Test 1.6");
 
     loadUser();
     initMap();
@@ -364,7 +434,6 @@ $(document).ready(function () {
     $("#addAPlaceB").click(addAPlaceMode);
     $(".CloseButton").click(hideOverlay);
     $("#createPlace").click(createPlace);
-    $("#createMap").click(createMap);
     
     $("#addAMapB").click(showAddAMapMenu);
     $("#addAMapMenuCloseB").click(hideOverlay);

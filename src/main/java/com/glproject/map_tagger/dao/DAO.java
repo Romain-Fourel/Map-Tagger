@@ -85,7 +85,7 @@ public class DAO {
 		for (int i = 0; i < 10; i++) {
 			User user = new User("user"+i, "password"+i);
 			
-			Map map = new Map(user.getName(), "map"+i);
+			Map map = new Map("user"+i, "map"+i);
 			map.setDescription("description of map"+i);
 			map.setConfidentiality(Confidentiality.PUBLIC);
 			

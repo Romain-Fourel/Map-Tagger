@@ -283,7 +283,7 @@ h2{
 .modifyButton{
     position: absolute;
     left: 250px;
-    top: 20px;
+    bottom: 20px;
     width: 60px;
     height: 60px;
 }

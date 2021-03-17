@@ -69,7 +69,7 @@
                                 <option value="PUBLIC">Public</option>
                                 <option value="PRIVATE">Private</option>
                             </select>
-                            <button class="createOkButton" id="createMap" type="reset">Ok</button>
+                            <button class="createOkButton" id="editMap" type="reset">Ok</button>
                         </form>
                     </p>
 
@@ -105,12 +105,13 @@
             <div class="Menu" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>       
                 <p><!--Description of the place:--></p>
+                <button class="modifyButton" id="modifyPlace">Modify place</button>
                 <button class="MenuQuit" id="onePlaceMenuQuit">></button> 
             </div>
 
             <div class="Menu" id="oneMapMenu">
-                <h1><!--Here the name of the map--></h1>       
-                <p><!--Description of the map:--></p>
+                <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>       
+                <p id="descriptionOneMapMenu"><!--Description of the map:--></p>
                 <div id="oneMapPlaces"><!--list of places of this map--></div>
                 <button class="modifyButton" id="modifyMap">Modify map</button>
                 <button class="MenuQuit" id="oneMapMenuQuit">></button> 
