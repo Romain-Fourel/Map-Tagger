@@ -73,6 +73,7 @@ public class MapResource {
 		map.setName(nameMap);
 		map.setDescription(descriptionMap);
 		map.setConfidentiality(confidentiality);
+		
 		map.getName();
 		map.getDescription();
 		map.getConfidentiality();
@@ -82,11 +83,6 @@ public class MapResource {
 		}
 		
 		pm.close();
-		
-		System.out.println(map.getName());
-		System.out.println(map.getDescription());
-		System.out.println(map.getConfidentiality());
-		System.out.println(map.getPlaces());
 		
 		return Response.ok(map).build();
 	}

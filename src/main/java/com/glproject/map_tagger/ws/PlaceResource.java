@@ -55,8 +55,38 @@ public class PlaceResource {
 		return Response.ok(place).build();
 	}
 	
-	
-	
+	/**
+	 * the data has to be like:
+	 * "id
+	 * name
+	 * description"
+	 * @param data
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/update")
+	public Response updatePlace(String data) {
+		
+		String[] dataTab = data.split("\n");
+		long placeId = Long.parseLong(dataTab[0]);
+		String name = dataTab[1];
+		String description = dataTab[2];
+		
+		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
+		
+		Place place = DAO.getPlaceDao().getPlace(placeId);
+		place.setName(name);
+		place.setDescription(description);
+		
+		place.getName();
+		place.getDescription();
+		
+		pm.close();
+		
+		return Response.ok(place).build();
+	}
 	
 	
 	@GET
