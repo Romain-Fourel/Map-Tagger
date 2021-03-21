@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import com.glproject.map_tagger.dao.DAO;
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.Map.Confidentiality;
+import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.User;
 
 @Path("/Map")
@@ -43,6 +44,54 @@ public class MapResource {
 		
 		return Response.ok(map).build();
 	}
+	
+	/**
+	 * Data has to be like the following format:
+	 * "mapid
+	 * 	nameMap
+	 *  descriptionMap
+	 *  confidentiality"
+	 * @param data
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/update")
+	public Response updateMap(String data) {
+		
+		String[] dataTab = data.split("\n");
+		
+		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
+		
+		long mapid = Long.parseLong(dataTab[0]);
+		String nameMap = dataTab[1];
+		String descriptionMap = dataTab[2];
+		Confidentiality confidentiality = Confidentiality.parseConfidentiality(dataTab[3]);
+		
+		Map map = pm.getObjectById(Map.class, mapid);
+		map.setName(nameMap);
+		map.setDescription(descriptionMap);
+		map.setConfidentiality(confidentiality);
+		map.getName();
+		map.getDescription();
+		map.getConfidentiality();
+		map.getPlaces();
+		for (Place place : map.getPlaces()) {
+			place.getName();
+		}
+		
+		pm.close();
+		
+		System.out.println(map.getName());
+		System.out.println(map.getDescription());
+		System.out.println(map.getConfidentiality());
+		System.out.println(map.getPlaces());
+		
+		return Response.ok(map).build();
+	}
+	
+	
 	
 	/**
 	 * Data has to be like the following format:

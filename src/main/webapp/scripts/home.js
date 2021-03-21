@@ -59,4 +59,10 @@ $(document).ready(function () {
         var place = {name: "A Place"};
         postServerData("ws/User/fakeUser", place);
     });
+
+    $("#buttonTest").click(function (e) { 
+        $("h1").text("changed dynamically!");
+        
+    });
+
 });
