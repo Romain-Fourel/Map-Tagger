@@ -85,13 +85,20 @@ button{
 }
 
 #researcher{
+    background:url(./images/glass.png) no-repeat;
     bottom: 10%;
+}
+#researcher:hover{
+    background:url(./images/glassb.png) no-repeat;
 }
 
 #parameters{
+    background:url(./images/parameter.png) no-repeat;
     top: 10%;
 }
-
+#parameters:hover{
+    background:url(./images/parameterb.png) no-repeat;
+}
 
 .overlay {
     z-index: 450;

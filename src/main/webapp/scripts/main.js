@@ -329,7 +329,7 @@ const dict = new Map();
  */
 $(document).ready(function () {
     console.log(Date());
-    console.log("Test 1.2");
+    console.log("Test 1.3");
 
     loadUser();
     initMap();
