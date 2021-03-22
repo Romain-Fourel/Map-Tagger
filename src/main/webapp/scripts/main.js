@@ -545,7 +545,6 @@ var currentUser; // the current user
 $(document).ready(function () {
     console.log("Test 1.13");
 
-
     loadUser();
     LeafletManager.build();
 
