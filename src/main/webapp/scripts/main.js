@@ -128,8 +128,8 @@ class PlaceManager {
         $("#onePlaceMenu h1").text(place.name);
         $("#onePlaceMenu p").text(place.description);
 
-        closeSlidingPanel("#oneMapMenu");
-        openSlidingPanel("#onePlaceMenu");    
+        openSlidingPanel("#onePlaceMenu");  
+        closeSlidingPanel("#oneMapMenu");  
         
         $("#modifyPlace").click(function (e) { 
             PlaceManager.showUpdateAPlaceMenu(place);
@@ -295,12 +295,13 @@ class MapManager {
             isVisible = "checked";
         }
 
-        var beginDiv = "<div id='oneMapDiv" + this.map.id + "'>";
-        var checkBoxMap = "<input type='checkbox' name='" + this.map.name + "' id='checkBoxMap" + this.map.id + "' " + isVisible + ">";
-        var labelMap = "<label for='" + this.map.name + "'>" + this.map.name + "</label>";
-        var buttonOneMapMenu = "<button id='buttonOneMapMenu" + this.map.id + "'> > </button> </br>";
+        var beginDiv = "<p class='OneDiv' id='oneMapDiv" + this.map.id + "'>";
+        var checkBoxMap = "<input type='checkbox' id='checkBoxMap" + this.map.id + "' " + isVisible + "/>";
+        var labelMap = "<label for='checkBoxMap" + this.map.id + "'> <span class='spanLabel'></span>" + this.map.name + "</label>";
+        
+        var buttonOneMapMenu = "<button id='buttonOneMapMenu" + this.map.id + "'> > </button>";
 
-        $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</div>");
+        $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
 
         var map = this.map;
         $("#buttonOneMapMenu" + this.map.id).click(function () {
@@ -311,6 +312,10 @@ class MapManager {
         var layerGroup = this.layerGroup;
         var mapid = this.map.id;
         $("#checkBoxMap" + this.map.id).click(function () {
+
+            console.log("checked ?");
+            console.log($("#checkBoxMap"+mapid).attr("checked"));
+
             var data = mapid + "\n";
             if ($("#checkBoxMap" + mapid).prop("checked")) {
                 LeafletManager.addLayer(layerGroup);
@@ -349,7 +354,6 @@ class MapManager {
     }
 
     update(map) {
-        console.log("updating...");
         this.map = map;
 
         //--------update "add a place" panel-------- 
@@ -448,10 +452,10 @@ class MapManager {
 
         $("#oneMapPlaces").text("");
         for (const place of map.places) {
-            var div = "<div id='oneMapPlace"+place.id+"'>"
+            var div = "<p id='oneMapPlace"+place.id+"'>"
         
             var label = " <label>" + place.name + "</label>";
-            $("#oneMapPlaces").append(div+label+" </div></br>");
+            $("#oneMapPlaces").append(div+label+" </p>");
         }
 
 

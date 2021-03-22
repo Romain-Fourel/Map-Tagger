@@ -4,6 +4,10 @@ html,body{
     overflow-x: hidden;
 }
 
+body{
+    font-family: "Open Sans", "Segoe WP", "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
 button{
     cursor: pointer;
 }
@@ -271,7 +275,7 @@ h2{
     width: 350px;
     height: 650px;
 	padding: 10px;
-	background: #383333;
+	background: #524f4f;
     color: #fff;
     border-radius: 80px;
 
@@ -283,9 +287,43 @@ h2{
     position: absolute;
     left: 50px;
     bottom: 20px;
-    width: 60px;
-    height: 60px;
 }
+
+.MenuQuit{
+    background: #0F0F6D;
+    color: #ffffff;
+    font-size: 1em;
+    padding: 1.5rem;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 40px;
+    width: auto;
+    position: relative;
+  }
+.MenuQuit:after {
+    content: "\f054";
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 400;
+    position: absolute;
+    left: 85%;
+    top: 31%;
+    right: 5%;
+    bottom: 0;
+    opacity: 0;
+  }
+.MenuQuit:hover {
+    background: #2b2bff;
+    transition: all 0.5s;
+    border-radius: 10px;
+    box-shadow: 0px 6px 15px #0000ff61;
+    padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+}
+.MenuQuit:hover::after {
+    opacity: 1;
+    transition: all 0.5s;
+}
+
+
 
 .modifyButton{
     position: absolute;
@@ -304,12 +342,26 @@ h2{
     height: 60px;
 }
 
+.OneDiv{
+    background-color: #2e302f; 
+    border-radius: 30px;
+    height: 50px;
+    width: 300px;
+
+}
+
+.OneDiv label{
+    position: absolute;
+    left: 10px;
+    top: 25%;
+}
+
 
 /**
  * ################## BELOW: CODE FOR CHECKBOX BUTTONS ########################
  **/
 
-/*
+
 
 [type="checkbox"]:not(:checked),
 [type="checkbox"]:checked {
@@ -351,10 +403,10 @@ h2{
     background: #7F8C9A;
     top: 2px; left: 5px;
 }
-*/
+
 
 /* on checked*/
-/*
+
 [type="checkbox"]:checked + label:before {
     background:#34495E; 
 }
@@ -363,9 +415,9 @@ h2{
     top: 2px; left: 40px;
 }
 
-[type="checkbox"]:checked + label .ui,
-[type="checkbox"]:not(:checked) + label .ui:before,
-[type="checkbox"]:checked + label .ui:after {
+[type="checkbox"]:checked + label .spanLabel,
+[type="checkbox"]:not(:checked) + label .spanLabel:before,
+[type="checkbox"]:checked + label .spanLabel:after {
     position: absolute;
     left: 6px;
     width: 65px;
@@ -378,12 +430,12 @@ h2{
     -ms-transition: all .2s;
     transition: all .2s;
 }
-[type="checkbox"]:not(:checked) + label .ui:before {
-    content: "no";
+[type="checkbox"]:not(:checked) + label .spanLabel:before {
+    content: "off";
     left: 32px
 }
-[type="checkbox"]:checked + label .ui:after {
-    content: "yes";
+[type="checkbox"]:checked + label .spanLabel:after {
+    content: "on";
     color: #39D2B4;
 }
 [type="checkbox"]:focus + label:before {
@@ -395,7 +447,7 @@ h2{
     margin-top: -1px;
 }
 
-*/
+
 
 
 
