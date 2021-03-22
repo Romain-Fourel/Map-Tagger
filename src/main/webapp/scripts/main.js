@@ -543,8 +543,6 @@ var currentUser; // the current user
  * Main
  */
 $(document).ready(function () {
-<<<<<<< HEAD
-<<<<<<< HEAD
     console.log("Test 1.13");
 
 
