@@ -83,7 +83,9 @@ public class UserResource {
 	
 	/**
 	 * TODO for now, I don't know how to create a new user from the userJson
-	 * @param userJson
+	 * @param identity must be like:
+	 * "name
+	 * password"
 	 * @return
 	 */
 	@POST

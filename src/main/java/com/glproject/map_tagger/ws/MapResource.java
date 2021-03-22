@@ -121,6 +121,8 @@ public class MapResource {
 		return Response.ok(map).build();
 	}
 	
+	
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/allPublic")
@@ -129,10 +131,14 @@ public class MapResource {
 	}
 	
 	
+	//################ FAKE  BELOW ##################
+	
+	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/fakeMap")
-	public Map getMap() {
+	public Map getFakeMap() {
 		Map map = new Map("Alfred");
 		map.setConfidentiality(Confidentiality.PRIVATE);
 		map.setDescription("a new map");
