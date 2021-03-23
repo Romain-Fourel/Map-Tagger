@@ -106,9 +106,6 @@ public class UserResource {
 	}
 	
 	
-	
-	
-	
 	/**
 	 * An example of implementation of the class user to make the stubs
 	 * 
@@ -117,7 +114,7 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/fakeUser")
-	public User getUser() {
+	public User getFakeUser() {
 		User user = new User("Alfred");
 		user.setPassword("123456");
 		user.setMapList(new ArrayList<Map>());
@@ -134,7 +131,7 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/fakeUser")
-	public Response retrieveUser(String userJson) {
+	public Response retrievefakeUser(String userJson) {
 		
 		//It doesn't work, userJson is not in a handled format by Gson
 		//User user = new Gson().fromJson(userJson, User.class);

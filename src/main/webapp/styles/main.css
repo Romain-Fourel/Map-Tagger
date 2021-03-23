@@ -275,7 +275,7 @@ h2{
     width: 350px;
     height: 650px;
 	padding: 10px;
-	background: #524f4f;
+	background: #797575; /*#797575*/
     color: #fff;
     border-radius: 80px;
 
@@ -283,11 +283,13 @@ h2{
 	transition: all .5s ease-in;
 }
 
+
 .MenuQuit{
     position: absolute;
     left: 50px;
     bottom: 20px;
 }
+
 
 .MenuQuit{
     background: #0F0F6D;
@@ -296,17 +298,17 @@ h2{
     padding: 1.5rem;
     border: 0;
     transition: all 0.5s;
-    border-radius: 40px;
+    border-radius: 10px;
     width: auto;
     position: relative;
   }
 .MenuQuit:after {
-    content: "\f054";
-    font-family: "Font Awesome 5 Pro";
+    content: "\0027A9";
     font-weight: 400;
+    font-size: 30px;
     position: absolute;
-    left: 85%;
-    top: 31%;
+    left: 65%;
+    top: 18%;
     right: 5%;
     bottom: 0;
     opacity: 0;
@@ -332,7 +334,6 @@ h2{
     width: 60px;
     height: 60px;
 }
-
 
 #addAMapB{
     position: absolute;
@@ -446,7 +447,6 @@ h2{
     box-sizing: border-box;
     margin-top: -1px;
 }
-
 
 
 

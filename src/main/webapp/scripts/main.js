@@ -248,7 +248,9 @@ class PlaceManager {
     static fillAddAPlaceMenu(place){
         $("#addNamePlace").val(place.name);
         $("#addDescriptionPlace").val(place.description);
-        $("#mapChoicePlace").val(place.confidentiality);        
+
+        var mapid = PlaceManager.dict.get(place.id).mapid;
+        $("#mapChoicePlace").val(mapid);        
     }
 
     static showUpdateAPlaceMenu(place){
@@ -452,7 +454,7 @@ class MapManager {
 
         $("#oneMapPlaces").text("");
         for (const place of map.places) {
-            var div = "<p id='oneMapPlace"+place.id+"'>"
+            var div = "<p class='onePlaceDiv' id='oneMapPlace"+place.id+"'>"
         
             var label = " <label>" + place.name + "</label>";
             $("#oneMapPlaces").append(div+label+" </p>");
@@ -514,6 +516,123 @@ class MapManager {
 
 }
 
+/**
+ * 
+ * @param {the user we want to get the maps} user 
+ * @param {the function called when we have the maps} functionDone 
+ */
+function getMapsThen(user,functionDone){
+
+    $.ajax({
+        type: "GET",
+        url: "ws/Map/?id="+user.id,
+        dataType: "json",
+        success: functionDone
+    });
+
+}
+
+/**
+ * Here are all function which fill panels by getting informations from the server
+ */
+class PanelManager {
+
+    /**
+     * This function
+     */
+
+
+
+
+    static setSavedMapsMenu(mapList){
+
+
+        for (const map of mapList) {
+            
+
+            var isVisible = "";
+            if (map.visibility) {
+                isVisible = "checked";
+            }
+
+            var beginDiv = "<p class='OneDiv' id='oneMapDiv" +  map.id + "'>";
+            var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
+            var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
+            
+            var buttonOneMapMenu = "<button id='buttonOneMapMenu" +  map.id + "'> > </button>";
+
+            $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
+
+            $("#buttonOneMapMenu" +  map.id).click(function () {
+                console.log("clicked on " + map.name);
+                MapManager.setOneMapMenu(map);
+            });
+
+            var mapid =  map.id;
+            $("#checkBoxMap" +  map.id).click(function () {
+
+                var data = mapid + "\n";
+                if ($("#checkBoxMap" + mapid).prop("checked")) {
+                    LeafletManager.addLayer(layerGroup);
+                    data = data + "True";
+                }
+                else {
+                    LeafletManager.removeLayer(layerGroup);
+                    data = data + "False";
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "text/plain; charset=utf-8",
+                    dataType: "text",
+                    url: "ws/Map/update/visibility",
+                    data: data,
+                });
+
+            });
+
+
+        }
+
+
+
+    }
+
+    static setCommunityMapsMenu(){
+
+    }
+
+    static setPlacesListMenu(){
+
+    }
+
+    static setOneMapMenu(){
+
+    }
+
+    static setOnePlaceMenu(){
+
+    }
+
+
+}
+
+/**
+ * Here are all function which bind buttons to function
+ * ==> static setClick{idOfButton}
+ */
+class ClickManager {
+
+    static setClickSavedMapsB(){
+        $("#savedMapsB").click(function (e) { 
+            
+            openSlidingPanel("#savedMapsMenu");
+            
+        });
+    }
+
+}
+
 
 
 /**
@@ -536,8 +655,6 @@ function loadUser() {
 
     });
 }
-
-
 
 
 
