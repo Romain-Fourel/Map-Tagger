@@ -126,7 +126,7 @@ class PlaceManager {
     static setOnePlaceMenu(place){
         
         $("#onePlaceMenu h1").text(place.name);
-        $("#onePlaceMenu p").text(place.description);
+        $("#onePlaceMenu textarea").text(place.description);
 
         openSlidingPanel("#onePlaceMenu");  
         closeSlidingPanel("#oneMapMenu");  

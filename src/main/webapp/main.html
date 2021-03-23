@@ -47,7 +47,7 @@
                     <p>
                         <form>
                             <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off required>
-                            <textarea name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
+                            <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
                             <button id="addImages" type="button">add image</button>
                             <select name="mapChoice" class="PopupChoice" id="mapChoicePlace" placeholder="Choose a map" required>
@@ -63,7 +63,7 @@
                     <p>
                         <form>
                             <input name="map" type="text" class="AddNameInput" id="addNameMap" placeholder="Name this map..." autocomplete=off required>
-                            <textarea name="description" class="AddDescriptionInput" id="addDescriptionMap" placeholder="Describe this map..." rows=10 cols=72 autocomplete=off></textarea>
+                            <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionMap" placeholder="Describe this map..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
                             <select name="confidentiality" class="PopupChoice" id="confidentialityChoiceMap" placeholder="confidentiality" required>
                                 <option value="PUBLIC">Public</option>
@@ -84,7 +84,7 @@
                 <div id="communityMapsButtons">
                     <!--Here are dynamically added the maps of the community-->
                 </div>
-                <button class="MenuQuit" id="communityMapsMenuQuit">close</button>
+                <button class="MenuQuit" id="communityMapsMenuQuit">Close</button>
             </div>
         
             <div class="Menu" id="savedMapsMenu">
@@ -93,20 +93,20 @@
                     <!--Here are dynamically added the maps of the current user-->
                     <button id="addAMapB">Add a map</button>
                 </div>
-                <button class="MenuQuit" id="savedMapsMenuQuit"><i class="fas fa-chevron-right"></i>close</button>
+                <button class="MenuQuit" id="savedMapsMenuQuit"><i class="fas fa-chevron-right"></i>Close</button>
                 
             </div>
 
             <div class="Menu" id="placesListMenu">
                 <h1>My Places</h1>
-                <button class="MenuQuit" id="placesListMenuQuit">close</button>            
+                <button class="MenuQuit" id="placesListMenuQuit">Close</button>            
             </div>
             
             <div class="Menu" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>       
-                <p><!--Description of the place:--></p>
+                <textarea rows=8 cols=32 disabled><!--Description of the place:--></textarea>
                 <button class="modifyButton" id="modifyPlace">Modify place</button>
-                <button class="MenuQuit" id="onePlaceMenuQuit">close</button> 
+                <button class="MenuQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
             <div class="Menu" id="oneMapMenu">
@@ -114,7 +114,7 @@
                 <p id="descriptionOneMapMenu"><!--Description of the map:--></p>
                 <div id="oneMapPlaces"><!--list of places of this map--></div>
                 <button class="modifyButton" id="modifyMap">Modify map</button>
-                <button class="MenuQuit" id="oneMapMenuQuit">close</button> 
+                <button class="MenuQuit" id="oneMapMenuQuit">Close</button> 
             </div>
         
         </div> <!--End of interface div-->
