@@ -1,10 +1,13 @@
 package com.glproject.map_tagger.ws;
 
+import java.util.List;
+
 import javax.jdo.PersistenceManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -15,7 +18,40 @@ import com.glproject.map_tagger.dao.Place;
 
 @Path("/Place")
 public class PlaceResource {
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Place getPlace(@PathParam("id") String id) {
+		long placeid = Long.parseLong(id);
+		
+		Place place = DAO.getPlaceDao().getPlace(placeid);
+		
+		System.out.println(place+" "+place.getDescription());
+		
+		return place;
+	}
+	
+	
+	
+	/**
+	 * Get the places of a specific map
+	 * @param id
+	 * @return
+	 */
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/fromMap/{id}")
+	public List<Place> getMapPlaces(@PathParam("id") String id){
+		long mapid = Long.parseLong(id);
+		
+		Map map = DAO.getMapDao().getMap(mapid);
+		
+		return map.getPlaces();
+	}
 
+	
+	
 	/**
 	 * The data newPlaceData has to be like that:
 	 * "name
@@ -88,18 +124,6 @@ public class PlaceResource {
 		return Response.ok(place).build();
 	}
 	
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/fakePlace")
-	public Place getPlace() {
-		Place place = new Place();
-		place.setDescription("a new place");
-		place.setName("Place 1");
-		place.setLocation(48.123654, 2.342148);
-
-		return place;
-	}
 
 }
 

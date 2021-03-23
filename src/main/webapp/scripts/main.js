@@ -1,6 +1,8 @@
 class LeafletManager {
     static map;
 
+    static lastPointClicked = { latitude: 0, longitude: 0 };
+
     constructor() { }
 
     static build() {
@@ -81,19 +83,12 @@ class PlaceManager {
      */
     static dict = new Map();
 
-    static lastPointClicked = { latitude: 0, longitude: 0 };
-
     constructor(place,mapid) {
         this.place = place;
         this.marker = L.marker([place.latitude, place.longitude]);
         this.mapid = mapid; // the id of the map which contains this place
         PlaceManager.dict.set(place.id, this);
-    }
 
-    /**
-     * Create all buttons and text needed in the app
-     */
-    createInterface() {
         this.marker.bindPopup("<b>" + this.place.name + "</b>");
         this.marker.on('mouseover', function (e) {
             this.openPopup();
@@ -102,170 +97,13 @@ class PlaceManager {
             this.closePopup();
         })
 
-        var place = this.place;
-        this.marker.on('click', function (e) {
+        ClickManager.setClickMarker(this);
 
-            PlaceManager.setOnePlaceMenu(place);
-        })
     }
 
     update(updatedPlace) {
         this.place = updatedPlace;
-
         this.marker._popup.setContent("<b>" + this.place.name + "</b>");
-
-        PlaceManager.setOnePlaceMenu(updatedPlace);
-
-        this.marker.off("click");
-        this.marker.on('click', function (e) {
-
-            PlaceManager.setOnePlaceMenu(updatedPlace);
-        })
-    }
-
-    static setOnePlaceMenu(place){
-        
-        $("#onePlaceMenu h1").text(place.name);
-        $("#onePlaceMenu p").text(place.description);
-
-        openSlidingPanel("#onePlaceMenu");  
-        closeSlidingPanel("#oneMapMenu");  
-        
-        $("#modifyPlace").click(function (e) { 
-            PlaceManager.showUpdateAPlaceMenu(place);
-        });
-    }
-    
-    static createPlace() {
-    
-        var namePlace = $("#addNamePlace").val();
-        var descriptionPlace = $("#addDescriptionPlace").val();
-        var mapChose = $("#mapChoicePlace").val();
-    
-        if (namePlace === "" && mapChose === "CAMap") {
-            alert("Please name this place and choose a map to put it in");
-            return false;
-        }
-        else if (namePlace === "") {
-            alert("Please name this place");
-            return false;
-        }
-        else if (mapChose === "CAMap") {
-            alert("Please choose a map to put your place in");
-            return false;
-        }
-    
-        var dataToSend = namePlace + "\n"
-            + descriptionPlace + "\n"
-            + mapChose + "\n"
-            + PlaceManager.lastPointClicked.latitude + "\n"
-            + PlaceManager.lastPointClicked.longitude;
-    
-        $.ajax({
-            type: "POST",
-            contentType: "text/plain; charset=utf-8",
-            dataType: "text",
-            url: "ws/Place/create",
-            data: dataToSend,
-            success: function (newPlace) {
-                newPlace = JSON.parse(newPlace);
-                var mapid = parseInt(mapChose);
-    
-                var placeManager = new PlaceManager(newPlace,mapid);
-                var mapManager = MapManager.dict.get(mapid);
-                placeManager.createInterface();
-    
-                mapManager.add(placeManager);
-            }
-        });
-    
-        hideOverlay();
-        return true;
-    }
-    
-    static updatePlace(place) {
-        var namePlace = $("#addNamePlace").val();
-        var descriptionPlace = $("#addDescriptionPlace").val();
-        //var mapChose = $("#mapChoicePlace").val();
-    
-        if (namePlace === "" && mapChose === "CAMap") {
-            alert("Please name this place and choose a map to put it in");
-            return false;
-        }
-        else if (namePlace === "") {
-            alert("Please name this place");
-            return false;
-        }
-        /*TODO: maybe later the user will be able to change the map which contains his place */
-        /*else if (mapChose === "CAMap") {
-            alert("Please choose a map to put your place in");
-            return false;
-        }*/
-    
-        var dataToSend = place.id + "\n"
-            + namePlace + "\n"
-            + descriptionPlace + "\n";
-    
-        $.ajax({
-            type: "POST",
-            contentType: "text/plain; charset=utf-8",
-            dataType: "text",
-            url: "ws/Place/update",
-            data: dataToSend,
-            success: function (updatedPlace) {
-                updatedPlace = JSON.parse(updatedPlace);
-                var placeManager = PlaceManager.dict.get(updatedPlace.id);
-                placeManager.update(updatedPlace);
-            }
-        });
-    
-        hideOverlay();
-        return true;
-    }
-    
-
-    static addAPlaceMode() {
-        hideButtons();
-        LeafletManager.map.on('click', PlaceManager.showAddAPlaceMenu);
-    }
-
-
-    static showAddAPlaceMenu(event) {
-        PlaceManager.lastPointClicked.latitude = event.latlng.lat;
-        PlaceManager.lastPointClicked.longitude = event.latlng.lng;
-
-        $("#editPlace").unbind("click");//we unbind the button before assignment
-        $("#editPlace").click(function () {
-            PlaceManager.createPlace()
-        });
-
-        showOverlay();
-
-        $("#addAPlaceMenu").css("visibility", "visible");
-        $("#mapChoicePlace").css("visibility", "inherited");
-    }
-
-    static fillAddAPlaceMenu(place){
-        $("#addNamePlace").val(place.name);
-        $("#addDescriptionPlace").val(place.description);
-
-        var mapid = PlaceManager.dict.get(place.id).mapid;
-        $("#mapChoicePlace").val(mapid);        
-    }
-
-    static showUpdateAPlaceMenu(place){
-
-        PlaceManager.fillAddAPlaceMenu(place);
-
-        $("#editPlace").unbind("click");//we unbind the button before assignment
-        $("#editPlace").click(function () {
-            PlaceManager.updatePlace(place);
-        });
-
-        showOverlay();
-
-        $("#addAPlaceMenu").css("visibility", "visible");   
-        $("#mapChoicePlace").css("visibility", "hidden");    
     }
 
 }
@@ -284,80 +122,25 @@ class MapManager {
         this.layerGroup = L.layerGroup();
 
         MapManager.dict.set(map.id, this);
-    }
-
-    createInterface() {
-        //------"add a place" panel--------:
-        var mapChoice = "<option value=" + this.map.id + " id='optionMap" + this.map.id + "'>" + this.map.name + "</option>";
-        $("#mapChoicePlace").append(mapChoice);
-
-        //-------savedMaps panel-------:
-        var isVisible = "";
-        if (this.map.visibility) {
-            isVisible = "checked";
-        }
-
-        var beginDiv = "<p class='OneDiv' id='oneMapDiv" + this.map.id + "'>";
-        var checkBoxMap = "<input type='checkbox' id='checkBoxMap" + this.map.id + "' " + isVisible + "/>";
-        var labelMap = "<label for='checkBoxMap" + this.map.id + "'> <span class='spanLabel'></span>" + this.map.name + "</label>";
-        
-        var buttonOneMapMenu = "<button id='buttonOneMapMenu" + this.map.id + "'> > </button>";
-
-        $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
-
-        var map = this.map;
-        $("#buttonOneMapMenu" + this.map.id).click(function () {
-            console.log("clicked on " + map.name);
-            MapManager.setOneMapMenu(map);
-        });
-
-        var layerGroup = this.layerGroup;
-        var mapid = this.map.id;
-        $("#checkBoxMap" + this.map.id).click(function () {
-
-            console.log("checked ?");
-            console.log($("#checkBoxMap"+mapid).attr("checked"));
-
-            var data = mapid + "\n";
-            if ($("#checkBoxMap" + mapid).prop("checked")) {
-                LeafletManager.addLayer(layerGroup);
-                data = data + "True";
-            }
-            else {
-                LeafletManager.removeLayer(layerGroup);
-                data = data + "False";
-            }
-
-            $.ajax({
-                type: "POST",
-                contentType: "text/plain; charset=utf-8",
-                dataType: "text",
-                url: "ws/Map/update/visibility",
-                data: data,
-            });
-
-        });
 
         //------------- To show places on the leaflet map and store them -----------
-
         if (this.map.places !== undefined) {
             for (const place of this.map.places) {
                 var placeManager = new PlaceManager(place,mapid);
-                placeManager.createInterface();
                 placeManager.marker.addTo(this.layerGroup);
             }
         }
 
-
         if (this.map.visibility) {
             LeafletManager.addLayer(this.layerGroup);
         }
-
     }
+    
 
     update(map) {
         this.map = map;
 
+        /*
         //--------update "add a place" panel-------- 
         $("#optionMap" + map.id).text(map.name);
 
@@ -372,6 +155,7 @@ class MapManager {
         $("#buttonOneMapMenu" + map.id).click(function () {
             MapManager.setOneMapMenu(map);
         });
+        */
 
     }
 
@@ -380,156 +164,35 @@ class MapManager {
         placeManager.marker.addTo(this.layerGroup);
     }
 
-
-    static createMap() {
-        var nameMap = $("#addNameMap").val();
-        var descriptionMap = $("#addDescriptionMap").val();
-        var confidentiality = $("#confidentialityChoiceMap").val();
-    
-        if (nameMap === "") {
-            alert("Please name this map");
-            return false;
-        }
-    
-        var dataToSend = nameMap + "\n"
-            + descriptionMap + "\n"
-            + confidentiality + "\n";
-    
-        $.ajax({
-            type: "POST",
-            contentType: "text/plain; charset=utf-8",
-            dataType: "text",
-            url: "ws/Map/create",
-            data: dataToSend,
-            success: function (newMap) {
-                newMap = JSON.parse(newMap);
-                console.log(newMap);
-                mapManager = new MapManager(newMap, L.layerGroup());
-                mapManager.createInterface();
-    
-            }
-        });
-    
-        hideOverlay();
-    
-    }
-
-    static updateMap(map) {
-        var nameMap = $("#addNameMap").val();
-        var descriptionMap = $("#addDescriptionMap").val();
-        var confidentiality = $("#confidentialityChoiceMap").val();
-    
-        if (nameMap === "") {
-            alert("Please name this map");
-            return false;
-        }
-    
-        var dataToSend = map.id + "\n"
-            + nameMap + "\n"
-            + descriptionMap + "\n"
-            + confidentiality + "\n";
-    
-        $.ajax({
-            type: "POST",
-            contentType: "text/plain; charset=utf-8",
-            dataType: "text",
-            url: "ws/Map/update",
-            data: dataToSend,
-            success: function (updatedMap) {
-                updatedMap = JSON.parse(updatedMap);
-                var mapManager = MapManager.dict.get(updatedMap.id);
-                mapManager.update(updatedMap);
-            }
-        });
-    
-        hideOverlay();
-    }
-
-    static setOneMapMenu(map) {
-        closeSlidingPanel("#onePlaceMenu");
-        openSlidingPanel("#oneMapMenu");
-
-        $("#nameOneMapMenu").text(map.name);
-        $("#descriptionOneMapMenu").text(map.description);
-
-        $("#oneMapPlaces").text("");
-        for (const place of map.places) {
-            var div = "<p class='onePlaceDiv' id='oneMapPlace"+place.id+"'>"
-        
-            var label = " <label>" + place.name + "</label>";
-            $("#oneMapPlaces").append(div+label+" </p>");
-        }
-
-
-        $("#modifyMap").unbind("click");
-        $("#modifyMap").click(function (e) {
-            MapManager.showUpdateAMapMenu(map);
-        });
-    }
-
-    static loadCommunityMapsButtons() {
-
-        $.ajax({
-            type: "GET",
-            url: "ws/Map/allPublic",
-            dataType: "json",
-            success: function (mapList) {
-                $("#communityMapsButtons").text("");
-                for (const map of mapList) {
-                    var mapButtonHtml = "<button id='communityMap" + map.id + "'>" + map.name + "</button></br>";
-                    $("#communityMapsButtons").append(mapButtonHtml);
-                }
-            }
-        });
-    }
-
-    /**
-     * When the user want to modify a map, we want to show the map creation panel. But not empty!
-     * We want to put in the data already put by ther user! So He can CHANGE the map, and not CREATE it
-     * @param {the map we want to show informations} map 
-     */
-    static fillAddAMapMenu(map) {
-        $("#addNameMap").val(map.name);
-        $("#addDescriptionMap").val(map.description);
-        $("#confidentialityChoiceMap").val(map.confidentiality);
-    }
-
-    static showAddAMapMenu() {
-        $("#editMap").unbind("click");//we unbind the button before assignment
-        $("#editMap").click(function () {
-            MapManager.createMap()
-        });
-        showOverlay();
-        $("#addAMapMenu").css("visibility", "visible");
-    }
-
-    static showUpdateAMapMenu(map){
-        MapManager.fillAddAMapMenu(map);
-        showOverlay();
-        $("#addAMapMenu").css("visibility", "visible");
-
-        $("#editMap").unbind("click");
-        $("#editMap").click(function () {
-            MapManager.updateMap(map);
-        });
-    }
-
 }
 
 /**
- * 
+ * Do something on the map of a specific user
  * @param {the user we want to get the maps} user 
  * @param {the function called when we have the maps} functionDone 
  */
-function getMapsThen(user,functionDone){
+function getServerMapsThen(userid,functionDone){
 
     $.ajax({
         type: "GET",
-        url: "ws/Map/?id="+user.id,
+        url: "ws/Map/fromUser/"+userid,
         dataType: "json",
-        success: functionDone
+        success: function(result){
+            functionDone(result);
+        }
     });
 
+}
+
+function getServerPlacesThen(map,functionDone){
+    $.ajax({
+        type: "GET",
+        url: "ws/Place/fromMap/"+map.id,
+        dataType: "json",
+        success: function (result) {
+            functionDone(result);
+        }
+    });
 }
 
 /**
@@ -537,18 +200,60 @@ function getMapsThen(user,functionDone){
  */
 class PanelManager {
 
+
+    static setAddAPlaceMenu(mapList){
+
+        $("#mapChoicePlace").text("");
+        $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
+        for (const map of mapList) {
+            var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
+            $("#mapChoicePlace").append(mapChoice);            
+        }
+
+        ClickManager.setClickCreatePlace();
+    }
+
+    static setUpdateAPlaceMenu(place){
+
+        $("#addNamePlace").val(place.name);
+        $("#addDescriptionPlace").val(place.description);
+
+        var mapid = PlaceManager.dict.get(place.id).mapid;
+        $("#mapChoicePlace").val(mapid);    
+
+        getServerMapsThen(currentSession, function(mapList){
+            $("#mapChoicePlace").text("");
+            $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
+            for (const map of mapList) {
+                var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
+                $("#mapChoicePlace").append(mapChoice);            
+            } 
+        })
+        ClickManager.setClickUpdatePlace();       
+    }
+
+    static setAddAMapMenu(){
+        ClickManager.setClickCreateMap();
+    }
+
+    static setUpdateAMapMenu(map) {
+        $("#addNameMap").val(map.name);
+        $("#addDescriptionMap").val(map.description);
+        $("#confidentialityChoiceMap").val(map.confidentiality);
+
+        ClickManager.setClickUpdateMap(map);
+    }
+
     /**
      * This function
      */
-
-
-
-
     static setSavedMapsMenu(mapList){
 
+        $("#savedMapsButtons").text("");
 
         for (const map of mapList) {
             
+            var mapManager = MapManager.dict.get(map.id);
 
             var isVisible = "";
             if (map.visibility) {
@@ -563,55 +268,58 @@ class PanelManager {
 
             $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
 
-            $("#buttonOneMapMenu" +  map.id).click(function () {
-                console.log("clicked on " + map.name);
-                MapManager.setOneMapMenu(map);
-            });
+            ClickManager.setClickOneMapMenu(mapManager);
 
-            var mapid =  map.id;
-            $("#checkBoxMap" +  map.id).click(function () {
-
-                var data = mapid + "\n";
-                if ($("#checkBoxMap" + mapid).prop("checked")) {
-                    LeafletManager.addLayer(layerGroup);
-                    data = data + "True";
-                }
-                else {
-                    LeafletManager.removeLayer(layerGroup);
-                    data = data + "False";
-                }
-
-                $.ajax({
-                    type: "POST",
-                    contentType: "text/plain; charset=utf-8",
-                    dataType: "text",
-                    url: "ws/Map/update/visibility",
-                    data: data,
-                });
-
-            });
-
-
+            ClickManager.setClickCheckBox(mapManager);
         }
-
-
 
     }
 
     static setCommunityMapsMenu(){
-
+        $("#communityMapsButtons").text("");
+        $.ajax({
+            type: "GET",
+            url: "ws/Map/allPublic",
+            dataType: "json",
+            success: function (mapList) {      
+                for (const map of mapList) {
+                    var mapButtonHtml = "<button id='communityMap" + map.id + "'>" + map.name + "</button></br>";
+                    $("#communityMapsButtons").append(mapButtonHtml);
+                }
+            }
+        });
     }
 
     static setPlacesListMenu(){
+    }
+
+    static setOneMapMenu(map){
+
+        $("#nameOneMapMenu").text(map.name);
+        $("#descriptionOneMapMenu").text(map.description);
+
+        $("#oneMapPlaces").text("");
+        for (const place of map.places) {
+            var div = "<p class='onePlaceDiv' id='oneMapPlace"+place.id+"'>"
+        
+            var label = " <label>" + place.name + "</label>";
+            $("#oneMapPlaces").append(div+label+" </p>");
+        }
+
+        ClickManager.setClickModifyMap(map);
+
+        $("#modifyMap").unbind("click");
+        $("#modifyMap").click(function (e) {
+            MapManager.showUpdateAMapMenu(map);
+        });
 
     }
 
-    static setOneMapMenu(){
-
-    }
-
-    static setOnePlaceMenu(){
-
+    static setOnePlaceMenu(place){
+        $("#onePlaceMenu h1").text(place.name);
+        $("#onePlaceMenu textarea").text(place.description);
+        
+        ClickManager.setClickModifyPlace(place);
     }
 
 
@@ -623,12 +331,370 @@ class PanelManager {
  */
 class ClickManager {
 
-    static setClickSavedMapsB(){
-        $("#savedMapsB").click(function (e) { 
-            
-            openSlidingPanel("#savedMapsMenu");
+    static build(){
+        ClickManager.setClickCommunityMapsB();
+        ClickManager.setClickSavedMapsB();
+        ClickManager.setClickPlacesListB();
+        
+        ClickManager.setClickResearcher();
+        ClickManager.setClickParameters();
+
+        ClickManager.setClickMenuQuit();
+        
+        ClickManager.setClickAddAPlaceB();     
+        $(".CloseButton").click(hideOverlay); 
+    }
+
+
+    /**
+     * TODO
+     */
+    static setClickParameters(){
+        $("#parameters").click(function (e) { 
+            console.log("parameting !");
             
         });
+    }
+
+    /**
+     * TODO
+     */
+    static setClickResearcher(){
+        $("#researcher").click(function (e) { 
+            console.log("searching!");
+            
+        });
+    }
+
+    static setClickAddAPlaceB(){
+
+        $("#addAPlaceB").click(function (event) { 
+
+            hideButtons();
+            ClickManager.setClickOnTheMap();   
+        });
+    }
+
+    static setClickModifyPlace(place){
+        $("#modifyPlace").unbind("click");
+        $("#modifyPlace").click(function (e) { 
+            showOverlay();
+
+            PanelManager.setUpdateAPlaceMenu(place);
+
+            ClickManager.setClickUpdatePlace(place);
+    
+            $("#addAPlaceMenu").css("visibility", "visible");   
+            $("#mapChoicePlace").css("visibility", "hidden");    
+        });
+    }
+
+    static setClickOnTheMap(){
+
+        LeafletManager.map.on("click",function(event){
+            LeafletManager.lastPointClicked.latitude = event.latlng.lat;
+            LeafletManager.lastPointClicked.longitude = event.latlng.lng;
+            $("#addAPlaceMenu").css("visibility", "visible");
+            $("#mapChoicePlace").css("visibility", "inherited");
+            showOverlay();
+        
+            getServerMapsThen(currentSession,PanelManager.setAddAPlaceMenu);   
+        })
+    }
+
+    static setClickCreatePlace(){
+        $("#editPlace").unbind("click");//we unbind the button before assignment
+        $("#editPlace").click(function () {
+
+            var namePlace = $("#addNamePlace").val();
+            var descriptionPlace = $("#addDescriptionPlace").val();
+            var mapChose = $("#mapChoicePlace").val();
+        
+            if (namePlace === "" && mapChose === "CAMap") {
+                alert("Please name this place and choose a map to put it in");
+                return false;
+            }
+            else if (namePlace === "") {
+                alert("Please name this place");
+                return false;
+            }
+            else if (mapChose === "CAMap") {
+                alert("Please choose a map to put your place in");
+                return false;
+            }
+        
+            var dataToSend = namePlace + "\n"
+                + descriptionPlace + "\n"
+                + mapChose + "\n"
+                + LeafletManager.lastPointClicked.latitude + "\n"
+                + LeafletManager.lastPointClicked.longitude;
+        
+            $.ajax({
+                type: "POST",
+                contentType: "text/plain; charset=utf-8",
+                dataType: "text",
+                url: "ws/Place/create",
+                data: dataToSend,
+                success: function (newPlace) {
+                    newPlace = JSON.parse(newPlace);
+                    var mapid = parseInt(mapChose);
+        
+                    var placeManager = new PlaceManager(newPlace,mapid);
+                    var mapManager = MapManager.dict.get(mapid);
+        
+                    mapManager.add(placeManager);
+                }
+            });
+            hideOverlay();
+        });
+
+
+    }
+
+    static setClickUpdatePlace(place){
+        $("#editPlace").unbind("click");//we unbind the button before assignment
+        $("#editPlace").click(function () {
+            var namePlace = $("#addNamePlace").val();
+            var descriptionPlace = $("#addDescriptionPlace").val();
+            //var mapChose = $("#mapChoicePlace").val();
+        
+            if (namePlace === "" && mapChose === "CAMap") {
+                alert("Please name this place and choose a map to put it in");
+                return false;
+            }
+            else if (namePlace === "") {
+                alert("Please name this place");
+                return false;
+            }
+            /*TODO: maybe later the user will be able to change the map which contains his place */
+            /*else if (mapChose === "CAMap") {
+                alert("Please choose a map to put your place in");
+                return false;
+            }*/
+        
+            var dataToSend = place.id + "\n"
+                + namePlace + "\n"
+                + descriptionPlace + "\n";
+        
+            $.ajax({
+                type: "POST",
+                contentType: "text/plain; charset=utf-8",
+                dataType: "text",
+                url: "ws/Place/update",
+                data: dataToSend,
+                success: function (updatedPlace) {
+                    updatedPlace = JSON.parse(updatedPlace);
+                    var placeManager = PlaceManager.dict.get(updatedPlace.id);
+                    placeManager.update(updatedPlace);
+                    PanelManager.setOnePlaceMenu(updatedPlace);
+                }
+            });
+            hideOverlay();             
+        });
+    }
+
+    static setClickAddAMapB(){
+
+        $("#addAMapB").unbind("click");
+        $("#addAMapB").click(function (e) { 
+
+            PanelManager.setAddAMapMenu();
+
+            $("#addAMapMenu").css("visibility", "visible");
+            showOverlay();  
+            
+        });
+
+    }
+
+    static setClickModifyMap(map){
+
+        $("#modifyMap").unbind("click");
+        $("#modifyMap").click(function (e) {   
+            
+            $("#addAMapMenu").css("visibility", "visible");
+            showOverlay();
+            PanelManager.setUpdateAMapMenu(map);   
+        });
+    }
+
+    /**
+     * TODO
+     */
+    static setClickCreateMap(){
+        $("#ediMap").unbind("click");
+        $("#editMap").click(function (e) { 
+            var nameMap = $("#addNameMap").val();
+            var descriptionMap = $("#addDescriptionMap").val();
+            var confidentiality = $("#confidentialityChoiceMap").val();
+        
+            if (nameMap === "") {
+                alert("Please name this map");
+                return false;
+            }
+        
+            var dataToSend = nameMap + "\n"
+                + descriptionMap + "\n"
+                + confidentiality + "\n";
+        
+            $.ajax({
+                type: "POST",
+                contentType: "text/plain; charset=utf-8",
+                dataType: "text",
+                url: "ws/Map/create",
+                data: dataToSend,
+                success: function (newMap) {
+                    newMap = JSON.parse(newMap);
+                    console.log(newMap);
+                    mapManager = new MapManager(newMap);
+                }
+            });
+        
+            hideOverlay();     
+        });
+    }
+
+    /**
+     * TODO
+     */
+    static setClickUpdateMap(map){
+        $("#ediMap").unbind("click");
+        $("#editMap").click(function (e) { 
+            var nameMap = $("#addNameMap").val();
+            var descriptionMap = $("#addDescriptionMap").val();
+            var confidentiality = $("#confidentialityChoiceMap").val();
+        
+            if (nameMap === "") {
+                alert("Please name this map");
+                return false;
+            }
+        
+            var dataToSend = map.id + "\n"
+                + nameMap + "\n"
+                + descriptionMap + "\n"
+                + confidentiality + "\n";
+        
+            $.ajax({
+                type: "POST",
+                contentType: "text/plain; charset=utf-8",
+                dataType: "text",
+                url: "ws/Map/update",
+                data: dataToSend,
+                success: function (updatedMap) {
+                    updatedMap = JSON.parse(updatedMap);
+                    var mapManager = MapManager.dict.get(updatedMap.id);
+                    mapManager.update(updatedMap);
+                }
+            });
+        
+            hideOverlay();            
+            
+        });
+    }
+
+    static setClickSavedMapsB(){
+        $("#savedMapsB").click(function (e) { 
+
+            openSlidingPanel("#savedMapsMenu");
+            getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
+            
+        });
+    }
+
+    static setClickCommunityMapsB(){
+        $("#communityMapsB").click(function (e) { 
+
+            openSlidingPanel("#communityMapsMenu");
+            PanelManager.setCommunityMapsMenu();     
+        });
+    }
+
+    static setClickPlacesListB(){
+        $("#placesListB").click(function (e) { 
+            openSlidingPanel("#placesListMenu");
+            PanelManager.setPlacesListMenu();      
+        });
+    }
+
+    /**
+     * set the click to quit for all menu
+     */
+    static setClickMenuQuit(){
+        $(".MenuQuit").click(function (e) { 
+            closeSlidingPanel("#"+this.id.split("Quit")[0]);    
+        });
+    }
+
+    /**
+     * ############# BELOW, setClick of dynamically generated buttons: ##########
+     */
+
+    /**
+     * 
+     * @param {the manager of the map we want to show/hide} mapManager 
+     */
+    static setClickCheckBox(mapManager){
+        var map = mapManager.map;
+        $("#checkBoxMap" +  map.id).unbind("click");
+        $("#checkBoxMap" +  map.id).click(function () {
+
+            var data = map.id + "\n";
+            if ($("#checkBoxMap" + map.id).prop("checked")) {
+                LeafletManager.addLayer(mapManager.layerGroup);
+                data = data + "True";
+            }
+            else {
+                LeafletManager.removeLayer(mapManager.layerGroup);
+                data = data + "False";
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "text/plain; charset=utf-8",
+                dataType: "text",
+                url: "ws/Map/update/visibility",
+                data: data,
+            });
+
+        });
+    }
+
+    static setClickOneMapMenu(mapManager){
+        var map = mapManager.map;
+        $("#buttonOneMapMenu" +  map.id).unbind("click");
+        $("#buttonOneMapMenu" +  map.id).click(function () {
+            closeSlidingPanel("#onePlaceMenu");
+            openSlidingPanel("#oneMapMenu");
+            $.ajax({
+                type: "GET",
+                url: "ws/Map/"+map.id,
+                dataType: "json",
+                success: function (result) {
+                    console.log("map modified: ");
+                    PanelManager.setOneMapMenu(result);
+                }
+            });        
+        });        
+    }
+
+    static setClickMarker(placeManager){
+
+        placeManager.marker.on("click",function(){
+            openSlidingPanel("#onePlaceMenu");  
+            closeSlidingPanel("#oneMapMenu");  
+
+            var place = placeManager.place;
+            $.ajax({
+                type: "GET",
+                url: "ws/Place/"+place.id,
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    PanelManager.setOnePlaceMenu(result);  
+                    ClickManager.setClickModifyPlace(result);             
+                }
+            });
+        })
     }
 
 }
@@ -646,64 +712,26 @@ function loadUser() {
         dataType: "json",
     }).done(function (user) {
         console.log("Welcome " + user.name + " #" + user.id);
-        currentUser = user;
+        currentSession = user.id;
 
-        for (const map of currentUser.mapList) {
+        for (const map of user.mapList) {
             mapManager = new MapManager(map);
-            mapManager.createInterface();
         }
-
     });
 }
 
 
 
-var currentUser; // the current user
+var currentSession; // the current user
 
 /**
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 1.13");
+    console.log("Test 1.19");
 
 
     loadUser();
     LeafletManager.build();
-
-
-    /**
-     * all "clicks" features
-     */
-
-
-    listMenus = ["savedMaps", "communityMaps", "placesList"];
-
-    for (const menu of listMenus) {
-        $("#" + menu + "MenuQuit").click(function () {
-            closeSlidingPanel("#" + menu + "Menu");
-        });
-
-        $("#" + menu + "B").click(function () {
-            openSlidingPanel("#" + menu + "Menu");
-        });
-
-    }
-
-    $("#onePlaceMenuQuit").click(function (e) {
-        closeSlidingPanel("#onePlaceMenu");
-    });
-    $("#oneMapMenuQuit").click(function (e) {
-        closeSlidingPanel("#oneMapMenu");
-    });
-
-    $("#communityMapsB").click(MapManager.loadCommunityMapsButtons);
-
-
-    $("#addAPlaceB").click(PlaceManager.addAPlaceMode);
-    $(".CloseButton").click(hideOverlay);
-
-    $("#addAMapB").click(MapManager.showAddAMapMenu);
-    $("#addAMapMenuCloseB").click(hideOverlay);
-
-
+    ClickManager.build();
 });

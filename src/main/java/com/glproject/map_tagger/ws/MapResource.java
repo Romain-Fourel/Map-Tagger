@@ -126,6 +126,20 @@ public class MapResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Map getMap(@PathParam("id") String id){
+		
+		long mapid = Long.parseLong(id);
+		
+		return DAO.getMapDao().getMap(mapid);
+	
+	}
+	
+	
+	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/allPublic")
 	public List<Map> getPublicMap(){
 		return DAO.getMapDao().getPublicMaps();
@@ -134,32 +148,13 @@ public class MapResource {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/{id}")
+	@Path("/fromUser/{id}")
 	public List<Map> getUserMaps(@PathParam("id") String id){
 		long userid = Long.parseLong(id);
 		
 		User user = DAO.getUserDao().getUser(userid);
 		
-		System.out.println(user.getMapList());
-		
 		return user.getMapList();
 	}
 	
-	
-	
-	//################ FAKE  BELOW ##################
-	
-	
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/fakeMap")
-	public Map getFakeMap() {
-		Map map = new Map("Alfred");
-		map.setConfidentiality(Confidentiality.PRIVATE);
-		map.setDescription("a new map");
-		map.setName("Map 1");
-
-		return map;
-	}
 }
