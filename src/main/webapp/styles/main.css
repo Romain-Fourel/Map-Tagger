@@ -10,6 +10,15 @@ body{
 
 button{
     cursor: pointer;
+    outline: none;
+}
+
+input{
+    outline: none;
+}
+
+textarea{
+    outline: none;
 }
 
 #mapid{
@@ -34,7 +43,6 @@ button{
     height:70px;
     border-radius: 50%;
     border: 5px solid rgb(255, 255, 255);
-    outline: none;
 }
 
 #circleButton button:hover{
@@ -292,20 +300,21 @@ h2{
 
 
 .MenuQuit{
-    background: #0F0F6D;
+    background: #afafaf;
     color: #ffffff;
-    font-size: 1em;
-    padding: 1.5rem;
+    font-size: 19px;
+    padding: 1.0rem;
     border: 0;
     transition: all 0.5s;
-    border-radius: 10px;
-    width: auto;
+    border-radius: 20px;
+    width:auto;
     position: relative;
   }
 .MenuQuit:after {
     content: "\0027A9";
     font-weight: 400;
-    font-size: 30px;
+    font-size: 26px;
+    vertical-align: middle;
     position: absolute;
     left: 65%;
     top: 18%;
@@ -314,11 +323,11 @@ h2{
     opacity: 0;
   }
 .MenuQuit:hover {
-    background: #2b2bff;
+    background: #e04747;
     transition: all 0.5s;
-    border-radius: 10px;
-    box-shadow: 0px 6px 15px #0000ff61;
-    padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0px 6px 15px #ca5d5da2;
+    padding: 1.0rem 3.0rem 1.0rem 1.0rem;
 }
 .MenuQuit:hover::after {
     opacity: 1;
@@ -357,6 +366,23 @@ h2{
     top: 25%;
 }
 
+.onePlaceDiv{
+    opacity: 1;
+}
+
+#onePlaceMenu h1{
+    vertical-align: middle;
+    position: absolute;
+    /*left: 30%;*/
+}
+
+#onePlaceMenu textarea{
+    font-size: 16px;
+    position: absolute;
+    top: 15%;
+
+    resize: none;
+}
 
 /**
  * ################## BELOW: CODE FOR CHECKBOX BUTTONS ########################

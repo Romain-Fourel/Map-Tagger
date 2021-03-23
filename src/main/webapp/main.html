@@ -48,6 +48,7 @@
                         <form>
                             <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off required>
                             <textarea name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
+                            <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
                             <button id="addImages" type="button">add image</button>
                             <select name="mapChoice" class="PopupChoice" id="mapChoicePlace" placeholder="Choose a map" required>
@@ -64,6 +65,7 @@
                         <form>
                             <input name="map" type="text" class="AddNameInput" id="addNameMap" placeholder="Name this map..." autocomplete=off required>
                             <textarea name="description" class="AddDescriptionInput" id="addDescriptionMap" placeholder="Describe this map..." rows=10 cols=72 autocomplete=off></textarea>
+                            <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionMap" placeholder="Describe this map..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
                             <select name="confidentiality" class="PopupChoice" id="confidentialityChoiceMap" placeholder="confidentiality" required>
                                 <option value="PUBLIC">Public</option>
@@ -100,13 +102,15 @@
             <div class="Menu" id="placesListMenu">
                 <h1>My Places</h1>
                 <button class="MenuQuit" id="placesListMenuQuit">close</button>            
+                <button class="MenuQuit" id="placesListMenuQuit">Close</button>            
             </div>
             
             <div class="Menu" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>       
-                <textarea><!--Description of the place:--></textarea>
+                <textarea rows=8 cols=32 disabled><!--Description of the place:--></textarea>
                 <button class="modifyButton" id="modifyPlace">Modify place</button>
                 <button class="MenuQuit" id="onePlaceMenuQuit">close</button> 
+                <button class="MenuQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
             <div class="Menu" id="oneMapMenu">
