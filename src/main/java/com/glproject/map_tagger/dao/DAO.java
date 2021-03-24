@@ -55,29 +55,6 @@ public class DAO {
 		
 	}
 	
-	public static void generateManyMapsFakeUser() {
-		User user = new User("user1", "password1");
-		
-		for (int i = 0; i < 50; i++) {
-			Map map = new Map("user1");
-			map.setName("map"+i);
-			for (int j = 0; j < 3; j++) {
-				Place place = new Place("place"+i+""+j);
-				place.setLocation(47.387648, 0.666612);
-				place.setDescription("description"+i+""+j);
-				map.addPlace(place);
-			}
-			if(i==0) {
-				map.setVisibility(false);
-			}
-			map.setDescription("description"+i);
-			user.addMap(map);
-		}
-		
-		getUserDao().addUser(user);
-		
-		UserResource.setCurrentSession(user.getID());		
-	}
 	
 	
 	public static void generateManyFakeUsers() {
