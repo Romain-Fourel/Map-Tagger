@@ -10,7 +10,7 @@ import javax.jdo.Transaction;
 
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.MapDao;
-import com.glproject.map_tagger.dao.Place;
+import com.glproject.map_tagger.dao.User;
 
 public class MapDaoImpl implements MapDao {
 
@@ -47,21 +47,20 @@ public class MapDaoImpl implements MapDao {
 
 	}
 	
-	
 	@Override
-	public Place addPlaceTo(Long mapId, Place place) {
+	public Map addMapTo(Long userId, Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		
-		Place detached = null;
+		Map detached = null;
 		
 		try {
 			tx.begin();
-			Map mapPersistent = getMap(mapId);
+			User userPersistent = pm.getObjectById(User.class, userId);
 			
-			mapPersistent.addPlace(place);
+			userPersistent.addMap(map);
 			
-			detached = pm.detachCopy(place);
+			detached = pm.detachCopy(map);
 			
 			tx.commit();
 
@@ -73,8 +72,8 @@ public class MapDaoImpl implements MapDao {
 		}
 		return detached;
 	}
-	
-	
+
+		
 	@Override
 	public Map updateMap(Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -88,6 +87,8 @@ public class MapDaoImpl implements MapDao {
 			mapPersistent.setName(map.getName());
 			mapPersistent.setDescription(map.getDescription());
 			mapPersistent.setConfidentiality(map.getConfidentiality());
+			
+			mapPersistent.getPlaces();
 			
 			detached = pm.detachCopy(mapPersistent);
 								

@@ -12,8 +12,6 @@ public interface MapDao {
 	 */
 	Map addMap(Map map);
 	
-	Place addPlaceTo(Long mapId, Place place);
-	
 	Map updateMap(Map map);
 
 	void delete(Map map);
@@ -36,6 +34,8 @@ public interface MapDao {
 	 *         "name" into their user name
 	 */
 	List<Map> getMaps(String name);
+
+	Map addMapTo(Long userId, Map map);
 		
 
 }

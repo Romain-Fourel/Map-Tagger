@@ -155,24 +155,6 @@ class MapManager {
 
     update(map) {
         this.map = map;
-
-        /*
-        //--------update "add a place" panel-------- 
-        $("#optionMap" + map.id).text(map.name);
-
-        //--------update "saved map list" panel--------
-        $("#oneMapDiv" + map.id + " label").text(map.name);
-
-        //---update "one map menu" panel which is currently open---
-        MapManager.setOneMapMenu(map);
-
-        $("#buttonOneMapMenu" + map.id).unbind("click");
-
-        $("#buttonOneMapMenu" + map.id).click(function () {
-            MapManager.setOneMapMenu(map);
-        });
-        */
-
     }
 
     add(placeManager) {
@@ -187,7 +169,8 @@ class MapManager {
             description:descriptionMap,
             confidentiality:confidentialityMap,
             places:[],
-            creator: userName
+            creator: userName,
+            visibility:true
         }
 
         return JSON.stringify(mapJson);
@@ -290,7 +273,7 @@ class PanelManager {
         $("#savedMapsButtons").text("");
 
         for (const map of mapList) {
-            
+
             var mapManager = MapManager.dict.get(map.id);
 
             var isVisible = "";
@@ -306,7 +289,7 @@ class PanelManager {
 
             $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
 
-            ClickManager.setClickOneMapMenu(mapManager);
+            ClickManager.setClickOneMapMenu(map);
 
             ClickManager.setClickAddAMapB();
 
@@ -345,8 +328,7 @@ class PanelManager {
             var label = " <label class='labelOneDiv'>" + place.name + "</label>";
             var buttonOnePlaceMenu = "<button class='buttonShowsDetails' id='buttonOnePlaceMenu" +  place.id + "'> > </button>";
             $("#oneMapPlaces").append(div+label+buttonOnePlaceMenu+" </p>");
-            var placeManager = PlaceManager.dict.get(place.id);
-            ClickManager.setClickOnePlaceMenu(placeManager);
+            ClickManager.setClickOnePlaceMenu(place);
         }
 
         ClickManager.setClickModifyMap(map);
@@ -475,7 +457,7 @@ class ClickManager {
                 url: "ws/Place/create/"+mapid,
                 data: placeToSend,
                 success: function (newPlace) {
-        
+                    console.log(newPlace);
                     var placeManager = new PlaceManager(newPlace,mapid);
                     var mapManager = MapManager.dict.get(mapid);
         
@@ -567,25 +549,22 @@ class ClickManager {
                 return false;
             }
         
-            getUserThen(currentSession, function(user){
 
-                var mapToSend = MapManager.mapToJson(user.name,nameMap,descriptionMap,confidentiality);
-
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    url: "ws/Map/create/"+currentSession,
-                    data: mapToSend,
-                    success: function (newMap) {
-                        console.log(newMap);
-                        mapManager = new MapManager(newMap);
-                        getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
-                    }
-                });
-            
-                hideOverlay();     
-            })      
+            var mapToSend = MapManager.mapToJson(null,nameMap,descriptionMap,confidentiality);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                url: "ws/Map/create/"+currentSession,
+                data: mapToSend,
+                success: function (newMap) {
+                    console.log(newMap);
+                    mapManager = new MapManager(newMap);
+                    getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
+                }
+            });
+        
+            hideOverlay();        
         });
     }
 
@@ -612,7 +591,6 @@ class ClickManager {
                 url: "ws/Map/update",
                 data: JSON.stringify(map),
                 success: function (updatedMap) {
-                    updatedMap = JSON.parse(updatedMap);
                     var mapManager = MapManager.dict.get(updatedMap.id);
                     mapManager.update(updatedMap);
                     getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
@@ -671,29 +649,32 @@ class ClickManager {
         $("#checkBoxMap" +  map.id).unbind("click");
         $("#checkBoxMap" +  map.id).click(function () {
 
-            var data = map.id + "\n";
+            var data;
+
             if ($("#checkBoxMap" + map.id).prop("checked")) {
+                data = "True";
                 LeafletManager.addLayer(mapManager.layerGroup);
-                data = data + "True";
             }
             else {
+                data = "False";
                 LeafletManager.removeLayer(mapManager.layerGroup);
-                data = data + "False";
             }
 
             $.ajax({
                 type: "POST",
                 contentType: "text/plain; charset=utf-8",
                 dataType: "text",
-                url: "ws/Map/update/visibility",
+                url: "ws/Map/update/"+map.id+"/visibility",
                 data: data,
+                success: function(mapResult){
+                    mapManager.update(mapResult);
+                }
             });
 
         });
     }
 
-    static setClickOneMapMenu(mapManager){
-        var map = mapManager.map;
+    static setClickOneMapMenu(map){
         $("#buttonOneMapMenu" +  map.id).unbind("click");
         $("#buttonOneMapMenu" +  map.id).click(function () {
             closeSlidingPanel("#onePlaceMenu");
@@ -703,22 +684,20 @@ class ClickManager {
                 url: "ws/Map/"+map.id,
                 dataType: "json",
                 success: function (result) {
+                    console.log(result);
                     PanelManager.setOneMapMenu(result);
                 }
             });        
         });        
     }
 
-//TODO
 
-    static setClickOnePlaceMenu(placeManager){
-        var place = placeManager.place;
+    static setClickOnePlaceMenu(place){
         $("#buttonOnePlaceMenu" +  place.id).unbind("click");
         $("#buttonOnePlaceMenu" +  place.id).click(function () {
             openSlidingPanel("#onePlaceMenu");
             closeSlidingPanel("#oneMapMenu");  
 
-            var place = placeManager.place;
             $.ajax({
                 type: "GET",
                 url: "ws/Place/"+place.id,

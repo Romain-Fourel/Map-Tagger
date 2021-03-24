@@ -60,10 +60,8 @@ public class PlaceResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/create/{mapId}")
 	public Response createPlace(@PathParam("mapId") String mapId, Place place) {
-		
-		Place detached = DAO.getPlaceDao().addPlace(place);
 
-		DAO.getMapDao().addPlaceTo(Long.parseLong(mapId), place);
+		Place detached = DAO.getPlaceDao().addPlaceTo(Long.parseLong(mapId), place);
 		
 		return Response.ok(detached).build();		
 	}

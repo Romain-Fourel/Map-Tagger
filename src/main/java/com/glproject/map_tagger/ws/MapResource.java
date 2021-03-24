@@ -2,7 +2,6 @@ package com.glproject.map_tagger.ws;
 
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,27 +18,18 @@ import com.glproject.map_tagger.dao.User;
 @Path("/Map")
 public class MapResource {
 
-	/**
-	 * Data has to be like the following format:
-	 * "mapid
-	 * visibility"
-	 * @param data
-	 * @return
-	 */
+
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/update/visibility")
-	public Response updateVisibility(String data) {
+	@Path("/update/{id}/visibility")
+	public Response updateVisibility(@PathParam("id") String mapId, String isVisible) {
 		
-		String[] dataTab = data.split("\n");
+		Map map = DAO.getMapDao().getMap(Long.parseLong(mapId));
+		System.out.println(map.toCompleteString());
+		map.setVisibility(Boolean.parseBoolean(isVisible));
 		
-		Long mapid = Long.parseLong(dataTab[0]);
-		boolean isVisible = Boolean.parseBoolean(dataTab[1]);
-		
-		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
-		Map map = pm.getObjectById(Map.class, mapid);
-		map.setVisibility(isVisible);
+		map = DAO.getMapDao().updateMap(map);
 		
 		return Response.ok(map).build();
 	}
@@ -51,7 +41,9 @@ public class MapResource {
 	@Path("/update")
 	public Response updateMap(Map map) {
 		
-		map = DAO.getMapDao().updateMap(map);		
+		map = DAO.getMapDao().updateMap(map);	
+		
+		System.out.println(map.toCompleteString());
 		
 		return Response.ok(map).build();
 	}
@@ -64,11 +56,7 @@ public class MapResource {
 	@Path("/create/{userId}")
 	public Response createMap(@PathParam("userId") String userId, Map map) {
 		
-		map.setVisibility(true);
-		
-		map = DAO.getMapDao().addMap(map);
-		
-		map = DAO.getUserDao().addMapTo(Long.parseLong(userId), map);	
+		map = DAO.getMapDao().addMapTo(Long.parseLong(userId), map);	
 			
 		return Response.ok(map).build();
 	}

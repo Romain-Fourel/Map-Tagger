@@ -11,8 +11,6 @@ public interface UserDao {
 	 * @return 
 	 */
 	User addUser(User user);
-	
-	Map addMapTo(Long userId, Map map);
 
 	void delete(User user);
 

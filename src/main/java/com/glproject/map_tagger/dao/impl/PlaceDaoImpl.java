@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.PlaceDao;
 
@@ -29,6 +30,32 @@ public class PlaceDaoImpl implements PlaceDao {
 		try {
 			tx.begin();
 			place = pm.makePersistent(place);	
+			detached = pm.detachCopy(place);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+	}
+	
+	@Override
+	public Place addPlaceTo(Long mapId, Place place) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		Place detached = null;
+		
+		try {
+			tx.begin();
+			Map mapPersistent = pm.getObjectById(Map.class, mapId);
+			
+			mapPersistent.addPlace(place);
+			
 			detached = pm.detachCopy(place);
 			
 			tx.commit();

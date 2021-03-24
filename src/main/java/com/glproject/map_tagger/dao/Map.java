@@ -33,7 +33,7 @@ public class Map {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.NATIVE)
-	protected Long ID = null;
+	protected Long id = null;
 
 	String name;
 	String description;
@@ -61,7 +61,7 @@ public class Map {
 	
 
 	public Long getID() {
-		return ID;
+		return id;
 	}
 
 	public String getName() {
@@ -115,11 +115,11 @@ public class Map {
 	
 	@Override
 	public String toString() {
-		return name+" #"+ID;
+		return name+" #"+id;
 	}
 	
 	public String toCompleteString() {
-		return "Map [ID=" + ID + ", name=" + name + ", description=" + description + ", confidentiality="
+		return "Map [id=" + id + ", name=" + name + ", description=" + description + ", confidentiality="
 				+ confidentiality + ", places=" + places + ", creator=" + creator + ", isVisible=" + isVisible + "]";
 	}
 

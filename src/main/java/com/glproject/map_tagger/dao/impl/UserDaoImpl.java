@@ -44,32 +44,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
-	@Override
-	public Map addMapTo(Long userId, Map map) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		
-		Map detached = null;
-		
-		try {
-			tx.begin();
-			User userPersistent = pm.getObjectById(User.class, userId);
-			
-			userPersistent.addMap(map);
-			
-			detached = pm.detachCopy(map);
-			
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-	}
-
 	
 	
 	@SuppressWarnings("unchecked")
@@ -116,7 +90,6 @@ public class UserDaoImpl implements UserDao {
 			for (Map map : user.getMapList()) {
 				map.getPlaces();
 			}
-			//TODO 
 			
 			detached = pm.detachCopy(user);
 			tx.commit();
