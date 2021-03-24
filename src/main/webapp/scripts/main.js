@@ -69,7 +69,7 @@ function openSlidingPanel(id) {
 }
 
 function closeSlidingPanel(id) {
-    $(id).css("right", -370)
+    $(id).css("right", -400)
 }
 
 
@@ -298,7 +298,7 @@ class PanelManager {
                 isVisible = "checked";
             }
 
-            var beginDiv = "<p class='OneDiv' id='oneMapDiv" +  map.id + "'>";
+            var beginDiv = "<p class='OneDivSMM' id='oneMapDiv" +  map.id + "'>";
             var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
             var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
             
@@ -340,10 +340,13 @@ class PanelManager {
 
         $("#oneMapPlaces").text("");
         for (const place of map.places) {
-            var div = "<p class='oneDiv' id='oneMapPlace"+place.id+"'>"
+            var div = "<p class='OneDiv' id='oneMapPlace"+place.id+"'>"
         
-            var label = " <label>" + place.name + "</label>";
-            $("#oneMapPlaces").append(div+label+" </p>");
+            var label = " <label class='labelOneDiv'>" + place.name + "</label>";
+            var buttonOnePlaceMenu = "<button class='buttonShowsDetails' id='buttonOnePlaceMenu" +  place.id + "'> > </button>";
+            $("#oneMapPlaces").append(div+label+buttonOnePlaceMenu+" </p>");
+            var placeManager = PlaceManager.dict.get(place.id);
+            ClickManager.setClickOnePlaceMenu(placeManager);
         }
 
         ClickManager.setClickModifyMap(map);
@@ -701,6 +704,28 @@ class ClickManager {
                 dataType: "json",
                 success: function (result) {
                     PanelManager.setOneMapMenu(result);
+                }
+            });        
+        });        
+    }
+
+//TODO
+
+    static setClickOnePlaceMenu(placeManager){
+        var place = placeManager.place;
+        $("#buttonOnePlaceMenu" +  place.id).unbind("click");
+        $("#buttonOnePlaceMenu" +  place.id).click(function () {
+            openSlidingPanel("#onePlaceMenu");
+            closeSlidingPanel("#oneMapMenu");  
+
+            var place = placeManager.place;
+            $.ajax({
+                type: "GET",
+                url: "ws/Place/"+place.id,
+                dataType: "json",
+                success: function (result) {
+                    PanelManager.setOnePlaceMenu(result);
+                    ClickManager.setClickModifyPlace(result);  
                 }
             });        
         });        
