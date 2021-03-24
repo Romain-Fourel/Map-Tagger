@@ -270,6 +270,8 @@ class PanelManager {
 
             ClickManager.setClickOneMapMenu(mapManager);
 
+            ClickManager.setClickAddAMapB();
+
             ClickManager.setClickCheckBox(mapManager);
         }
 
@@ -545,7 +547,6 @@ class ClickManager {
                 data: dataToSend,
                 success: function (newMap) {
                     newMap = JSON.parse(newMap);
-                    console.log(newMap);
                     mapManager = new MapManager(newMap);
                 }
             });
@@ -670,7 +671,6 @@ class ClickManager {
                 url: "ws/Map/"+map.id,
                 dataType: "json",
                 success: function (result) {
-                    console.log("map modified: ");
                     PanelManager.setOneMapMenu(result);
                 }
             });        
@@ -689,7 +689,6 @@ class ClickManager {
                 url: "ws/Place/"+place.id,
                 dataType: "json",
                 success: function (result) {
-                    console.log(result);
                     PanelManager.setOnePlaceMenu(result);  
                     ClickManager.setClickModifyPlace(result);             
                 }
@@ -728,7 +727,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 1.19");
+    console.log("Test 1.20");
 
 
     loadUser();

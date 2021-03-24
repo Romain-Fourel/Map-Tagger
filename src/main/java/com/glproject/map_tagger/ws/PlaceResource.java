@@ -112,7 +112,7 @@ public class PlaceResource {
 		
 		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
 		
-		Place place = DAO.getPlaceDao().getPlace(placeId);
+		Place place = pm.getObjectById(Place.class, placeId);
 		place.setName(name);
 		place.setDescription(description);
 		
