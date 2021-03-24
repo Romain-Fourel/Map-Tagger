@@ -20,14 +20,15 @@ public class Place {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.NATIVE)
-	protected Long ID = null;
+	protected Long id = null;
 
 	String name;
 
+	String description;
+	
 	double latitude; // the latitude of the place
 	double longitude; // the longitude of the place
-
-	String description;
+	
 	List<String> pictures; // not strings, maybe a java class can better handler pictures
 	List<String> messages;
 	List<String> tags; // a list of strings which represents tags
@@ -43,9 +44,22 @@ public class Place {
 		this();
 		this.name=name;
 	}
+	
+
+	public Place(String name, String description, double latitude, double longitude, List<String> pictures,
+			List<String> messages, List<String> tags) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.pictures = pictures;
+		this.messages = messages;
+		this.tags = tags;
+	}
 
 	public Long getID() {
-		return ID;
+		return id;
 	}
 
 	public String getName() {
@@ -125,7 +139,17 @@ public class Place {
 	
 	@Override
 	public String toString() {
-		return name+" #"+ID;
+		return name+" #"+id;
+	}
+	
+	public String toCompleteString() {
+		return id+"\n"
+			  +name+"\n"
+			  +description+"\n"
+			  +longitude+" , "+latitude+"\n"
+			  +pictures+"\n"
+			  +messages+"\n"
+			  +tags+"\n";
 	}
 
 }

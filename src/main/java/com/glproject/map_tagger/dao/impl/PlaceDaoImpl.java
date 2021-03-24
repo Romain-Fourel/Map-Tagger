@@ -24,11 +24,13 @@ public class PlaceDaoImpl implements PlaceDao {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		
-		Place detached = null;
+		Place detached = new Place();
 		
 		try {
 			tx.begin();
-			detached = pm.makePersistent(place);
+			place = pm.makePersistent(place);	
+			detached = pm.detachCopy(place);
+			
 			tx.commit();
 
 		} finally {
@@ -37,10 +39,41 @@ public class PlaceDaoImpl implements PlaceDao {
 			}
 			pm.close();
 		}
-		
 		return detached;
 	}
 
+	
+	@Override
+	public Place updatePlace(Place place) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		Place detached = new Place();
+		
+		try {
+			tx.begin();
+			Place placePersistent = pm.getObjectById(Place.class, place.getID());
+			placePersistent.setName(place.getName());
+			placePersistent.setDescription(place.getDescription());
+			placePersistent.setMessages(place.getMessages());
+			placePersistent.setPictures(place.getPictures());
+			placePersistent.setTags(place.getTags());
+			
+			detached = pm.detachCopy(placePersistent);
+								
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+		return detached;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Place> getPlaces() {
@@ -68,6 +101,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		return detached;
 	}
 
+	
 	@Override
 	public List<Place> getPlaces(List<String> tag) {
 		// TODO Auto-generated method stub
@@ -129,5 +163,9 @@ public class PlaceDaoImpl implements PlaceDao {
 		}
 
 	}
+
+
+
+
 
 }

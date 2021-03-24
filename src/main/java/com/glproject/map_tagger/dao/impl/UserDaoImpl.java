@@ -22,6 +22,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User addUser(User user) {
+
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		
@@ -42,6 +43,35 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
+
+	@Override
+	public Map addMapTo(Long userId, Map map) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		Map detached = null;
+		
+		try {
+			tx.begin();
+			User userPersistent = pm.getObjectById(User.class, userId);
+			
+			userPersistent.addMap(map);
+			
+			detached = pm.detachCopy(map);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+	}
+
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsers() {
@@ -149,5 +179,8 @@ public class UserDaoImpl implements UserDao {
 		}
 		return detached;
 	}
+
+	
+	
 
 }

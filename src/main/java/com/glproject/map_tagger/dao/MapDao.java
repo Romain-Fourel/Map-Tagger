@@ -11,6 +11,10 @@ public interface MapDao {
 	 * @return 
 	 */
 	Map addMap(Map map);
+	
+	Place addPlaceTo(Long mapId, Place place);
+	
+	Map updateMap(Map map);
 
 	void delete(Map map);
 

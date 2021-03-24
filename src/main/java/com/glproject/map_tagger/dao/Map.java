@@ -36,14 +36,15 @@ public class Map {
 	protected Long ID = null;
 
 	String name;
+	String description;
+	Confidentiality confidentiality;
+	List<Place> places;
 
 	final String creator;
 
 	Boolean isVisible;
 
-	Confidentiality confidentiality;
-	List<Place> places;
-	String description;
+	
 
 	public Map(String creator) {
 		super();
@@ -57,6 +58,7 @@ public class Map {
 		this(creator);
 		this.name = name;
 	}
+	
 
 	public Long getID() {
 		return ID;
@@ -110,9 +112,16 @@ public class Map {
 		places.add(place);
 	}
 	
+	
 	@Override
 	public String toString() {
 		return name+" #"+ID;
 	}
+	
+	public String toCompleteString() {
+		return "Map [ID=" + ID + ", name=" + name + ", description=" + description + ", confidentiality="
+				+ confidentiality + ", places=" + places + ", creator=" + creator + ", isVisible=" + isVisible + "]";
+	}
+
 
 }

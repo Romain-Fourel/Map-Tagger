@@ -2,7 +2,6 @@ package com.glproject.map_tagger.ws;
 
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,11 +26,16 @@ public class PlaceResource {
 		
 		Place place = DAO.getPlaceDao().getPlace(placeid);
 		
-		System.out.println(place+" "+place.getDescription());
-		
 		return place;
 	}
 	
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/fromUser/{id}")
+	public List<Place> getUserPlaces(@PathParam("id") String id){
+		return DAO.getUserDao().getUser(Long.parseLong(id)).getPlaces();
+	}
 	
 	
 	/**
@@ -49,77 +53,30 @@ public class PlaceResource {
 		
 		return map.getPlaces();
 	}
+	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/create/{mapId}")
+	public Response createPlace(@PathParam("mapId") String mapId, Place place) {
+		
+		Place detached = DAO.getPlaceDao().addPlace(place);
+
+		DAO.getMapDao().addPlaceTo(Long.parseLong(mapId), place);
+		
+		return Response.ok(detached).build();		
+	}
 
 	
-	
-	/**
-	 * The data newPlaceData has to be like that:
-	 * "name
-	 * description
-	 * id
-	 * latitude
-	 * longitude"
-	 * @param newPlaceDatas
-	 * @return
-	 */
+
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/create")
-	public Response createPlace(String newPlaceData) {
-		
-		String[] dataTab = newPlaceData.split("\n");
-		
-		String name  = dataTab[0];
-		String description = dataTab[1];
-		Long mapId = Long.parseLong(dataTab[2]);
-		double latitude = Double.parseDouble(dataTab[3]);
-		double longitude = Double.parseDouble(dataTab[4]);
-		
-		Place place = new Place(name);
-		place.setDescription(description);
-		place.setLocation(latitude, longitude);
-		
-		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
-		
-		Map map = pm.getObjectById(Map.class, mapId);
-		map.addPlace(place);
-		pm.close();
-		
-		System.out.println(place+" : ["+place.getDescription()+"] at {"+place.getLatitude()+","+place.getLongitude()+"}");
-		
-		return Response.ok(place).build();
-	}
-	
-	/**
-	 * the data has to be like:
-	 * "id
-	 * name
-	 * description"
-	 * @param data
-	 * @return
-	 */
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/update")
-	public Response updatePlace(String data) {
+	public Response updatePlace(Place place) {
 		
-		String[] dataTab = data.split("\n");
-		long placeId = Long.parseLong(dataTab[0]);
-		String name = dataTab[1];
-		String description = dataTab[2];
-		
-		PersistenceManager pm = DAO.getPmf().getPersistenceManager();
-		
-		Place place = pm.getObjectById(Place.class, placeId);
-		place.setName(name);
-		place.setDescription(description);
-		
-		place.getName();
-		place.getDescription();
-		
-		pm.close();
+		place = DAO.getPlaceDao().updatePlace(place);
 		
 		return Response.ok(place).build();
 	}

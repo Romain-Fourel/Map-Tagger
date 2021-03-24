@@ -63,6 +63,15 @@ public class User {
 	public List<Map> getMapList() {
 		return mapList;
 	}
+	
+	public List<Place> getPlaces(){
+		List<Place> places = new ArrayList<Place>();
+		for (Map map : mapList) {
+			places.addAll(map.places);
+		}
+		return places;
+	}
+	
 
 	public void setMapList(List<Map> mapList) {
 		this.mapList = mapList;

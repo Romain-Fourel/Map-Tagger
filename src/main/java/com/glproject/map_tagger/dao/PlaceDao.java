@@ -11,6 +11,8 @@ public interface PlaceDao {
 	 * @return 
 	 */
 	Place addPlace(Place place);
+	
+	Place updatePlace(Place place);
 
 	void delete(Place place);
 
@@ -22,6 +24,7 @@ public interface PlaceDao {
 
 	Place getPlace(Long ID);
 
+	
 	/**
 	 * 
 	 * @param name

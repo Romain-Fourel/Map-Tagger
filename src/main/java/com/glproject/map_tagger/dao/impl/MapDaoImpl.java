@@ -10,6 +10,7 @@ import javax.jdo.Transaction;
 
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.MapDao;
+import com.glproject.map_tagger.dao.Place;
 
 public class MapDaoImpl implements MapDao {
 
@@ -30,7 +31,9 @@ public class MapDaoImpl implements MapDao {
 		
 		try {
 			tx.begin();
-			detached = pm.makePersistent(map);
+			map = pm.makePersistent(map);
+			
+			detached = pm.detachCopy(map);
 			
 			tx.commit();
 
@@ -43,6 +46,63 @@ public class MapDaoImpl implements MapDao {
 		return detached;
 
 	}
+	
+	
+	@Override
+	public Place addPlaceTo(Long mapId, Place place) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		Place detached = null;
+		
+		try {
+			tx.begin();
+			Map mapPersistent = getMap(mapId);
+			
+			mapPersistent.addPlace(place);
+			
+			detached = pm.detachCopy(place);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+	}
+	
+	
+	@Override
+	public Map updateMap(Map map) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		Map detached = null;
+		
+		try {
+			tx.begin();
+			Map mapPersistent = pm.getObjectById(Map.class, map.getID());
+			mapPersistent.setName(map.getName());
+			mapPersistent.setDescription(map.getDescription());
+			mapPersistent.setConfidentiality(map.getConfidentiality());
+			
+			detached = pm.detachCopy(mapPersistent);
+								
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+		return detached;
+	}
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -157,5 +217,11 @@ public class MapDaoImpl implements MapDao {
 		}
 
 	}
+
+
+
+
+
+
 
 }
