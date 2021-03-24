@@ -264,7 +264,7 @@ class PanelManager {
             var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
             var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
             
-            var buttonOneMapMenu = "<button id='buttonOneMapMenu" +  map.id + "'> > </button>";
+            var buttonOneMapMenu = "<button class='buttonShowsDetails' id='buttonOneMapMenu" +  map.id + "'> > </button>";
 
             $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
 
@@ -302,7 +302,7 @@ class PanelManager {
 
         $("#oneMapPlaces").text("");
         for (const place of map.places) {
-            var div = "<p class='onePlaceDiv' id='oneMapPlace"+place.id+"'>"
+            var div = "<p class='oneDiv' id='oneMapPlace"+place.id+"'>"
         
             var label = " <label>" + place.name + "</label>";
             $("#oneMapPlaces").append(div+label+" </p>");

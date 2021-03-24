@@ -334,7 +334,18 @@ h2{
     transition: all 0.5s;
 }
 
-
+.buttonShowsDetails{
+    font-size: 40px;
+    left: 72%;
+    border-radius: 20px;
+    background: #e0474700;
+    border: none;
+    outline: none;
+    transition: all 0.6s;
+}
+.buttonShowsDetails:hover{
+    color: #ffffff;
+}
 
 .modifyButton{
     position: absolute;
@@ -371,16 +382,15 @@ h2{
 }
 
 .Menu h1{
-    vertical-align: middle;
-    /*position: absolute;*/
-    /*left: 30%;*/
+    /*vertical-align: middle;*/
+    position: relative;
+    left: 20%;
 }
 
 .Menu textarea{
     font-size: 16px;
-    position: absolute;
-    top: 15%;
-
+    position: relative;
+    /*top: 15%;*/
     resize: none;
 }
 
