@@ -178,23 +178,29 @@ class MapManager {
 
 }
 
-/**
- * Do something on the map of a specific user
- * @param {the user we want to get the maps} user 
- * @param {the function called when we have the maps} functionDone 
- */
-function getServerMapsThen(userid,functionDone){
 
+function postServerdata(url,data,callDone){
     $.ajax({
-        type: "GET",
-        url: "ws/Map/fromUser/"+userid,
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
         dataType: "json",
-        success: function(result){
-            console.log(result);
-            functionDone(result);
+        url: url,
+        data: data,
+        success: function (response) {
+            callDone(response);
         }
     });
+}
 
+function getServerData(url,callDone){
+    $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "json",
+        success: function (response) {
+            callDone(response);
+        }
+    });
 }
 
 /**
@@ -205,17 +211,24 @@ class PanelManager {
 
     static setAddAPlaceMenu(){
 
-        getServerMapsThen(currentSession,function(mapList){
+        getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
             $("#mapChoicePlace").text("");
+
+            /**
+             * TODO: generate this html text with underscore.js
+             */
             $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
             for (const map of mapList) {
                 var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
                 $("#mapChoicePlace").append(mapChoice);            
             }
-        });
+        })
         ClickManager.setClickCreatePlace();
     }
 
+    /**
+     * TODO: generate this html text with underscore.js
+     */
     static setUpdateAPlaceMenu(place){
 
         $("#addNamePlace").val(place.name);
@@ -224,14 +237,16 @@ class PanelManager {
         var mapid = PlaceManager.dict.get(place.id).mapid;
         $("#mapChoicePlace").val(mapid);    
 
-        getServerMapsThen(currentSession, function(mapList){
+        getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
             $("#mapChoicePlace").text("");
+
+
             $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
             for (const map of mapList) {
                 var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
                 $("#mapChoicePlace").append(mapChoice);            
             } 
-        })
+        });
         ClickManager.setClickUpdatePlace();       
     }
 
@@ -247,12 +262,14 @@ class PanelManager {
         ClickManager.setClickUpdateMap(map);
     }
 
-
+    /**
+     * TODO: generate this html text with underscore.js
+     **/
     static setSavedMapsMenu(){
 
         $("#savedMapsButtons").text("");
 
-        getServerMapsThen(currentSession,function (mapList){
+        getServerData("ws/Map/fromUser/"+currentSession,function (mapList){
             for (const map of mapList) {
 
                 var mapManager = MapManager.dict.get(map.id);
@@ -262,6 +279,7 @@ class PanelManager {
                     isVisible = "checked";
                 }
     
+
                 var beginDiv = "<p class='OneDivSMM' id='oneMapDiv" +  map.id + "'>";
                 var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
                 var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
@@ -275,31 +293,46 @@ class PanelManager {
                 ClickManager.setClickCheckBox(mapManager);
             
             }
-        });
+        })
 
     }
 
     static setCommunityMapsMenu(){
         $("#communityMapsButtons").text("");
-        $.ajax({
-            type: "GET",
-            url: "ws/Map/allPublic",
-            dataType: "json",
-            success: function (mapList) {      
-                for (const map of mapList) {
-                    var mapButtonHtml = "<button id='communityMap" + map.id + "'>" + map.name + "</button></br>";
-                    $("#communityMapsButtons").append(mapButtonHtml);
-                }
+        getServerData("ws/Map/allPublic",function(mapList){
+            for (const map of mapList) {
+                var template = _.template($("#templateOneCommunityMapButton").html());
+                var divOneMapHtml = template({
+                    "nameMap": map.name,
+                    "oneCommunityMapButtonId":"buttonOneCommunityMapMenu"+map.id
+                })
+                $("#communityMapsButtons").append(divOneMapHtml);
+                ClickManager.setClickOneMapMenu(map);
             }
-        });
+        })
+    }
+
+    static setPlacesListMenu(){
+        $("#placesListButtons").text("");
+
+        getServerData("ws/Place/fromUser/"+currentSession,function(placeList){
+            for (const place of placeList) {
+                var template = _.template($("#templateOnePlaceButton").html());
+
+                var divOnePlaceHtml = template({
+                    "namePlace":place.name,
+                    "onePlaceButtonId":"buttonOnePlaceMenu2"+place.id
+                });
+                $("#placesListButtons").append(divOnePlaceHtml);
+                ClickManager.setClickOnePlaceMenu(place);
+            }
+        })
+
     }
 
     /**
-     * TODO
+     * TODO: generate this html text with underscore.js
      */
-    static setPlacesListMenu(){
-    }
-
     static setOneMapMenu(map){
 
         $("#nameOneMapMenu").text(map.name);
@@ -307,6 +340,8 @@ class PanelManager {
 
         $("#oneMapPlaces").text("");
         for (const place of map.places) {
+
+
             var div = "<p class='OneDiv' id='oneMapPlace"+place.id+"'>"
         
             var label = " <label class='labelOneDiv'>" + place.name + "</label>";
@@ -435,19 +470,12 @@ class ClickManager {
 
             var mapid = parseInt(mapChose);
         
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                url: "ws/Place/create/"+mapid,
-                data: placeToSend,
-                success: function (newPlace) {
-                    var placeManager = new PlaceManager(newPlace,mapid);
-                    var mapManager = MapManager.dict.get(mapid);
-        
-                    mapManager.add(placeManager);
-                }
-            });
+            postServerdata("ws/Place/create/"+mapid,placeToSend,function (newPlace){
+                var placeManager = new PlaceManager(newPlace,mapid);
+                var mapManager = MapManager.dict.get(mapid);
+    
+                mapManager.add(placeManager);                
+            })
             hideOverlay();
         });
 
@@ -478,19 +506,11 @@ class ClickManager {
             place.name = namePlace;
             place.description = descriptionPlace;
         
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                url: "ws/Place/update",
-                data: JSON.stringify(place),
-                success: function (updatedPlace) {
-
-                    var placeManager = PlaceManager.dict.get(updatedPlace.id);
-                    placeManager.update(updatedPlace);
-                    PanelManager.setOnePlaceMenu(updatedPlace);
-                }
-            });
+            postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
+                var placeManager = PlaceManager.dict.get(updatedPlace.id);
+                placeManager.update(updatedPlace);
+                PanelManager.setOnePlaceMenu(updatedPlace);                
+            })
             hideOverlay();             
         });
     }
@@ -535,17 +555,10 @@ class ClickManager {
         
 
             var mapToSend = MapManager.mapToJson(null,nameMap,descriptionMap,confidentiality);
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                url: "ws/Map/create/"+currentSession,
-                data: mapToSend,
-                success: function (newMap) {
-                    mapManager = new MapManager(newMap);
-                    PanelManager.setSavedMapsMenu();
-                }
-            });
+            postServerdata("ws/Map/create/"+currentSession,mapToSend,function(newMap){
+                new MapManager(newMap);
+                PanelManager.setSavedMapsMenu();
+            })
         
             hideOverlay();        
         });
@@ -567,19 +580,12 @@ class ClickManager {
             map.description = descriptionMap;
             map.confidentiality = confidentiality;
         
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                url: "ws/Map/update",
-                data: JSON.stringify(map),
-                success: function (updatedMap) {
-                    var mapManager = MapManager.dict.get(updatedMap.id);
-                    mapManager.update(updatedMap);
-                    PanelManager.setSavedMapsMenu();
-                    PanelManager.setOneMapMenu(updatedMap);
-                }
-            });
+            postServerdata("ws/Map/update",JSON.stringify(map),function(updatedMap){
+                var mapManager = MapManager.dict.get(updatedMap.id);
+                mapManager.update(updatedMap);
+                PanelManager.setSavedMapsMenu();
+                PanelManager.setOneMapMenu(updatedMap);
+            })
         
             hideOverlay();            
             
@@ -636,61 +642,66 @@ class ClickManager {
             var data;
 
             if ($("#checkBoxMap" + map.id).prop("checked")) {
-                data = "True";
+                data = true;
                 LeafletManager.addLayer(mapManager.layerGroup);
             }
             else {
-                data = "False";
+                data = false;
                 LeafletManager.removeLayer(mapManager.layerGroup);
             }
 
-            $.ajax({
-                type: "POST",
-                contentType: "text/plain; charset=utf-8",
-                dataType: "text",
-                url: "ws/Map/update/"+map.id+"/visibility",
-                data: data,
-                success: function(mapResult){
-                    mapManager.update(mapResult);
-                }
-            });
+            postServerdata("ws/Map/update/"+map.id+"/visibility",JSON.stringify(data),function(mapResult){
+                mapManager.update(mapResult);
+            })
 
         });
     }
 
     static setClickOneMapMenu(map){
+
+        $("#buttonOneCommunityMapMenu" +  map.id).unbind("click");
+        $("#buttonOneCommunityMapMenu" +  map.id).click(function () {
+            closeSlidingPanel("#onePlaceMenu");
+            openSlidingPanel("#oneMapMenu");
+            getServerData("ws/Map/"+map.id,function(mapGot){
+                PanelManager.setOneMapMenu(mapGot);
+            }) 
+        });      
+
+
         $("#buttonOneMapMenu" +  map.id).unbind("click");
         $("#buttonOneMapMenu" +  map.id).click(function () {
             closeSlidingPanel("#onePlaceMenu");
             openSlidingPanel("#oneMapMenu");
-            $.ajax({
-                type: "GET",
-                url: "ws/Map/"+map.id,
-                dataType: "json",
-                success: function (result) {
-                    console.log(result);
-                    PanelManager.setOneMapMenu(result);
-                }
-            });        
+            getServerData("ws/Map/"+map.id,function(mapGot){
+                PanelManager.setOneMapMenu(mapGot);
+            }) 
         });        
     }
 
 
     static setClickOnePlaceMenu(place){
+
+        $("#buttonOnePlaceMenu2" +  place.id).unbind("click");
+        $("#buttonOnePlaceMenu2" +  place.id).click(function () {
+            openSlidingPanel("#onePlaceMenu");
+            closeSlidingPanel("#oneMapMenu");  
+
+            getServerData("ws/Place/"+place.id,function (result) {
+                PanelManager.setOnePlaceMenu(result);
+                ClickManager.setClickModifyPlace(result);  
+            });    
+        });  
+
         $("#buttonOnePlaceMenu" +  place.id).unbind("click");
         $("#buttonOnePlaceMenu" +  place.id).click(function () {
             openSlidingPanel("#onePlaceMenu");
             closeSlidingPanel("#oneMapMenu");  
 
-            $.ajax({
-                type: "GET",
-                url: "ws/Place/"+place.id,
-                dataType: "json",
-                success: function (result) {
-                    PanelManager.setOnePlaceMenu(result);
-                    ClickManager.setClickModifyPlace(result);  
-                }
-            });        
+            getServerData("ws/Place/"+place.id,function (result) {
+                PanelManager.setOnePlaceMenu(result);
+                ClickManager.setClickModifyPlace(result);  
+            });    
         });        
     }
 
@@ -701,14 +712,9 @@ class ClickManager {
             closeSlidingPanel("#oneMapMenu");  
 
             var place = placeManager.place;
-            $.ajax({
-                type: "GET",
-                url: "ws/Place/"+place.id,
-                dataType: "json",
-                success: function (result) {
-                    PanelManager.setOnePlaceMenu(result);  
-                    ClickManager.setClickModifyPlace(result);             
-                }
+            getServerData("ws/Place/"+place.id,function (result) {
+                PanelManager.setOnePlaceMenu(result);  
+                ClickManager.setClickModifyPlace(result);             
             });
         })
     }
@@ -723,17 +729,14 @@ class ClickManager {
  */
 function loadUser() {
 
-    $.ajax({
-        url: "ws/User/currentSession",
-        dataType: "json",
-    }).done(function (user) {
+    getServerData("ws/User/currentSession",function (user) {
         console.log("Welcome " + user.name + " #" + user.id);
         currentSession = user.id;
 
         for (const map of user.mapList) {
             mapManager = new MapManager(map);
         }
-    });
+    })
 }
 
 
@@ -744,7 +747,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 1.2.3");
+    console.log("Test 2.2");
 
 
     loadUser();

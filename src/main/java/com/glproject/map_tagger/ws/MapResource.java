@@ -20,18 +20,16 @@ public class MapResource {
 
 
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/update/{id}/visibility")
-	public Response updateVisibility(@PathParam("id") String mapId, String isVisible) {
+	public Response updateVisibility(@PathParam("id") String mapId, Boolean isVisible) {
 		
 		Map map = DAO.getMapDao().getMap(Long.parseLong(mapId));
-		map.setVisibility(Boolean.parseBoolean(isVisible));
+		map.setVisibility(isVisible);
 		
 		map = DAO.getMapDao().updateMap(map);
-		
-		System.out.println(map.toCompleteString());
-		
+
 		return Response.ok(map).build();
 	}
 	
@@ -43,8 +41,6 @@ public class MapResource {
 	public Response updateMap(Map map) {
 		
 		map = DAO.getMapDao().updateMap(map);	
-		
-		System.out.println(map.toCompleteString());
 		
 		return Response.ok(map).build();
 	}
@@ -58,8 +54,6 @@ public class MapResource {
 	public Response createMap(@PathParam("userId") String userId, Map map) {
 		
 		map = DAO.getMapDao().addMapTo(Long.parseLong(userId), map);	
-		
-		System.out.println(DAO.getUserDao().getUser(Long.parseLong(userId)).getMapList());
 			
 		return Response.ok(map).build();
 	}

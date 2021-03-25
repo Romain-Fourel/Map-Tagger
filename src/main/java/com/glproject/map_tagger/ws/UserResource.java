@@ -34,39 +34,29 @@ public class UserResource {
 		return currentSession;
 	}
 
-	/**
-	 * TODO: replace TEXT_PLAIN BY APPLICATION_JSON
-	 * get into the database the user who has this specific identity
-	 * @param identity
-	 * @return
-	 */
+
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/connection")
-	public Response retrieveIdentity(String identity) {
+	public Response retrieveIdentity(Object[] data) {
 		
-		String username = identity.split("\n")[0];
-		String password = identity.split("\n")[1];
-		
-		System.out.println("Searching for:");
-		System.out.println("username: "+username+"\n"+"password: "+password);
+		String username = (String) data[0];
+		String password = (String) data[1];
 		
 		List<User> usersRegistered = DAO.getUserDao().getUsers(username);
-		
-		System.out.println("usernames matched: "+usersRegistered);
 		
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
 				System.out.println("the user "+user+" is the good one!!");
 				currentSession = user.getID();
-				return Response.ok(user.toString(), MediaType.TEXT_PLAIN).build();
+				return Response.ok(true).build();
 			}
 		}	
 		
 		System.out.println("No user in the database has matched");
 		//We want to return an "not accepted" response
-		return Response.ok("failed", MediaType.TEXT_PLAIN).build();
+		return Response.ok(false).build();
 		
 	}
 	
@@ -98,20 +88,23 @@ public class UserResource {
 	 * @return
 	 */
 	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/create")	
-	public Response createUser(String identity) {
+	public Response createUser(Object[] data) {
 		
-		String username = identity.split("\n")[0];
-		String password = identity.split("\n")[1];
+		String username = (String) data[0];
+		String password = (String) data[1];
 		
 		User newUser = new User(username, password);
-		DAO.getUserDao().addUser(newUser);
+		newUser = DAO.getUserDao().addUser(newUser);
 		
+		System.out.println(DAO.getUserDao().getUsers());
+		
+			
 		currentSession = newUser.getID();
 		
-		return Response.ok().build();
+		return Response.ok(newUser).build();
 	}
 	
 	

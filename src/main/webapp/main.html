@@ -81,9 +81,19 @@
 
             <div class="Menu" id="communityMapsMenu">
                 <h1>Community Maps</h1>
-                <div id="communityMapsButtons">
+                <div id="communityMapsButtons" class="Scrollbar">
                     <!--Here are dynamically added the maps of the community-->
                 </div>
+
+                <!--Below: the script for the div above!-->
+                <script id="templateOneCommunityMapButton" type="text/template">
+                    <p class='OneDiv'>
+                        <label class='labelOneDiv'> <%= nameMap %> </label>
+                        <button class='buttonShowsDetails' id= <%= oneCommunityMapButtonId %> > > </button>
+                    </p>
+                </script>
+
+
                 <button class="MenuQuit" id="communityMapsMenuQuit">Close</button>
             </div>
         
@@ -99,6 +109,16 @@
 
             <div class="Menu" id="placesListMenu">
                 <h1>My Places</h1>       
+                <div id="placesListButtons" class="Scrollbar"></div>
+
+                <!--Below: the script for the div above!-->
+                <script id="templateOnePlaceButton" type="text/template">
+                    <p class='OneDiv'>
+                        <label class='labelOneDiv'> <%= namePlace %> </label>
+                        <button class='buttonShowsDetails' id= <%= onePlaceButtonId %> > > </button>
+                    </p>
+                </script>
+
                 <button class="MenuQuit" id="placesListMenuQuit">Close</button>            
             </div>
             
@@ -112,7 +132,7 @@
             <div class="Menu" id="oneMapMenu">
                 <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>       
                 <textarea rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
-                <div id="oneMapPlaces"><!--list of places of this map--></div>
+                <div id="oneMapPlaces" class="Scrollbar"><!--list of places of this map--></div>
                 <button class="modifyButton" id="modifyMap">Modify map</button>
                 <button class="MenuQuit" id="oneMapMenuQuit">Close</button> 
             </div>

@@ -65,6 +65,9 @@ public class User {
 	}
 	
 	public List<Place> getPlaces(){
+		if (mapList == null) {
+			return null;
+		}
 		List<Place> places = new ArrayList<Place>();
 		for (Map map : mapList) {
 			places.addAll(map.places);

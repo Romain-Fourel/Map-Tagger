@@ -6,21 +6,21 @@
 function connection(username,password){
 
     console.log("connection...");
-    var data = username+"\n"+password;
+    var data = [username,password];
 
     $.ajax({
         type: "POST",
         url: "ws/User/connection",
-        data: data,
-        contentType : "text/plain; charSet=UTF-8",
-        dataType: "text",
+        data: JSON.stringify(data),
+        contentType : "application/json; charSet=UTF-8",
+        dataType: "json",
         success: function (response) { 
-            //TODO: we really will let "failed" in the succeed response???
-            if (response !== "failed"){
+            //TODO: failed option in success response is not vrey good
+            if (response){
                 window.location.href="main.html";//here we go to the map tagger!
             }
             else{
-                console.log("Error: the username and the password doesn't match");
+                alert("Error: the username and the password doesn't match");
             }
          }
     });
@@ -30,8 +30,6 @@ function connection(username,password){
  * Main
  */
 $(document).ready(function () {
-    //to ckeck if the file is correctly loaded
-    console.log(Date());
 
     $("#login").click(function () { 
         var username = $("#usernameId").val();

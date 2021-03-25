@@ -8,22 +8,26 @@
  */
 function createNewUser(username,password,confirmedPassword){
     if (password === confirmedPassword){
-        //TODO: later, the message will be printed directly in the page
-        console.log("creation can be done");
+        console.log("creation...");
         
-        var newUser = username+"\n"+password;
+        var newUser = [username,password];
         $.ajax({
             type: "POST",
             url: "ws/User/create",
-            data: newUser,
-            contentType : "text/plain; charSet=UTF-8",
-            dataType: "text",
-        }).success(function(){
-            window.location.href="main.html"; //go to the main page!
+            data: JSON.stringify(newUser),
+            contentType : "application/json; charSet=UTF-8",
+            dataType: "json",
+            success: function(res){
+                console.log("succeed!!! "+res);
+                window.location.href="main.html";//here we go to the map tagger!
+            }
+        }).done(function(res){
+            console.log("done "+res);
+            window.location.href="main.html";//here we go to the map tagger!            
         });
     }
     else{
-        console.log("Sorry the confirmed password doesn't match with the password");
+        alert("Sorry the confirmed password doesn't match with the password");
     }
 }
 
@@ -32,10 +36,10 @@ function createNewUser(username,password,confirmedPassword){
  * Main
  */
 $(document).ready(function () {
-    //to ckeck if the file is correctly loaded
-    console.log(Date());
+    console.log("test 1.0");
 
     $("#registration").click(function () { 
+        console.log("clicked");
         var username = $("#usernameId").val();
         var password = $("#passwordId").val(); 
         var confirmedPassword = $("#confirmPasswordId").val();
