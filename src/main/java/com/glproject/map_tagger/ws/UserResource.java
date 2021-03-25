@@ -35,8 +35,8 @@ public class UserResource {
 	}
 
 	/**
+	 * TODO: replace TEXT_PLAIN BY APPLICATION_JSON
 	 * get into the database the user who has this specific identity
-	 * TODO: returns to the webapp the user in order to load his profile 
 	 * @param identity
 	 * @return
 	 */
@@ -91,7 +91,7 @@ public class UserResource {
 	
 	
 	/**
-	 * TODO for now, I don't know how to create a new user from the userJson
+	 * TODO: replace TEXT_PLAIN BY APPLICATION_JSON
 	 * @param identity must be like:
 	 * "name
 	 * password"

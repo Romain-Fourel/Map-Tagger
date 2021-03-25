@@ -190,32 +190,11 @@ function getServerMapsThen(userid,functionDone){
         url: "ws/Map/fromUser/"+userid,
         dataType: "json",
         success: function(result){
+            console.log(result);
             functionDone(result);
         }
     });
 
-}
-
-function getUserThen(userid,callDone){
-    $.ajax({
-        type: "GET",
-        url: "ws/User/"+userid,
-        dataType: "json",
-        success: function (response) {
-            callDone(response);
-        }
-    });
-}
-
-function getServerPlacesThen(map,functionDone){
-    $.ajax({
-        type: "GET",
-        url: "ws/Place/fromMap/"+map.id,
-        dataType: "json",
-        success: function (result) {
-            functionDone(result);
-        }
-    });
 }
 
 /**
@@ -224,15 +203,16 @@ function getServerPlacesThen(map,functionDone){
 class PanelManager {
 
 
-    static setAddAPlaceMenu(mapList){
+    static setAddAPlaceMenu(){
 
-        $("#mapChoicePlace").text("");
-        $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
-        for (const map of mapList) {
-            var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
-            $("#mapChoicePlace").append(mapChoice);            
-        }
-
+        getServerMapsThen(currentSession,function(mapList){
+            $("#mapChoicePlace").text("");
+            $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
+            for (const map of mapList) {
+                var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
+                $("#mapChoicePlace").append(mapChoice);            
+            }
+        });
         ClickManager.setClickCreatePlace();
     }
 
@@ -268,33 +248,34 @@ class PanelManager {
     }
 
 
-    static setSavedMapsMenu(mapList){
+    static setSavedMapsMenu(){
 
         $("#savedMapsButtons").text("");
 
-        for (const map of mapList) {
+        getServerMapsThen(currentSession,function (mapList){
+            for (const map of mapList) {
 
-            var mapManager = MapManager.dict.get(map.id);
-
-            var isVisible = "";
-            if (map.visibility) {
-                isVisible = "checked";
-            }
-
-            var beginDiv = "<p class='OneDivSMM' id='oneMapDiv" +  map.id + "'>";
-            var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
-            var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
+                var mapManager = MapManager.dict.get(map.id);
+    
+                var isVisible = "";
+                if (map.visibility) {
+                    isVisible = "checked";
+                }
+    
+                var beginDiv = "<p class='OneDivSMM' id='oneMapDiv" +  map.id + "'>";
+                var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
+                var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
+                
+                var buttonOneMapMenu = "<button class='buttonShowsDetails' id='buttonOneMapMenu" +  map.id + "'> > </button>";
+    
+                $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
+    
+                ClickManager.setClickOneMapMenu(map);
+    
+                ClickManager.setClickCheckBox(mapManager);
             
-            var buttonOneMapMenu = "<button class='buttonShowsDetails' id='buttonOneMapMenu" +  map.id + "'> > </button>";
-
-            $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
-
-            ClickManager.setClickOneMapMenu(map);
-
-            ClickManager.setClickAddAMapB();
-
-            ClickManager.setClickCheckBox(mapManager);
-        }
+            }
+        });
 
     }
 
@@ -313,6 +294,9 @@ class PanelManager {
         });
     }
 
+    /**
+     * TODO
+     */
     static setPlacesListMenu(){
     }
 
@@ -363,6 +347,8 @@ class ClickManager {
         
         ClickManager.setClickAddAPlaceB();     
         $(".CloseButton").click(hideOverlay); 
+
+        ClickManager.setClickAddAMapB();
     }
 
 
@@ -415,10 +401,9 @@ class ClickManager {
             LeafletManager.lastPointClicked.latitude = event.latlng.lat;
             LeafletManager.lastPointClicked.longitude = event.latlng.lng;
             $("#addAPlaceMenu").css("visibility", "visible");
-            $("#mapChoicePlace").css("visibility", "inherited");
+            $("#mapChoicePlace").css("visibility", "inherit");
             showOverlay();
-        
-            getServerMapsThen(currentSession,PanelManager.setAddAPlaceMenu);   
+            PanelManager.setAddAPlaceMenu();
         })
     }
 
@@ -457,7 +442,6 @@ class ClickManager {
                 url: "ws/Place/create/"+mapid,
                 data: placeToSend,
                 success: function (newPlace) {
-                    console.log(newPlace);
                     var placeManager = new PlaceManager(newPlace,mapid);
                     var mapManager = MapManager.dict.get(mapid);
         
@@ -538,7 +522,7 @@ class ClickManager {
 
 
     static setClickCreateMap(){
-        $("#ediMap").unbind("click");
+        $("#editMap").unbind("click");
         $("#editMap").click(function (e) { 
             var nameMap = $("#addNameMap").val();
             var descriptionMap = $("#addDescriptionMap").val();
@@ -558,9 +542,8 @@ class ClickManager {
                 url: "ws/Map/create/"+currentSession,
                 data: mapToSend,
                 success: function (newMap) {
-                    console.log(newMap);
                     mapManager = new MapManager(newMap);
-                    getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
+                    PanelManager.setSavedMapsMenu();
                 }
             });
         
@@ -569,7 +552,7 @@ class ClickManager {
     }
 
     static setClickUpdateMap(map){
-        $("#ediMap").unbind("click");
+        $("#editMap").unbind("click");
         $("#editMap").click(function (e) { 
             var nameMap = $("#addNameMap").val();
             var descriptionMap = $("#addDescriptionMap").val();
@@ -593,7 +576,7 @@ class ClickManager {
                 success: function (updatedMap) {
                     var mapManager = MapManager.dict.get(updatedMap.id);
                     mapManager.update(updatedMap);
-                    getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
+                    PanelManager.setSavedMapsMenu();
                     PanelManager.setOneMapMenu(updatedMap);
                 }
             });
@@ -607,7 +590,7 @@ class ClickManager {
         $("#savedMapsB").click(function (e) { 
 
             openSlidingPanel("#savedMapsMenu");
-            getServerMapsThen(currentSession,PanelManager.setSavedMapsMenu);
+            PanelManager.setSavedMapsMenu();
             
         });
     }
@@ -621,6 +604,7 @@ class ClickManager {
     }
 
     static setClickPlacesListB(){
+        $("#placesListB").unbind("click");
         $("#placesListB").click(function (e) { 
             openSlidingPanel("#placesListMenu");
             PanelManager.setPlacesListMenu();      

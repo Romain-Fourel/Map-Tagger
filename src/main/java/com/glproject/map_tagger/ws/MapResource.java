@@ -26,10 +26,11 @@ public class MapResource {
 	public Response updateVisibility(@PathParam("id") String mapId, String isVisible) {
 		
 		Map map = DAO.getMapDao().getMap(Long.parseLong(mapId));
-		System.out.println(map.toCompleteString());
 		map.setVisibility(Boolean.parseBoolean(isVisible));
 		
 		map = DAO.getMapDao().updateMap(map);
+		
+		System.out.println(map.toCompleteString());
 		
 		return Response.ok(map).build();
 	}
@@ -57,6 +58,8 @@ public class MapResource {
 	public Response createMap(@PathParam("userId") String userId, Map map) {
 		
 		map = DAO.getMapDao().addMapTo(Long.parseLong(userId), map);	
+		
+		System.out.println(DAO.getUserDao().getUser(Long.parseLong(userId)).getMapList());
 			
 		return Response.ok(map).build();
 	}

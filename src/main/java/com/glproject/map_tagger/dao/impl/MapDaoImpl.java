@@ -8,6 +8,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
+import com.glproject.map_tagger.dao.DAO;
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.MapDao;
 import com.glproject.map_tagger.dao.User;
@@ -47,6 +48,7 @@ public class MapDaoImpl implements MapDao {
 
 	}
 	
+	
 	@Override
 	public Map addMapTo(Long userId, Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -70,6 +72,7 @@ public class MapDaoImpl implements MapDao {
 			}
 			pm.close();
 		}
+		System.out.println(DAO.getUserDao().getUser(userId).getMapList());
 		return detached;
 	}
 
@@ -87,6 +90,7 @@ public class MapDaoImpl implements MapDao {
 			mapPersistent.setName(map.getName());
 			mapPersistent.setDescription(map.getDescription());
 			mapPersistent.setConfidentiality(map.getConfidentiality());
+			mapPersistent.setVisibility(map.getVisibility());
 			
 			mapPersistent.getPlaces();
 			
