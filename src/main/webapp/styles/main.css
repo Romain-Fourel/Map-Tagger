@@ -147,6 +147,10 @@ textarea{
 }
 
 
+/**
+ * ######################## BELOW: STYLE FOR ADD A PLACE MENU ###################################
+ **/
+
 
 .PopupMenu input,textarea,select,button{
     border-radius: 20px;
@@ -203,7 +207,7 @@ textarea{
     height:40px;
     font-size: 15px;
 }
-h2{
+.PopupMenu h2{
     position: absolute;
     color: rgb(51, 51, 51);
     font-family: Tahoma, Arial, sans-serif;
@@ -211,6 +215,26 @@ h2{
     left: 5%;
     font-size: 20px;
   }
+
+#addAPlaceTags{
+    position: absolute;
+    background-color: #bdb7b7;
+    bottom: 5%;
+    left: 5%;   
+}
+
+#addATagInput{
+    position: absolute;
+    bottom: 27%;
+    left: 5%;   
+}
+
+#addATagButton{
+    position: absolute;
+    bottom: 27%;
+    left: 27%;   
+}
+
 .createOkButton {
     font-size: 17px;
     position: absolute;
@@ -219,6 +243,13 @@ h2{
     width:70px;
     height:35px;
 }
+
+/**
+ * ######################## ABOVE: STYLE FOR ADD A PLACE MENU ###################################
+ **/
+
+
+
 .hoverL {
     background-color: rgb(150, 150, 150);
     color: #ffffff;

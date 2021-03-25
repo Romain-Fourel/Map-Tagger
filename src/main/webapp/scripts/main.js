@@ -106,7 +106,7 @@ class PlaceManager {
         this.marker._popup.setContent("<b>" + this.place.name + "</b>");
     }
 
-    static placeToJSon(placeName,placeDescription,placeLatitude,placeLongitude){
+    static placeToJSon(placeName,placeDescription,placeLatitude,placeLongitude,tags){
         var placeJSon = 
         {
             name:placeName,
@@ -115,7 +115,7 @@ class PlaceManager {
             longitude:placeLongitude,
             pictures:["webapp/style/images"],
             messages:["a pretty place!"],
-            tags:["milky way","earth"]
+            tags:tags
         }
 
         return JSON.stringify(placeJSon);
@@ -226,9 +226,6 @@ class PanelManager {
         ClickManager.setClickCreatePlace();
     }
 
-    /**
-     * TODO: generate this html text with underscore.js
-     */
     static setUpdateAPlaceMenu(place){
 
         $("#addNamePlace").val(place.name);
@@ -239,12 +236,16 @@ class PanelManager {
 
         getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
             $("#mapChoicePlace").text("");
+            
+            var template = _.template($("#templateMapChoicePlace").html());
 
-
-            $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
+            $("#mapChoicePlace").append(template({nameMap:"--- Choose a map",valueMapChose:"CAMap"}));
             for (const map of mapList) {
-                var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
-                $("#mapChoicePlace").append(mapChoice);            
+                var mapChoiceHtml = template({
+                    nameMap: map.name,
+                    valueMapChose: map.id
+                })
+                $("#mapChoicePlace").append(mapChoiceHtml);            
             } 
         });
         ClickManager.setClickUpdatePlace();       
@@ -262,9 +263,6 @@ class PanelManager {
         ClickManager.setClickUpdateMap(map);
     }
 
-    /**
-     * TODO: generate this html text with underscore.js
-     **/
     static setSavedMapsMenu(){
 
         $("#savedMapsButtons").text("");
@@ -278,15 +276,16 @@ class PanelManager {
                 if (map.visibility) {
                     isVisible = "checked";
                 }
-    
-
-                var beginDiv = "<p class='OneDivSMM' id='oneMapDiv" +  map.id + "'>";
-                var checkBoxMap = "<input type='checkbox' id='checkBoxMap" +  map.id + "' " + isVisible + "/>";
-                var labelMap = "<label for='checkBoxMap" +  map.id + "'> <span class='spanLabel'></span>" +  map.name + "</label>";
                 
-                var buttonOneMapMenu = "<button class='buttonShowsDetails' id='buttonOneMapMenu" +  map.id + "'> > </button>";
+                var template = _.template($("#templateSavedMapsButton").html());
     
-                $("#savedMapsButtons").append(beginDiv + checkBoxMap + labelMap + buttonOneMapMenu + "</p>");
+                $("#savedMapsButtons").append(template({
+                    oneMapDivId:'oneMapDiv' +  map.id,
+                    checkBoxMapId: 'checkBoxMap' +  map.id,
+                    checked: isVisible,
+                    nameMap: map.name,
+                    buttonOneMapMenuId: 'buttonOneMapMenu' +  map.id 
+                }));
     
                 ClickManager.setClickOneMapMenu(map);
     
@@ -330,23 +329,23 @@ class PanelManager {
 
     }
 
-    /**
-     * TODO: generate this html text with underscore.js
-     */
     static setOneMapMenu(map){
 
         $("#nameOneMapMenu").text(map.name);
         $("#descriptionOneMapMenu").text(map.description);
 
         $("#oneMapPlaces").text("");
+
+        var template = _.template($("#templateOneMapPlaces").html());
+
         for (const place of map.places) {
-
-
-            var div = "<p class='OneDiv' id='oneMapPlace"+place.id+"'>"
-        
-            var label = " <label class='labelOneDiv'>" + place.name + "</label>";
-            var buttonOnePlaceMenu = "<button class='buttonShowsDetails' id='buttonOnePlaceMenu" +  place.id + "'> > </button>";
-            $("#oneMapPlaces").append(div+label+buttonOnePlaceMenu+" </p>");
+            
+            $("#oneMapPlaces").append(template({
+                oneMapPlaceId: "oneMapPlace"+place.id,
+                namePlace: place.name,
+                buttonOnePlaceMenuId: "buttonOnePlaceMenu"+place.id
+            }));
+            
             ClickManager.setClickOnePlaceMenu(place);
         }
 
@@ -384,6 +383,8 @@ class ClickManager {
         $(".CloseButton").click(hideOverlay); 
 
         ClickManager.setClickAddAMapB();
+
+        ClickManager.setClickAddATagButton();
     }
 
 
@@ -449,6 +450,8 @@ class ClickManager {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             var mapChose = $("#mapChoicePlace").val();
+
+            var tags = $("#addAPlaceTags").val().split(" ");
         
             if (namePlace === "" && mapChose === "CAMap") {
                 alert("Please name this place and choose a map to put it in");
@@ -466,7 +469,8 @@ class ClickManager {
             var placeToSend = PlaceManager.placeToJSon(namePlace,
                                                         descriptionPlace,
                                                         LeafletManager.lastPointClicked.latitude,
-                                                        LeafletManager.lastPointClicked.longitude);
+                                                        LeafletManager.lastPointClicked.longitude,
+                                                        tags);
 
             var mapid = parseInt(mapChose);
         
@@ -474,7 +478,11 @@ class ClickManager {
                 var placeManager = new PlaceManager(newPlace,mapid);
                 var mapManager = MapManager.dict.get(mapid);
     
-                mapManager.add(placeManager);                
+                mapManager.add(placeManager);
+                
+                PanelManager.setOneMapMenu(mapManager.map);
+                PanelManager.setPlacesListMenu();
+
             })
             hideOverlay();
         });
@@ -509,7 +517,7 @@ class ClickManager {
             postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
                 var placeManager = PlaceManager.dict.get(updatedPlace.id);
                 placeManager.update(updatedPlace);
-                PanelManager.setOnePlaceMenu(updatedPlace);                
+                PanelManager.setOnePlaceMenu(updatedPlace);  
             })
             hideOverlay();             
         });
@@ -623,6 +631,24 @@ class ClickManager {
     static setClickMenuQuit(){
         $(".MenuQuit").click(function (e) { 
             closeSlidingPanel("#"+this.id.split("Quit")[0]);    
+        });
+    }
+
+    static setClickAddATagButton(){
+        $("#addATagButton").click(function (e) { 
+            var newTag = $("#addATagInput").val();
+            console.log(newTag);
+
+            if (newTag.indexOf(" ")>=0){
+                alert("A name tag has to be only one word");
+            }
+            else {
+                /*var template = _.template($("#templateAddPlaceTags").html());
+                $("#addAPlaceTags").append(template({
+                    addOneTagName: newTag
+                }));*/
+                $("#addAPlaceTags").append(newTag+" ");
+            }
         });
     }
 
@@ -747,7 +773,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.2");
+    console.log("Test 2.3");
 
 
     loadUser();

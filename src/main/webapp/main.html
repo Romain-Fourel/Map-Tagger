@@ -46,14 +46,30 @@
                 <div class="PopupMenu" id="addAPlaceMenu">
                     <p>
                         <form>
-                            <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off required>
+                            <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off>
                             <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
                             <button id="addImages" type="button">add image</button>
+                            
+                            <h2>Tags :</h2>
+                            <textarea id="addAPlaceTags" rows="7" cols="33" disabled></textarea>
+                            <input type="text" placeholder="add a new tag..." id="addATagInput" autocomplete="off"/>
+                            <button id="addATagButton" type="button">Add</button>
+
+                            <!--BELOW: USELESS FOR NOW-->
+                            <script id="templateAddPlaceTags" type="text/template">
+                                <span class="addOneTag"> <%=addOneTagName %> </span>
+                            </script>
+
+
                             <select name="mapChoice" class="PopupChoice" id="mapChoicePlace" placeholder="Choose a map" required>
                                 <option value="CAMap">--- Choose a map ---</option>
                             </select>
-                            <h2>Tags :</h2>
+                            <!--Below: The template for the div above-->
+                            <script id="templateMapChoicePlace" type="text/template">
+                                <option value= <%= valueMapChose %> > <%= nameMap %> </option>
+                            </script>
+                   
                             <button class="createOkButton" id="editPlace" type="reset">Ok</button>
                         </form>
                     </p>
@@ -81,10 +97,8 @@
 
             <div class="Menu" id="communityMapsMenu">
                 <h1>Community Maps</h1>
-                <div id="communityMapsButtons" class="Scrollbar">
-                    <!--Here are dynamically added the maps of the community-->
-                </div>
-
+                
+                <div id="communityMapsButtons" class="Scrollbar"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
                     <p class='OneDiv'>
@@ -102,8 +116,21 @@
                 <div id="savedMapsButtons" class="Scrollbar">
                     <!--Here are dynamically added the maps of the current user-->              
                 </div>
+                <!--Below: the script for the div above!-->
+                <script id="templateSavedMapsButton" type="text/template">
+
+                    <p class='OneDivSMM' id= <%= oneMapDivId %> >
+                    <input type='checkbox' id= <%= checkBoxMapId %>  <%= checked %> />
+                    <label for= <%= checkBoxMapId %> > <span class='spanLabel'></span> <%= nameMap %> </label>
+                        
+                    <button class='buttonShowsDetails' id= <%= buttonOneMapMenuId %> >  > </button>
+                    </p>
+
+                </script>
+
                 <button id="addAMapB">Add a map</button>
                 <button class="MenuQuit" id="savedMapsMenuQuit">Close</button>
+
                 
             </div>
 
@@ -132,7 +159,17 @@
             <div class="Menu" id="oneMapMenu">
                 <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>       
                 <textarea rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
-                <div id="oneMapPlaces" class="Scrollbar"><!--list of places of this map--></div>
+                
+                <!--list of places of this map-->
+                <div id="oneMapPlaces" class="Scrollbar"></div>
+                <script id="templateOneMapPlaces" type="text/template">
+                    <p class='OneDiv' id= <%= oneMapPlaceId %> >
+                        <label class='labelOneDiv'><%= namePlace %></label>
+                        <button class='buttonShowsDetails' id= <%= buttonOnePlaceMenuId %> > > </button>
+                    </p>
+                </script>
+
+
                 <button class="modifyButton" id="modifyMap">Modify map</button>
                 <button class="MenuQuit" id="oneMapMenuQuit">Close</button> 
             </div>
@@ -147,13 +184,8 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
-        
+        20
         <script type="text/javascript" src="scripts/main.js"></script>
-        
-
-        <script>
-            /*when it crashes... because it will...*/
-        </script>
 
     </body>
 </html>

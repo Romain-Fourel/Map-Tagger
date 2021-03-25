@@ -29,7 +29,7 @@ public class Place {
 	double latitude; // the latitude of the place
 	double longitude; // the longitude of the place
 	
-	List<String> pictures; // not strings, maybe a java class can better handler pictures
+	List<String> pictures; // the path of the pictures stored in webapp/style/images
 	List<String> messages;
 	List<String> tags; // a list of strings which represents tags
 

@@ -17,18 +17,6 @@ public class Map {
 
 	public enum Confidentiality {
 		PRIVATE, PUBLIC;
-		
-		public static Confidentiality parseConfidentiality(String confidentiality) {
-			if (confidentiality.equals("PRIVATE")) {
-				return PRIVATE;
-			}
-			else if(confidentiality.equals("PUBLIC")) {
-				return PUBLIC;
-			}
-			else {
-				return null;
-			}
-		}
 	}
 
 	@PrimaryKey
@@ -40,7 +28,7 @@ public class Map {
 	Confidentiality confidentiality;
 	List<Place> places;
 
-	final String creator;
+	String creator;
 
 	Boolean isVisible;
 
@@ -82,6 +70,10 @@ public class Map {
 
 	public String getCreator() {
 		return creator;
+	}
+	
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
 	public Confidentiality getConfidentiality() {
