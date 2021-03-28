@@ -218,10 +218,20 @@ textarea{
 
 #addAPlaceTags{
     position: absolute;
-    background-color: #bdb7b7;
-    bottom: 5%;
-    left: 5%;   
+    background-color: #a39b9b;
+    bottom: 6%;
+    left: 4.7%;
+    /*width: 25%;
+    height: 15%;
+    overflow-x: auto;*/
 }
+
+/*
+.ANewTagButton{
+    
+
+}
+*/
 
 #addATagInput{
     position: absolute;
@@ -385,7 +395,7 @@ textarea{
     height: 60px;
 }
 
-#savedMapsButtons,#placesListButtons{
+#savedMapsButtons,#placesListButtons,#communityMapsButtons{
     position: absolute;
     background-color: #797575;
     border-radius: 10px;

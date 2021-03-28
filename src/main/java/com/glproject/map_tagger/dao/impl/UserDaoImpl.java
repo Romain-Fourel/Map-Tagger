@@ -46,8 +46,6 @@ public class UserDaoImpl implements UserDao {
 
 	}
 
-
-	
 	
 	@SuppressWarnings("unchecked")
 	@Override

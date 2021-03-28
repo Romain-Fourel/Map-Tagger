@@ -129,16 +129,93 @@ public class PlaceDaoImpl implements PlaceDao {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Place> getPlaces(List<String> tag) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Place> getPlaces(List<String> tags) {
+		List<Place> places = null;
+		List<Place> detached = new ArrayList<Place>();
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+
+			Query q = pm.newQuery(Place.class);
+			q.declareParameters("List<String> tagsPlace");
+			
+			q.setFilter("tags.containsAll(tagsPlace)");
+			places = (List<Place>) q.execute(tags);
+			detached = (List<Place>) pm.detachCopyAll(places);
+
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Place> getPlaces(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Place> places = null;
+		List<Place> detached = new ArrayList<Place>();
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+
+			Query q = pm.newQuery(Place.class);
+			q.declareParameters("String namePlace");
+			
+			q.setFilter("name.indexOf(namePlace)>-1");
+			places = (List<Place>) q.execute(name);
+			detached = (List<Place>) pm.detachCopyAll(places);
+
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Place> getPlacesNear(Place place, double radius) {
+		List<Place> places = null;
+		List<Place> detached = new ArrayList<Place>();
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+
+			Query q = pm.newQuery(Place.class);
+			q.declareParameters("Place place,double radius");
+						
+			q.setFilter(" place.getDistanceTo(this) < radius");
+			places = (List<Place>) q.execute(place,radius);
+			detached = (List<Place>) pm.detachCopyAll(places);
+
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
 	}
 
 	@Override
@@ -164,11 +241,6 @@ public class PlaceDaoImpl implements PlaceDao {
 		return detached;
 	}
 
-	@Override
-	public List<Place> getPlacesNear(String location, int radius) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void delete(Place place) {
@@ -190,9 +262,6 @@ public class PlaceDaoImpl implements PlaceDao {
 		}
 
 	}
-
-
-
 
 
 }

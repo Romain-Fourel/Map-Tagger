@@ -151,6 +151,11 @@ public class Place {
 			  +messages+"\n"
 			  +tags+"\n";
 	}
+	
+	public double getDistanceTo(Place place) {
+		return Math.sqrt((latitude-place.latitude)*(latitude-place.latitude)+
+						 (longitude-place.longitude)*(longitude-place.longitude));
+	}
 
 }
 

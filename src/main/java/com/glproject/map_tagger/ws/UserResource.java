@@ -81,7 +81,6 @@ public class UserResource {
 	
 	
 	/**
-	 * TODO: replace TEXT_PLAIN BY APPLICATION_JSON
 	 * @param identity must be like:
 	 * "name
 	 * password"
@@ -106,10 +105,6 @@ public class UserResource {
 		
 		return Response.ok(newUser).build();
 	}
-	
-	
-
-
 }
 
 

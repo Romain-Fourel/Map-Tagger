@@ -37,14 +37,9 @@ public interface PlaceDao {
 	 * @return all places in the database which has tag in their tag list
 	 */
 	List<Place> getPlaces(List<String> tag);
+	
+	List<Place> getPlacesNear(Place place, double radius);
 
-	/**
-	 * 
-	 * @param location
-	 * @param radius
-	 * @return returns all places next to the location in the radius
-	 */
-	List<Place> getPlacesNear(String location, int radius);
 
 	Place addPlaceTo(Long mapId, Place place);
 

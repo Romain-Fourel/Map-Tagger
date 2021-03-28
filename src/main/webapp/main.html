@@ -52,13 +52,15 @@
                             <button id="addImages" type="button">add image</button>
                             
                             <h2>Tags :</h2>
-                            <textarea id="addAPlaceTags" rows="7" cols="33" disabled></textarea>
+                            
                             <input type="text" placeholder="add a new tag..." id="addATagInput" autocomplete="off"/>
                             <button id="addATagButton" type="button">Add</button>
 
-                            <!--BELOW: USELESS FOR NOW-->
+                            
+                            <textarea id="addAPlaceTags" disabled rows="7" cols="25"></textarea>
+                            <!--Not used right now-->
                             <script id="templateAddPlaceTags" type="text/template">
-                                <span class="addOneTag"> <%=addOneTagName %> </span>
+                                <button class="ANewTagButton" type="button"> <%=addOneTagName %> </button>
                             </script>
 
 

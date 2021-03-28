@@ -637,17 +637,30 @@ class ClickManager {
     static setClickAddATagButton(){
         $("#addATagButton").click(function (e) { 
             var newTag = $("#addATagInput").val();
+            $("#addATagInput").val("");
             console.log(newTag);
 
             if (newTag.indexOf(" ")>=0){
                 alert("A name tag has to be only one word");
             }
             else {
-                /*var template = _.template($("#templateAddPlaceTags").html());
+
+                //below: if we use a <p> or a <div>
+                /*
+                var template = _.template($("#templateAddPlaceTags").html());
                 $("#addAPlaceTags").append(template({
                     addOneTagName: newTag
-                }));*/
-                $("#addAPlaceTags").append(newTag+" ");
+                }));
+                */
+
+               //below: if we use a text area           
+                if ($("#addAPlaceTags").val()===""){
+                    $("#addAPlaceTags").append(newTag);
+                }
+                else{
+                    $("#addAPlaceTags").append(" "+newTag);
+                }
+                       
             }
         });
     }
@@ -773,7 +786,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.3");
+    console.log("Test 2.5");
 
 
     loadUser();

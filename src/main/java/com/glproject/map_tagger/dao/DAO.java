@@ -38,7 +38,7 @@ public class DAO {
 			Map map = new Map("user1");
 			map.setName(mapNames[i]);
 			for (int j = 0; j < 3; j++) {
-				Place place = new Place("place"+i+""+j);
+				Place place = new Place("Place"+i+""+j);
 				place.setLocation(locations[i][j][0],locations[i][j][1]);
 				place.setDescription("description"+i+""+j);
 				map.addPlace(place);
