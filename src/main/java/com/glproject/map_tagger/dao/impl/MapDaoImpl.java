@@ -176,8 +176,7 @@ public class MapDaoImpl implements MapDao {
 		try {
 			tx.begin();
 			map = pm.getObjectById(Map.class, ID);
-			//TODO: same as UserDaoImpl, is it really like that we have to do???
-			map.getPlaces();			
+			map.getPlaces();
 			detached = pm.detachCopy(map);
 			tx.commit();
 

@@ -333,6 +333,7 @@ class PanelManager {
 
         $("#nameOneMapMenu").text(map.name);
         $("#descriptionOneMapMenu").text(map.description);
+        $("#oneMapConfidentiality").text(map.confidentiality);
 
         $("#oneMapPlaces").text("");
 
@@ -355,7 +356,14 @@ class PanelManager {
 
     static setOnePlaceMenu(place){
         $("#onePlaceMenu h1").text(place.name);
-        $("#onePlaceMenu textarea").text(place.description);
+        $("#onePlaceMenu .descriptionArea").text(place.description);
+
+        $("#onePlaceTags").text("");
+        $("#onePlaceTags").append(place.tags[0]);
+        for (let i = 1; i < place.tags.length; i++) {
+            $("#onePlaceTags").append(" "+place.tags[i]);
+            
+        }
         
         ClickManager.setClickModifyPlace(place);
     }
@@ -393,7 +401,7 @@ class ClickManager {
      */
     static setClickParameters(){
         $("#parameters").click(function (e) { 
-            console.log("parameting !");
+            console.log("parametring !");
             
         });
     }
@@ -644,21 +652,12 @@ class ClickManager {
                 alert("A name tag has to be only one word");
             }
             else {
-
-                //below: if we use a <p> or a <div>
-                /*
-                var template = _.template($("#templateAddPlaceTags").html());
-                $("#addAPlaceTags").append(template({
-                    addOneTagName: newTag
-                }));
-                */
-
-               //below: if we use a text area           
+                    
                 if ($("#addAPlaceTags").val()===""){
-                    $("#addAPlaceTags").append(newTag);
+                    $("#addAPlaceTags").append("#"+newTag);
                 }
                 else{
-                    $("#addAPlaceTags").append(" "+newTag);
+                    $("#addAPlaceTags").append(" #"+newTag);
                 }
                        
             }

@@ -56,9 +56,13 @@
                             <input type="text" placeholder="add a new tag..." id="addATagInput" autocomplete="off"/>
                             <button id="addATagButton" type="button">Add</button>
 
+
+
                             
-                            <textarea id="addAPlaceTags" disabled rows="7" cols="25"></textarea>
-                            <!--Not used right now-->
+                            <textarea id="addAPlaceTags" disabled rows="7" cols="25" ></textarea>
+                            
+                            <!-- Not used for now:
+                            <div id="addAPlaceTags"></div>-->
                             <script id="templateAddPlaceTags" type="text/template">
                                 <button class="ANewTagButton" type="button"> <%=addOneTagName %> </button>
                             </script>
@@ -153,15 +157,16 @@
             
             <div class="Menu" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>       
-                <textarea rows=8 cols=32 disabled><!--Description of the place:--></textarea>
+                <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
+                <textarea id="onePlaceTags" disabled rows="7" cols="32" disabled></textarea>
                 <button class="modifyButton" id="modifyPlace">Modify place</button>
                 <button class="MenuQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
-            <div class="Menu" id="oneMapMenu">
+            <div class="Menu" id="oneMapMenu"> 
                 <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>       
-                <textarea rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
-                
+                <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
+                <h3 id="oneMapConfidentiality"></h3>
                 <!--list of places of this map-->
                 <div id="oneMapPlaces" class="Scrollbar"></div>
                 <script id="templateOneMapPlaces" type="text/template">
@@ -186,7 +191,6 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
 
-        20
         <script type="text/javascript" src="scripts/main.js"></script>
 
     </body>

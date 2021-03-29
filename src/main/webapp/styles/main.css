@@ -217,28 +217,24 @@ textarea{
   }
 
 #addAPlaceTags{
+    resize: none;
     position: absolute;
-    background-color: #a39b9b;
+    background-color: #cac3c3;
     bottom: 6%;
     left: 4.7%;
-    /*width: 25%;
+    width: 25%;
     height: 15%;
-    overflow-x: auto;*/
+    overflow-x: auto;
 }
-
-/*
-.ANewTagButton{
-    
-
-}
-*/
 
 #addATagInput{
+
     position: absolute;
     bottom: 27%;
     left: 5%;   
 }
 
+/*not used for now */
 #addATagButton{
     position: absolute;
     bottom: 27%;
@@ -461,11 +457,17 @@ textarea{
     left: 20%;
 }
 
-.Menu textarea{
+
+.Menu .descriptionArea{
     font-size: 16px;
     position: relative;
     /*top: 15%;*/
     resize: none;
+}
+
+#onePlaceTags{
+    resize: none;
+    font-size: 16px;
 }
 
 /**

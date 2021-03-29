@@ -1,5 +1,7 @@
 package com.glproject.map_tagger.dao;
 
+import java.util.Arrays;
+
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
@@ -34,6 +36,13 @@ public class DAO {
 								 };
 		String[] mapNames = {"Tours","Cour-Cheverny","Paris","Lyon"};
 		
+		String[][][] tags = {{{"appartement","centre-ville","9m²"},{"jardin","botanique"},{"université","bretonneau"}},
+				             {{"transport","bus"},{"parking","cascade","arbres"},{"butte","étang","hérissons"}},
+				             {{"appartement","32m²"},{"restaurant","japonais"},{"restaurant","falafel","Marais"}},
+				             {{"tag1","tag2","tag3"},{"tag1","tag3","tag4"},{"tag2","tag4","tag5"}}};
+		
+		
+		
 		for (int i = 0; i < 4; i++) {
 			Map map = new Map("user1");
 			map.setName(mapNames[i]);
@@ -41,6 +50,7 @@ public class DAO {
 				Place place = new Place("Place"+i+""+j);
 				place.setLocation(locations[i][j][0],locations[i][j][1]);
 				place.setDescription("description"+i+""+j);
+				place.setTags(Arrays.asList(tags[i][j]));
 				map.addPlace(place);
 			}
 			if(i==0) {
@@ -67,7 +77,7 @@ public class DAO {
 			map.setDescription("description of map"+i);
 			map.setConfidentiality(Confidentiality.PUBLIC);
 			
-			for (int j = 0; j < 3; j++) {
+			for (int j = 0; j < 7; j++) {
 				Place place = new Place("Place "+i+","+j);
 				place.setDescription("description of place "+i+","+j);
 				map.addPlace(place);
