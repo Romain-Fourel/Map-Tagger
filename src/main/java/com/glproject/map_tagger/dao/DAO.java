@@ -51,6 +51,10 @@ public class DAO {
 				place.setLocation(locations[i][j][0],locations[i][j][1]);
 				place.setDescription("description"+i+""+j);
 				place.setTags(Arrays.asList(tags[i][j]));
+				
+				String[] messages = {"message ("+i+","+j+",1)","message ("+i+","+j+",2)","message ("+i+","+j+",3)"};
+				place.setMessages(Arrays.asList(messages));
+				
 				map.addPlace(place);
 			}
 			if(i==0) {

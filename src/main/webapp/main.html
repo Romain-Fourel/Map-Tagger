@@ -56,9 +56,7 @@
                             <input type="text" placeholder="add a new tag..." id="addATagInput" autocomplete="off"/>
                             <button id="addATagButton" type="button">Add</button>
 
-
-
-                            
+ 
                             <textarea id="addAPlaceTags" disabled rows="7" cols="25" ></textarea>
                             
                             <!-- Not used for now:
@@ -88,8 +86,8 @@
                             <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionMap" placeholder="Describe this map..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
                             <select name="confidentiality" class="PopupChoice" id="confidentialityChoiceMap" placeholder="confidentiality" required>
-                                <option value="PUBLIC">Public</option>
                                 <option value="PRIVATE">Private</option>
+                                <option value="PUBLIC">Public</option>                     
                             </select>
                             <button class="createOkButton" id="editMap" type="reset">Ok</button>
                         </form>
@@ -104,7 +102,7 @@
             <div class="Menu" id="communityMapsMenu">
                 <h1>Community Maps</h1>
                 
-                <div id="communityMapsButtons" class="Scrollbar"></div>
+                <div id="communityMapsButtons" class="Scrollbar fullScrollbar"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
                     <p class='OneDiv'>
@@ -119,7 +117,7 @@
         
             <div class="Menu" id="savedMapsMenu">
                 <h1>My Maps</h1>
-                <div id="savedMapsButtons" class="Scrollbar">
+                <div id="savedMapsButtons" class="Scrollbar fullScrollbar">
                     <!--Here are dynamically added the maps of the current user-->              
                 </div>
                 <!--Below: the script for the div above!-->
@@ -142,7 +140,7 @@
 
             <div class="Menu" id="placesListMenu">
                 <h1>My Places</h1>       
-                <div id="placesListButtons" class="Scrollbar"></div>
+                <div id="placesListButtons" class="Scrollbar fullScrollbar"></div>
 
                 <!--Below: the script for the div above!-->
                 <script id="templateOnePlaceButton" type="text/template">
@@ -156,26 +154,50 @@
             </div>
             
             <div class="Menu" id="onePlaceMenu">
-                <h1><!--Here the name of the place--></h1>       
-                <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
-                <textarea id="onePlaceTags" disabled rows="7" cols="32" disabled></textarea>
+                <h1><!--Here the name of the place--></h1>   
+                
+                <div class="Scrollbar fullScrollbar">
+                    <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
+                    <textarea id="onePlaceTags" disabled rows="7" cols="32" disabled></textarea>
+                    <h3>Comments:</h3>
+                    <button id="addAMessageButton">Add a comment</button>
+                    <br/>           
+                    
+                    <div id="addAMessageDiv"></div>
+                    <script id="templateOnePlaceAddAMessage" type="text/template">
+                        <textarea id="addAMessageTextarea" cols="32" rows="4"></textarea>
+                        <button id="onePlaceSendMessage">Send</button>
+                    </script>
+
+                    <div id="onePlaceMessages"></div>
+                    <script id="templateOnePlaceMessages" type="text/template">
+                            <textarea class="oneMessageTextarea" cols="32" rows="4" disabled>
+                                <%= onePlaceMessage %>
+                            </textarea>   
+                    </script>
+
+                </div>
+
                 <button class="modifyButton" id="modifyPlace">Modify place</button>
                 <button class="MenuQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
             <div class="Menu" id="oneMapMenu"> 
-                <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>       
-                <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
-                <h3 id="oneMapConfidentiality"></h3>
-                <!--list of places of this map-->
-                <div id="oneMapPlaces" class="Scrollbar"></div>
-                <script id="templateOneMapPlaces" type="text/template">
-                    <p class='OneDiv' id= <%= oneMapPlaceId %> >
-                        <label class='labelOneDiv'><%= namePlace %></label>
-                        <button class='buttonShowsDetails' id= <%= buttonOnePlaceMenuId %> > > </button>
-                    </p>
-                </script>
-
+                <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>     
+                
+                <div class="Scrollbar fullScrollbar">
+                    <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
+                    <h3 id="oneMapConfidentiality"></h3>
+    
+                    <!--list of places of this map-->
+                    <div id="oneMapPlaces"></div>
+                    <script id="templateOneMapPlaces" type="text/template">
+                        <p class='OneDiv' id= <%= oneMapPlaceId %> >
+                            <label class='labelOneDiv'><%= namePlace %></label>
+                            <button class='buttonShowsDetails' id= <%= buttonOnePlaceMenuId %> > > </button>
+                        </p>
+                    </script>
+                </div>
 
                 <button class="modifyButton" id="modifyMap">Modify map</button>
                 <button class="MenuQuit" id="oneMapMenuQuit">Close</button> 

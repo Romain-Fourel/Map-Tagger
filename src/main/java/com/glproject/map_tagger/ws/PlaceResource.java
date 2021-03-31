@@ -63,8 +63,6 @@ public class PlaceResource {
 
 		Place detached = DAO.getPlaceDao().addPlaceTo(Long.parseLong(mapId), place);
 		
-		System.out.println(detached.getTags());
-		
 		return Response.ok(detached).build();		
 	}
 

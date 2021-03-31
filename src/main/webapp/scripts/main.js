@@ -125,6 +125,8 @@ class PlaceManager {
 }
 
 
+
+
 class MapManager {
 
     /**
@@ -213,14 +215,17 @@ class PanelManager {
 
         getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
             $("#mapChoicePlace").text("");
+            $("#addAPlaceTags").text("");
 
-            /**
-             * TODO: generate this html text with underscore.js
-             */
-            $("#mapChoicePlace").append("<option value='CAMap'>--- Choose a map ---</option>");
+            var template = _.template($("#templateMapChoicePlace").html());
+
+            $("#mapChoicePlace").append(template({nameMap:"--- Choose a map ---",valueMapChose:"CAMap"}));
             for (const map of mapList) {
-                var mapChoice = "<option value=" + map.id + " id='optionMap" + map.id + "'>" + map.name + "</option>";
-                $("#mapChoicePlace").append(mapChoice);            
+                var mapChoiceHtml = template({
+                    nameMap: map.name,
+                    valueMapChose: map.id
+                })
+                $("#mapChoicePlace").append(mapChoiceHtml);            
             }
         })
         ClickManager.setClickCreatePlace();
@@ -234,12 +239,20 @@ class PanelManager {
         var mapid = PlaceManager.dict.get(place.id).mapid;
         $("#mapChoicePlace").val(mapid);    
 
+        var tagsPlace = "";
+        tagsPlace += place.tags[0];
+        for (let i = 1; i < place.tags.length; i++) {
+            tagsPlace += " "+place.tags[i];        
+        }
+        $("#addAPlaceTags").text(tagsPlace);
+
         getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
             $("#mapChoicePlace").text("");
             
+            
             var template = _.template($("#templateMapChoicePlace").html());
 
-            $("#mapChoicePlace").append(template({nameMap:"--- Choose a map",valueMapChose:"CAMap"}));
+            $("#mapChoicePlace").append(template({nameMap:"--- Choose a map ---",valueMapChose:"CAMap"}));
             for (const map of mapList) {
                 var mapChoiceHtml = template({
                     nameMap: map.name,
@@ -364,7 +377,16 @@ class PanelManager {
             $("#onePlaceTags").append(" "+place.tags[i]);
             
         }
-        
+        $("#addAMessageDiv").text("");
+        var template = _.template($("#templateOnePlaceMessages").html());
+
+        $("#onePlaceMessages").text("");
+        for (const message of place.messages) {
+            $("#onePlaceMessages").append(template({
+                onePlaceMessage:message
+            }));
+        }
+        ClickManager.setClickAddAMessageButton(place);
         ClickManager.setClickModifyPlace(place);
     }
 
@@ -499,11 +521,13 @@ class ClickManager {
     }
 
     static setClickUpdatePlace(place){
-        $("#editPlace").unbind("click");//we unbind the button before assignment
+        $("#editPlace").unbind("click");
         $("#editPlace").click(function () {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             //var mapChose = $("#mapChoicePlace").val();
+
+            var tags = $("#addAPlaceTags").val().split(" ");
         
             if (namePlace === "" && mapChose === "CAMap") {
                 alert("Please name this place and choose a map to put it in");
@@ -521,6 +545,7 @@ class ClickManager {
         
             place.name = namePlace;
             place.description = descriptionPlace;
+            place.tags= tags;
         
             postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
                 var placeManager = PlaceManager.dict.get(updatedPlace.id);
@@ -642,11 +667,12 @@ class ClickManager {
         });
     }
 
+
+
     static setClickAddATagButton(){
         $("#addATagButton").click(function (e) { 
             var newTag = $("#addATagInput").val();
             $("#addATagInput").val("");
-            console.log(newTag);
 
             if (newTag.indexOf(" ")>=0){
                 alert("A name tag has to be only one word");
@@ -661,6 +687,29 @@ class ClickManager {
                 }
                        
             }
+        });
+    }
+
+    static setClickAddAMessageButton(place){
+        $("#addAMessageButton").unbind("click");
+        $("#addAMessageButton").click(function (e) { 
+            var template = _.template($("#templateOnePlaceAddAMessage").html());
+
+            $("#addAMessageDiv").append(template());
+
+            ClickManager.setClickOnePlaceSendMessage(place);
+            
+        });
+    }
+
+    static setClickOnePlaceSendMessage(place){
+        $("#onePlaceSendMessage").unbind("click");
+        $("#onePlaceSendMessage").click(function (e) { 
+
+            place.messages.push($("#addAMessageTextarea").val());
+            postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
+                PanelManager.setOnePlaceMenu(updatedPlace);
+            });                 
         });
     }
 
@@ -785,8 +834,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.5");
-
+    console.log("Test 2.9.3");
 
     loadUser();
     LeafletManager.build();

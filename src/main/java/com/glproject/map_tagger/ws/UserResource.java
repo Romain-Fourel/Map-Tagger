@@ -35,6 +35,11 @@ public class UserResource {
 	}
 
 
+	/**
+	 * 
+	 * @param data has to be like: [username,password]
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,14 +53,12 @@ public class UserResource {
 		
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
-				System.out.println("the user "+user+" is the good one!!");
 				currentSession = user.getID();
 				return Response.ok(true).build();
 			}
 		}	
-		
-		System.out.println("No user in the database has matched");
-		//We want to return an "not accepted" response
+
+		//We want to return a "not accepted" response
 		return Response.ok(false).build();
 		
 	}
@@ -81,9 +84,8 @@ public class UserResource {
 	
 	
 	/**
-	 * @param identity must be like:
-	 * "name
-	 * password"
+	 * 
+	 * @param data has to be like: [username,password]
 	 * @return
 	 */
 	@POST
@@ -97,10 +99,7 @@ public class UserResource {
 		
 		User newUser = new User(username, password);
 		newUser = DAO.getUserDao().addUser(newUser);
-		
-		System.out.println(DAO.getUserDao().getUsers());
-		
-			
+					
 		currentSession = newUser.getID();
 		
 		return Response.ok(newUser).build();
