@@ -31,9 +31,12 @@ public class UserDaoImpl implements UserDao {
 		try {
 			tx.begin();
 			detached = pm.makePersistent(user);
+			
+			detached.getMapList();
 			for (Map map : detached.getMapList()) {
 				map.getPlaces();
 			}
+
 			tx.commit();
 
 		} finally {

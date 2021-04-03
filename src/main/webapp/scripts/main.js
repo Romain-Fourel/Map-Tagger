@@ -3,6 +3,8 @@ class LeafletManager {
 
     static lastPointClicked = { latitude: 0, longitude: 0 };
 
+    static searchingPlacesLayerGroup;
+
     constructor() { }
 
     static build() {
@@ -64,12 +66,12 @@ function showOverlay() {
 
 
 
-function openSlidingPanel(id) {
-    $(id).css("right", -50);
+function openSlidingPanel(direction,id) {
+    $(id).css(direction, -50);
 }
 
-function closeSlidingPanel(id) {
-    $(id).css("right", -400)
+function closeSlidingPanel(direction,id) {
+    $(id).css(direction, -400)
 }
 
 
@@ -83,10 +85,9 @@ class PlaceManager {
      */
     static dict = new Map();
 
-    constructor(place,mapid) {
+    constructor(place) {
         this.place = place;
         this.marker = L.marker([place.latitude, place.longitude]);
-        this.mapid = mapid; // the id of the map which contains this place
         PlaceManager.dict.set(place.id, this);
 
         this.marker.bindPopup("<b>" + this.place.name + "</b>");
@@ -113,8 +114,8 @@ class PlaceManager {
             description:placeDescription,
             latitude:placeLatitude,
             longitude:placeLongitude,
-            pictures:["webapp/style/images"],
-            messages:["a pretty place!"],
+            pictures:[],
+            messages:[],
             tags:tags
         }
 
@@ -144,7 +145,7 @@ class MapManager {
         //------------- To show places on the leaflet map and store them -----------
         if (this.map.places !== undefined) {
             for (const place of this.map.places) {
-                var placeManager = new PlaceManager(place,mapid);
+                var placeManager = new PlaceManager(place);
                 placeManager.marker.addTo(this.layerGroup);
             }
         }
@@ -236,7 +237,7 @@ class PanelManager {
         $("#addNamePlace").val(place.name);
         $("#addDescriptionPlace").val(place.description);
 
-        var mapid = PlaceManager.dict.get(place.id).mapid;
+        var mapid = place.mapId;
         $("#mapChoicePlace").val(mapid);    
 
         var tagsPlace = "";
@@ -388,6 +389,13 @@ class PanelManager {
         }
         ClickManager.setClickAddAMessageButton(place);
         ClickManager.setClickModifyPlace(place);
+        ClickManager.setClickCenterToMarkerPlaceButton(place);
+        
+    }
+
+
+    static setSearchingPlacesMenu(){
+        $("#searchingPlacesTags").val("");
     }
 
 
@@ -401,7 +409,10 @@ class ClickManager {
 
     static build(){
         ClickManager.setClickCommunityMapsB();
+        
         ClickManager.setClickSavedMapsB();
+        ClickManager.setClickAddAMapB();
+        
         ClickManager.setClickPlacesListB();
         
         ClickManager.setClickResearcher();
@@ -409,12 +420,12 @@ class ClickManager {
 
         ClickManager.setClickMenuQuit();
         
-        ClickManager.setClickAddAPlaceB();     
-        $(".CloseButton").click(hideOverlay); 
-
-        ClickManager.setClickAddAMapB();
-
-        ClickManager.setClickAddATagButton();
+        ClickManager.setClickAddAPlaceB();  
+        ClickManager.setClickAddATagButton();   
+        $(".CloseButton").click(hideOverlay);    
+  
+        ClickManager.setClickSearchByTagsButton();
+        ClickManager.setClickSearchingPlacesMenuQuit();
     }
 
 
@@ -428,15 +439,78 @@ class ClickManager {
         });
     }
 
-    /**
-     * TODO
-     */
     static setClickResearcher(){
         $("#researcher").click(function (e) { 
-            console.log("searching!");
+            openSlidingPanel("left","#searchingPlacesMenu");  
+            PanelManager.setSearchingPlacesMenu();   
+        });
+    }
+
+    /**
+     * TODO: IN PROGRESS
+     */
+    static setClickSearchByTagsButton(){
+        $("#searchByTagsButton").click(function (e) { 
+            
+            var newTag = $("#addASearchingTagInput").val();
+            $("#addASearchingTagInput").val("");
+
+            if (newTag.indexOf(" ")>=0){
+                alert("This name tag doesn't exists");
+            }
+            else {
+                if ($("#searchingPlacesTags").val()===""){
+                    $("#searchingPlacesTags").val("#"+newTag);
+                    
+                }
+                else{
+                    $("#searchingPlacesTags").val($("#searchingPlacesTags").val()+" #"+newTag);
+                }
+                       
+            }
+
+            if (LeafletManager.searchingPlacesLayerGroup !== undefined){
+                LeafletManager.removeLayer(LeafletManager.searchingPlacesLayerGroup);
+            }
+            
+            LeafletManager.searchingPlacesLayerGroup = L.layerGroup();
+
+            var tags = $("#searchingPlacesTags").val().split(" ");
+
+            console.log(LeafletManager.map.getZoom());
+
+            var pointUpLeft = LeafletManager.map.unproject(LeafletManager.map.getPixelOrigin());
+            console.log(LeafletManager.map.getPixelOrigin());
+            console.log(pointUpLeft);
+            
+            var radius = LeafletManager.map.getCenter().distanceTo(pointUpLeft);
+            
+            //TODO: a circle just to debug...
+            L.circle([LeafletManager.map.getCenter().lat,LeafletManager.map.getCenter().lng],radius).addTo(LeafletManager.map);
+
+            postServerdata("ws/Place/byTags",JSON.stringify(tags),function(places){
+
+                var placesNear = []; // all places witch are into the visible part of the map
+
+                for (const place of places) {
+                    var pointPlace = {lat:place.latitude,lng:place.longitude};
+                    if(LeafletManager.map.getCenter().distanceTo(pointPlace)<radius){
+                        placesNear.push(place);
+                    }
+                }
+
+                for (const place of placesNear) {
+
+                    var placeManager = new PlaceManager(place);
+                    placeManager.marker.addTo(LeafletManager.searchingPlacesLayerGroup);
+                    
+                }
+                LeafletManager.addLayer(LeafletManager.searchingPlacesLayerGroup);
+            });         
             
         });
     }
+
 
     static setClickAddAPlaceB(){
 
@@ -464,6 +538,7 @@ class ClickManager {
     static setClickOnTheMap(){
 
         LeafletManager.map.on("click",function(event){
+
             LeafletManager.lastPointClicked.latitude = event.latlng.lat;
             LeafletManager.lastPointClicked.longitude = event.latlng.lng;
             $("#addAPlaceMenu").css("visibility", "visible");
@@ -496,16 +571,16 @@ class ClickManager {
                 return false;
             }
 
+            var mapid = parseInt(mapChose);
+
             var placeToSend = PlaceManager.placeToJSon(namePlace,
                                                         descriptionPlace,
                                                         LeafletManager.lastPointClicked.latitude,
                                                         LeafletManager.lastPointClicked.longitude,
                                                         tags);
-
-            var mapid = parseInt(mapChose);
         
             postServerdata("ws/Place/create/"+mapid,placeToSend,function (newPlace){
-                var placeManager = new PlaceManager(newPlace,mapid);
+                var placeManager = new PlaceManager(newPlace);
                 var mapManager = MapManager.dict.get(mapid);
     
                 mapManager.add(placeManager);
@@ -636,7 +711,7 @@ class ClickManager {
     static setClickSavedMapsB(){
         $("#savedMapsB").click(function (e) { 
 
-            openSlidingPanel("#savedMapsMenu");
+            openSlidingPanel("right","#savedMapsMenu");
             PanelManager.setSavedMapsMenu();
             
         });
@@ -645,7 +720,7 @@ class ClickManager {
     static setClickCommunityMapsB(){
         $("#communityMapsB").click(function (e) { 
 
-            openSlidingPanel("#communityMapsMenu");
+            openSlidingPanel("right","#communityMapsMenu");
             PanelManager.setCommunityMapsMenu();     
         });
     }
@@ -653,7 +728,7 @@ class ClickManager {
     static setClickPlacesListB(){
         $("#placesListB").unbind("click");
         $("#placesListB").click(function (e) { 
-            openSlidingPanel("#placesListMenu");
+            openSlidingPanel("right","#placesListMenu");
             PanelManager.setPlacesListMenu();      
         });
     }
@@ -662,12 +737,18 @@ class ClickManager {
      * set the click to quit for all menu
      */
     static setClickMenuQuit(){
-        $(".MenuQuit").click(function (e) { 
-            closeSlidingPanel("#"+this.id.split("Quit")[0]);    
+        $(".RightSlidingPanelQuit").click(function (e) { 
+            closeSlidingPanel("right","#"+this.id.split("Quit")[0]);    
         });
     }
 
-
+    static setClickSearchingPlacesMenuQuit(){
+        $("#searchingPlacesMenuQuit").click(function (e) { 
+            closeSlidingPanel("left","#searchingPlacesMenu");
+            if (LeafletManager.searchingPlacesLayerGroup!==undefined)
+                LeafletManager.removeLayer(LeafletManager.searchingPlacesLayerGroup);       
+        });
+    }
 
     static setClickAddATagButton(){
         $("#addATagButton").click(function (e) { 
@@ -748,8 +829,8 @@ class ClickManager {
 
         $("#buttonOneCommunityMapMenu" +  map.id).unbind("click");
         $("#buttonOneCommunityMapMenu" +  map.id).click(function () {
-            closeSlidingPanel("#onePlaceMenu");
-            openSlidingPanel("#oneMapMenu");
+            closeSlidingPanel("right","#onePlaceMenu");
+            openSlidingPanel("right","#oneMapMenu");
             getServerData("ws/Map/"+map.id,function(mapGot){
                 PanelManager.setOneMapMenu(mapGot);
             }) 
@@ -758,8 +839,8 @@ class ClickManager {
 
         $("#buttonOneMapMenu" +  map.id).unbind("click");
         $("#buttonOneMapMenu" +  map.id).click(function () {
-            closeSlidingPanel("#onePlaceMenu");
-            openSlidingPanel("#oneMapMenu");
+            closeSlidingPanel("right","#onePlaceMenu");
+            openSlidingPanel("right","#oneMapMenu");
             getServerData("ws/Map/"+map.id,function(mapGot){
                 PanelManager.setOneMapMenu(mapGot);
             }) 
@@ -771,8 +852,8 @@ class ClickManager {
 
         $("#buttonOnePlaceMenu2" +  place.id).unbind("click");
         $("#buttonOnePlaceMenu2" +  place.id).click(function () {
-            openSlidingPanel("#onePlaceMenu");
-            closeSlidingPanel("#oneMapMenu");  
+            openSlidingPanel("right","#onePlaceMenu");
+            closeSlidingPanel("right","#oneMapMenu");  
 
             getServerData("ws/Place/"+place.id,function (result) {
                 PanelManager.setOnePlaceMenu(result);
@@ -782,8 +863,8 @@ class ClickManager {
 
         $("#buttonOnePlaceMenu" +  place.id).unbind("click");
         $("#buttonOnePlaceMenu" +  place.id).click(function () {
-            openSlidingPanel("#onePlaceMenu");
-            closeSlidingPanel("#oneMapMenu");  
+            openSlidingPanel("right","#onePlaceMenu");
+            closeSlidingPanel("right","#oneMapMenu");  
 
             getServerData("ws/Place/"+place.id,function (result) {
                 PanelManager.setOnePlaceMenu(result);
@@ -793,10 +874,10 @@ class ClickManager {
     }
 
     static setClickMarker(placeManager){
-
+        placeManager.marker.off("click");
         placeManager.marker.on("click",function(){
-            openSlidingPanel("#onePlaceMenu");  
-            closeSlidingPanel("#oneMapMenu");  
+            openSlidingPanel("right","#onePlaceMenu");  
+            closeSlidingPanel("right","#oneMapMenu");  
 
             var place = placeManager.place;
             getServerData("ws/Place/"+place.id,function (result) {
@@ -804,6 +885,15 @@ class ClickManager {
                 ClickManager.setClickModifyPlace(result);             
             });
         })
+    }
+
+    static setClickCenterToMarkerPlaceButton(place){
+        $("#centerToMarkerPlaceButton").unbind("click");
+        $("#centerToMarkerPlaceButton").click(function (e) { 
+            var center = {lat:place.latitude,lng:place.longitude};
+            LeafletManager.map.flyTo(center,17);
+            
+        });
     }
 
 }
@@ -834,7 +924,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.9.3");
+    console.log("Test 2.9.6");
 
     loadUser();
     LeafletManager.build();

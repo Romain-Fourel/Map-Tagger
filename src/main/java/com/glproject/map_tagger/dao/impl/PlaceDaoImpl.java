@@ -54,6 +54,8 @@ public class PlaceDaoImpl implements PlaceDao {
 			tx.begin();
 			Map mapPersistent = pm.getObjectById(Map.class, mapId);
 			
+			place.setMapId(mapId);
+			
 			mapPersistent.addPlace(place);
 			
 			detached = pm.detachCopy(place);
@@ -85,6 +87,7 @@ public class PlaceDaoImpl implements PlaceDao {
 			placePersistent.setMessages(place.getMessages());
 			placePersistent.setPictures(place.getPictures());
 			placePersistent.setTags(place.getTags());
+			placePersistent.setMapId(place.getMapId());
 			
 			detached = pm.detachCopy(placePersistent);
 								
@@ -131,35 +134,6 @@ public class PlaceDaoImpl implements PlaceDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Place> getPlaces(List<String> tags) {
-		List<Place> places = null;
-		List<Place> detached = new ArrayList<Place>();
-
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-
-			Query q = pm.newQuery(Place.class);
-			q.declareParameters("List<String> tagsPlace");
-			
-			q.setFilter("tags.containsAll(tagsPlace)");
-			places = (List<Place>) q.execute(tags);
-			detached = (List<Place>) pm.detachCopyAll(places);
-
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Place> getPlaces(String name) {
 		List<Place> places = null;
 		List<Place> detached = new ArrayList<Place>();
@@ -188,35 +162,6 @@ public class PlaceDaoImpl implements PlaceDao {
 		return detached;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Place> getPlacesNear(Place place, double radius) {
-		List<Place> places = null;
-		List<Place> detached = new ArrayList<Place>();
-
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-
-		try {
-			tx.begin();
-
-			Query q = pm.newQuery(Place.class);
-			q.declareParameters("Place place,double radius");
-						
-			q.setFilter(" place.getDistanceTo(this) < radius");
-			places = (List<Place>) q.execute(place,radius);
-			detached = (List<Place>) pm.detachCopyAll(places);
-
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-	}
 
 	@Override
 	public Place getPlace(Long ID) {

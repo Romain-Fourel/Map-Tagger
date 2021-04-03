@@ -34,6 +34,13 @@ public interface MapDao {
 	 *         "name" into their user name
 	 */
 	List<Map> getMaps(String name);
+	
+	/**
+	 * get the map which contains a specific place
+	 * @param place
+	 * @return
+	 */
+	Map getMapOf(Place place);
 
 	Map addMapTo(Long userId, Map map);
 		

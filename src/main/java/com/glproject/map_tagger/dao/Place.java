@@ -32,6 +32,8 @@ public class Place {
 	List<String> pictures; // the path of the pictures stored in webapp/style/images
 	List<String> messages;
 	List<String> tags; // a list of strings which represents tags
+	
+	long mapId; //the id of the map which contains this place
 
 	public Place() {
 		super();
@@ -45,18 +47,6 @@ public class Place {
 		this.name=name;
 	}
 	
-
-	public Place(String name, String description, double latitude, double longitude, List<String> pictures,
-			List<String> messages, List<String> tags) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.pictures = pictures;
-		this.messages = messages;
-		this.tags = tags;
-	}
 
 	public Long getID() {
 		return id;
@@ -125,6 +115,16 @@ public class Place {
 		this.tags = tags;
 	}
 	
+	
+	
+	public Long getMapId() {
+		return mapId;
+	}
+
+	public void setMapId(Long mapId) {
+		this.mapId = mapId;
+	}
+
 	public void addPicture(String picturePath) {
 		pictures.add(picturePath);
 	}
@@ -137,24 +137,30 @@ public class Place {
 		tags.add(tag);
 	}
 	
+	/**
+	 * @param tags
+	 * @return true if all tags into a specific list of tags are into the list of the tags place
+	 */
+	public boolean isTaggedBy(String[] tagsTab) {
+		for (String tag : tagsTab) {
+			if (!tags.contains(tag)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return name+" #"+id;
 	}
 	
-	public String toCompleteString() {
-		return id+"\n"
-			  +name+"\n"
-			  +description+"\n"
-			  +longitude+" , "+latitude+"\n"
-			  +pictures+"\n"
-			  +messages+"\n"
-			  +tags+"\n";
-	}
 	
-	public double getDistanceTo(Place place) {
-		return Math.sqrt((latitude-place.latitude)*(latitude-place.latitude)+
-						 (longitude-place.longitude)*(longitude-place.longitude));
+	public String toCompleteString() {
+		return "Place [id=" + id + ", name=" + name + ", description=" + description + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", pictures=" + pictures + ", messages=" + messages + ", tags=" + tags
+				+ ", mapId=" + mapId + "]";
 	}
 
 }

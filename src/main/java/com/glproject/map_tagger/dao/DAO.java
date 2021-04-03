@@ -1,6 +1,8 @@
 package com.glproject.map_tagger.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
@@ -36,16 +38,26 @@ public class DAO {
 								 };
 		String[] mapNames = {"Tours","Cour-Cheverny","Paris","Lyon"};
 		
-		String[][][] tags = {{{"appartement","centre-ville","9m²"},{"jardin","botanique"},{"université","bretonneau"}},
-				             {{"transport","bus"},{"parking","cascade","arbres"},{"butte","étang","hérissons"}},
-				             {{"appartement","32m²"},{"restaurant","japonais"},{"restaurant","falafel","Marais"}},
-				             {{"tag1","tag2","tag3"},{"tag1","tag3","tag4"},{"tag2","tag4","tag5"}}};
+		String[][][] tags = {{{"#appartement","#centre-ville","#9m²"},{"#jardin","#botanique"},{"#université","#bretonneau"}},
+				             {{"#transport","#bus"},{"#parking","#cascade","#arbres"},{"#butte","#étang","#hérissons"}},
+				             {{"#appartement","#32m²"},{"#restaurant","#japonais"},{"#restaurant","#falafel","#Marais"}},
+				             {{"#tag1","#tag2","#tag3"},{"#tag1","#tag3","#tag4"},{"#tag2","#tag4","#tag5"}}};
 		
-		
+		User userDetached = getUserDao().addUser(user);
+		long userId = userDetached.getID();
 		
 		for (int i = 0; i < 4; i++) {
 			Map map = new Map("user1");
 			map.setName(mapNames[i]);
+			
+			if(i==3) {
+				map.setVisibility(false);
+			}
+			map.setDescription("description"+i);
+			
+			Map detached = getMapDao().addMapTo(userId, map);
+			long mapId = detached.getID();
+			
 			for (int j = 0; j < 3; j++) {
 				Place place = new Place("Place"+i+""+j);
 				place.setLocation(locations[i][j][0],locations[i][j][1]);
@@ -55,16 +67,11 @@ public class DAO {
 				String[] messages = {"message ("+i+","+j+",1)","message ("+i+","+j+",2)","message ("+i+","+j+",3)"};
 				place.setMessages(Arrays.asList(messages));
 				
-				map.addPlace(place);
+				getPlaceDao().addPlaceTo(mapId, place);
 			}
-			if(i==0) {
-				map.setVisibility(false);
-			}
-			map.setDescription("description"+i);
-			user.addMap(map);
 		}
 		
-		getUserDao().addUser(user);
+		
 		
 		UserResource.setCurrentSession(user.getID());
 		
@@ -74,20 +81,56 @@ public class DAO {
 	
 	public static void generateManyFakeUsers() {
 		
-		for (int i = 0; i < 10; i++) {
+		int nbUsers = 10;
+		int nbPlacesPerUser = 7;
+		
+		double latitude = 48.858;
+		double longitude = 2.344;
+		double precision  = 0.01;
+		
+		
+		List<List<String[]>> tags = new ArrayList<List<String[]>>();
+		
+		for (int i = 0; i < nbUsers; i++) {
+			List<String[]> list = new ArrayList<>();
+			for (int j = 0; j < nbPlacesPerUser; j++) {
+				String[] tagsTab = {"#tag"+i+""+j,"#tagi"+i,"#tagj"+j,"#tagmod"+i%3,"#tagdiv4"+i/4,"#tagdiv3"+i/3,"#tag"};
+				list.add(tagsTab);
+			}
+			tags.add(list);
+		}
+		
+		List<List<String>> messages = new ArrayList<List<String>>();
+		
+		for (int i = 0; i < nbUsers; i++) {
+			List<String> list = new ArrayList<>();
+			for (int j = 0; j < nbPlacesPerUser; j++) {
+				list.add("message "+i+","+j);
+			}
+			messages.add(list);
+		}
+		
+		for (int i = 0; i < nbUsers; i++) {
 			User user = new User("user"+i, "password"+i);
+			User userDetached = getUserDao().addUser(user);	
+			long userId = userDetached.getID();
 			
 			Map map = new Map("user"+i, "map"+i);
 			map.setDescription("description of map"+i);
 			map.setConfidentiality(Confidentiality.PUBLIC);
+			Map detached = getMapDao().addMapTo(userId, map);
+			long mapId = detached.getID();
 			
-			for (int j = 0; j < 7; j++) {
+			for (int j = 0; j < nbPlacesPerUser; j++) {
 				Place place = new Place("Place "+i+","+j);
 				place.setDescription("description of place "+i+","+j);
-				map.addPlace(place);
+				place.setTags(Arrays.asList(tags.get(i).get(j)));
+				place.setMessages(messages.get(i));
+				place.setLatitude(latitude+precision*i);
+				place.setLongitude(longitude+precision*j);
+				getPlaceDao().addPlaceTo(mapId, place);
 			}
-			user.addMap(map);
-			getUserDao().addUser(user);	
+			
 		}	
 	}
 	

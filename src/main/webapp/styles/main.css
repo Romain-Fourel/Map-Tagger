@@ -312,12 +312,12 @@ textarea{
 
 
 /**
- *#######################  BELOW: CSS CODE FOR right sliding panels ############################################
+ *#######################  BELOW: CSS CODE FOR sliding panels ############################################
  */
 
 .Menu{
 	position: absolute;
-	right: -400px; top: 35px;
+    top:35px;
     z-index: 400;
     width: 380px;
     height: 650px;
@@ -330,14 +330,34 @@ textarea{
 }
 
 
-.MenuQuit{
+.LeftSlidingPanel{
+    left: -400px; 
+}
+
+
+.RightSlidingPanel{
+    right: -400px;
+}
+
+#addASearchingTagInput{
+    position: relative;
+    right:-50px;
+}
+
+#searchByTagsButton{
+    position: relative;
+    right: 245px;
+}
+
+
+.RightSlidingPanelQuit{
     position: absolute;
     left: 50px;
     bottom: 20px;
 }
 
 
-.MenuQuit{
+.RightSlidingPanelQuit{
     background: #afafaf;
     color: #ffffff;
     font-size: 19px;
@@ -348,7 +368,7 @@ textarea{
     width:auto;
     position: relative;
   }
-.MenuQuit:after {
+.RightSlidingPanelQuit:after {
     content: "\0027A9";
     font-weight: 400;
     font-size: 26px;
@@ -360,14 +380,14 @@ textarea{
     bottom: 0;
     opacity: 0;
   }
-.MenuQuit:hover {
+.RightSlidingPanelQuit:hover {
     background: #e04747;
     transition: all 0.5s;
     border-radius: 20px;
     box-shadow: 0px 6px 15px #ca5d5da2;
     padding: 1.0rem 3.0rem 1.0rem 1.0rem;
 }
-.MenuQuit:hover::after {
+.RightSlidingPanelQuit:hover::after {
     opacity: 1;
     transition: all 0.5s;
 }

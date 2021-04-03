@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.ws;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -36,6 +37,30 @@ public class PlaceResource {
 	public List<Place> getUserPlaces(@PathParam("id") String id){
 		return DAO.getUserDao().getUser(Long.parseLong(id)).getPlaces();
 	}
+	
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/byTags")
+	public Response getResearchedPlaces(List<String> tags){
+		
+		List<Place> places = new ArrayList<>();
+		
+		List<Map> publicMaps = DAO.getMapDao().getPublicMaps();
+		
+		for (Map map : publicMaps) {
+			for (Place place : map.getPlaces()) {
+				if (place.getTags().containsAll(tags)) {
+					places.add(place);
+				}
+			}
+		}
+		
+		return Response.ok(places).build();
+	}
+	
+	
 	
 	
 	/**

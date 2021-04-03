@@ -10,6 +10,7 @@ import javax.jdo.Transaction;
 
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.MapDao;
+import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.User;
 
 public class MapDaoImpl implements MapDao {
@@ -205,8 +206,11 @@ public class MapDaoImpl implements MapDao {
 			
 			maps = (List<Map>) q.execute("PUBLIC");
 			for (Map map : maps) {
-				map.getPlaces();
+				for (Place place : map.getPlaces()) {
+					place.getTags();
+				}
 			}
+
 			detached = (List<Map>) pm.detachCopyAll(maps);
 			
 			tx.commit();
@@ -221,6 +225,9 @@ public class MapDaoImpl implements MapDao {
 	}
 	
 	
+	public Map getMapOf(Place place) {
+		return getMap(place.getMapId());
+	}
 
 	@Override
 	public void delete(Map map) {

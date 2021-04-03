@@ -98,8 +98,9 @@
             </div>
          
             
+            <!------------ all RightSlidingPanels:--------------->
 
-            <div class="Menu" id="communityMapsMenu">
+            <div class="Menu RightSlidingPanel" id="communityMapsMenu">
                 <h1>Community Maps</h1>
                 
                 <div id="communityMapsButtons" class="Scrollbar fullScrollbar"></div>
@@ -112,10 +113,10 @@
                 </script>
 
 
-                <button class="MenuQuit" id="communityMapsMenuQuit">Close</button>
+                <button class="RightSlidingPanelQuit" id="communityMapsMenuQuit">Close</button>
             </div>
         
-            <div class="Menu" id="savedMapsMenu">
+            <div class="Menu RightSlidingPanel" id="savedMapsMenu">
                 <h1>My Maps</h1>
                 <div id="savedMapsButtons" class="Scrollbar fullScrollbar">
                     <!--Here are dynamically added the maps of the current user-->              
@@ -133,12 +134,12 @@
                 </script>
 
                 <button id="addAMapB">Add a map</button>
-                <button class="MenuQuit" id="savedMapsMenuQuit">Close</button>
+                <button class="RightSlidingPanelQuit" id="savedMapsMenuQuit">Close</button>
 
                 
             </div>
 
-            <div class="Menu" id="placesListMenu">
+            <div class="Menu RightSlidingPanel" id="placesListMenu">
                 <h1>My Places</h1>       
                 <div id="placesListButtons" class="Scrollbar fullScrollbar"></div>
 
@@ -150,10 +151,10 @@
                     </p>
                 </script>
 
-                <button class="MenuQuit" id="placesListMenuQuit">Close</button>            
+                <button class="RightSlidingPanelQuit" id="placesListMenuQuit">Close</button>            
             </div>
             
-            <div class="Menu" id="onePlaceMenu">
+            <div class="Menu RightSlidingPanel" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>   
                 
                 <div class="Scrollbar fullScrollbar">
@@ -179,10 +180,11 @@
                 </div>
 
                 <button class="modifyButton" id="modifyPlace">Modify place</button>
-                <button class="MenuQuit" id="onePlaceMenuQuit">Close</button> 
+                <button id="centerToMarkerPlaceButton">go to</button>
+                <button class="RightSlidingPanelQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
-            <div class="Menu" id="oneMapMenu"> 
+            <div class="Menu RightSlidingPanel" id="oneMapMenu"> 
                 <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>     
                 
                 <div class="Scrollbar fullScrollbar">
@@ -200,8 +202,25 @@
                 </div>
 
                 <button class="modifyButton" id="modifyMap">Modify map</button>
-                <button class="MenuQuit" id="oneMapMenuQuit">Close</button> 
+                <button class="RightSlidingPanelQuit" id="oneMapMenuQuit">Close</button> 
             </div>
+
+
+            <!------------- all LeftSlidingPanels:----------------->
+
+            <div class="Menu LeftSlidingPanel" id="searchingPlacesMenu">
+                <input type="search" placeholder="add a new tag..." id="addASearchingTagInput" autocomplete="off"/>
+                <button id="searchByTagsButton" type="button">Search</button>
+
+
+                <textarea id="searchingPlacesTags" disabled rows="7" cols="25" ></textarea>
+
+                <button id="searchingPlacesMenuQuit">Close</button>
+
+            </div>
+
+
+
         
         </div> <!--End of interface div-->
 

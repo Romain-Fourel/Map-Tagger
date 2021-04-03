@@ -32,14 +32,6 @@ public interface PlaceDao {
 	 */
 	List<Place> getPlaces(String name);
 
-	/**
-	 * 
-	 * @return all places in the database which has tag in their tag list
-	 */
-	List<Place> getPlaces(List<String> tag);
-	
-	List<Place> getPlacesNear(Place place, double radius);
-
 
 	Place addPlaceTo(Long mapId, Place place);
 

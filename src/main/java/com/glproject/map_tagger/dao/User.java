@@ -70,7 +70,9 @@ public class User {
 		}
 		List<Place> places = new ArrayList<Place>();
 		for (Map map : mapList) {
-			places.addAll(map.places);
+			if (map.places != null) {
+				places.addAll(map.places);
+			}		
 		}
 		return places;
 	}
