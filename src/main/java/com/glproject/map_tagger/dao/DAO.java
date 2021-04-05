@@ -47,7 +47,7 @@ public class DAO {
 		long userId = userDetached.getID();
 		
 		for (int i = 0; i < 4; i++) {
-			Map map = new Map("user1");
+			Map map = new Map(userId);
 			map.setName(mapNames[i]);
 			
 			if(i==3) {
@@ -86,7 +86,7 @@ public class DAO {
 		
 		double latitude = 48.858;
 		double longitude = 2.344;
-		double precision  = 0.01;
+		double precision  = 0.1;
 		
 		
 		List<List<String[]>> tags = new ArrayList<List<String[]>>();
@@ -115,7 +115,7 @@ public class DAO {
 			User userDetached = getUserDao().addUser(user);	
 			long userId = userDetached.getID();
 			
-			Map map = new Map("user"+i, "map"+i);
+			Map map = new Map(userId, "map"+i);
 			map.setDescription("description of map"+i);
 			map.setConfidentiality(Confidentiality.PUBLIC);
 			Map detached = getMapDao().addMapTo(userId, map);

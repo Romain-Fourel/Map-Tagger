@@ -28,21 +28,21 @@ public class Map {
 	Confidentiality confidentiality;
 	List<Place> places;
 
-	String creator;
+	long creatorId;
 
 	Boolean isVisible;
 
 	
 
-	public Map(String creator) {
+	public Map(long creator) {
 		super();
 		isVisible = true;
-		this.creator = creator;
+		this.creatorId = creator;
 		confidentiality = Confidentiality.PRIVATE;
 		places = new ArrayList<Place>();
 	}
 	
-	public Map(String creator, String name) {
+	public Map(long creator, String name) {
 		this(creator);
 		this.name = name;
 	}
@@ -68,12 +68,12 @@ public class Map {
 		this.isVisible = isVisible;
 	}
 
-	public String getCreator() {
-		return creator;
+	public long getCreatorId() {
+		return creatorId;
 	}
 	
-	public void setCreator(String creator) {
-		this.creator = creator;
+	public void setCreatorId(long creator) {
+		this.creatorId = creator;
 	}
 
 	public Confidentiality getConfidentiality() {
@@ -112,7 +112,7 @@ public class Map {
 	
 	public String toCompleteString() {
 		return "Map [id=" + id + ", name=" + name + ", description=" + description + ", confidentiality="
-				+ confidentiality + ", places=" + places + ", creator=" + creator + ", isVisible=" + isVisible + "]";
+				+ confidentiality + ", places=" + places + ", creator=" + creatorId + ", isVisible=" + isVisible + "]";
 	}
 
 

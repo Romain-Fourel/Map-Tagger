@@ -334,10 +334,21 @@ textarea{
     left: -400px; 
 }
 
+.LeftSlidingPanelQuit{
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+}
+
 
 .RightSlidingPanel{
     right: -400px;
 }
+
+#disconnectButton{
+    right: 50px;
+}
+
 
 #addASearchingTagInput{
     position: relative;

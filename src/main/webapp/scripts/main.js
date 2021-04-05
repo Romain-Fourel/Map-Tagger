@@ -165,14 +165,14 @@ class MapManager {
         placeManager.marker.addTo(this.layerGroup);
     }
 
-    static mapToJson(userName, nameMap, descriptionMap, confidentialityMap){
+    static mapToJson(userId, nameMap, descriptionMap, confidentialityMap){
         var mapJson = 
         {
             name:nameMap,
             description:descriptionMap,
             confidentiality:confidentialityMap,
             places:[],
-            creator: userName,
+            creatorId: userId,
             visibility:true
         }
 
@@ -417,6 +417,7 @@ class ClickManager {
         
         ClickManager.setClickResearcher();
         ClickManager.setClickParameters();
+        ClickManager.setClickDisconnectButton();
 
         ClickManager.setClickMenuQuit();
         
@@ -429,12 +430,17 @@ class ClickManager {
     }
 
 
-    /**
-     * TODO
-     */
+
     static setClickParameters(){
         $("#parameters").click(function (e) { 
-            console.log("parametring !");
+            openSlidingPanel("left","#parametersMenu");
+            
+        });
+    }
+
+    static setClickDisconnectButton(){
+        $("#disconnectButton").click(function (e) { 
+            window.location.href="index.html";
             
         });
     }
@@ -670,7 +676,7 @@ class ClickManager {
             }
         
 
-            var mapToSend = MapManager.mapToJson(null,nameMap,descriptionMap,confidentiality);
+            var mapToSend = MapManager.mapToJson(currentSession,nameMap,descriptionMap,confidentiality);
             postServerdata("ws/Map/create/"+currentSession,mapToSend,function(newMap){
                 new MapManager(newMap);
                 PanelManager.setSavedMapsMenu();
@@ -737,6 +743,11 @@ class ClickManager {
      * set the click to quit for all menu
      */
     static setClickMenuQuit(){
+
+        $(".LeftSlidingPanelQuit").click(function (e) { 
+            closeSlidingPanel("left","#"+this.id.split("Quit")[0]);     
+        });
+
         $(".RightSlidingPanelQuit").click(function (e) { 
             closeSlidingPanel("right","#"+this.id.split("Quit")[0]);    
         });
@@ -924,7 +935,7 @@ var currentSession; // the current user
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.9.6");
+    console.log("Test 2.9.7");
 
     loadUser();
     LeafletManager.build();
