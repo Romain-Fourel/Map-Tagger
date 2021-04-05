@@ -26,6 +26,7 @@ public class UserResource {
 	 * set the user currently connected by his id
 	 * @return
 	 */
+	
 	public static void setCurrentSession(Long currentSession) {
 		UserResource.currentSession = currentSession;
 	}
@@ -33,6 +34,7 @@ public class UserResource {
 	public static Long getCurrentSession() {
 		return currentSession;
 	}
+	
 
 
 	/**
