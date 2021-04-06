@@ -127,6 +127,7 @@ public class DAO {
 			map.setConfidentiality(Confidentiality.PUBLIC);
 			Map detached = getMapDao().addMapTo(userId, map);
 			long mapId = detached.getID();
+			getMapDao().addMapSharedTo(UserResource.getCurrentSession(), detached);
 			
 			for (int j = 0; j < nbPlacesPerUser; j++) {
 				Place place = new Place("Place "+i+","+j);

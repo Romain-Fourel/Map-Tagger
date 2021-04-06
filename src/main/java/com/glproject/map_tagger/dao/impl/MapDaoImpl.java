@@ -84,6 +84,37 @@ public class MapDaoImpl implements MapDao {
 		}
 		return detached;
 	}
+	
+	
+	@Override
+	public Map addMapSharedTo(Long userId, Map map) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		Map detached = null;
+		
+		try {
+			tx.begin();
+			User userPersistent = pm.getObjectById(User.class, userId);
+			
+			userPersistent.addMapShared(pm.getObjectById(Map.class,map.getID()));	
+			
+			userPersistent.getMapsShared();
+				
+			detached = pm.detachCopy(map);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+	}
+	
+	
 
 		
 	@Override

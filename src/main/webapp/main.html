@@ -103,7 +103,7 @@
             <div class="Menu RightSlidingPanel" id="communityMapsMenu">
                 <h1>Community Maps</h1>
                 
-                <div id="communityMapsButtons" class="Scrollbar fullScrollbar"></div>
+                <div id="communityMapsButtons" class="Scrollbar fullScrollbar scrollbarRight"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
                     <p class='OneDiv'>
@@ -118,7 +118,7 @@
         
             <div class="Menu RightSlidingPanel" id="savedMapsMenu">
                 <h1>My Maps</h1>
-                <div id="savedMapsButtons" class="Scrollbar fullScrollbar">
+                <div id="savedMapsButtons" class="Scrollbar fullScrollbar scrollbarRight">
                     <!--Here are dynamically added the maps of the current user-->              
                 </div>
                 <!--Below: the script for the div above!-->
@@ -141,7 +141,7 @@
 
             <div class="Menu RightSlidingPanel" id="placesListMenu">
                 <h1>My Places</h1>       
-                <div id="placesListButtons" class="Scrollbar fullScrollbar"></div>
+                <div id="placesListButtons" class="Scrollbar fullScrollbar scrollbarRight"></div>
 
                 <!--Below: the script for the div above!-->
                 <script id="templateOnePlaceButton" type="text/template">
@@ -157,7 +157,7 @@
             <div class="Menu RightSlidingPanel" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>   
                 
-                <div class="Scrollbar fullScrollbar">
+                <div class="Scrollbar fullScrollbar scrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
                     <textarea id="onePlaceTags" disabled rows="7" cols="32" disabled></textarea>
                     <h3>Comments:</h3>
@@ -187,7 +187,7 @@
             <div class="Menu RightSlidingPanel" id="oneMapMenu"> 
                 <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>     
                 
-                <div class="Scrollbar fullScrollbar">
+                <div class="Scrollbar fullScrollbar scrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
                     <h3 id="oneMapConfidentiality"></h3>
     
@@ -222,6 +222,22 @@
 
             <div class="Menu LeftSlidingPanel" id="parametersMenu">
                 <h1>Parameters</h1>
+
+                <div class="Scrollbar fullScrollbar scrollbarLeft">
+                    
+                    <h3>Map shared by other users:</h3>
+                    <div id="mapsSharedDiv"></div>
+
+                    <script id="templateMapsSharedDiv" type="text/template">
+                        <p class='OneDiv' id= <%= oneMapSharedId %> >
+                            <label class='labelOneDiv'><%= nameMap %></label>
+                            <button class='oneMapSharedFollowButton' id= <%= oneMapSharedFollowButtonId %> > Follow </button>
+                            <button class='oneMapSharedIgnoreButton' id= <%= oneMapSharedIgnoreButtonId %> > Ignore </button>
+                        </p>
+                    </script>
+
+                </div>
+
                 <button id="disconnectButton">Disconnect</button>
                 <button class="LeftSlidingPanelQuit" id="parametersMenuQuit">Close</button>
             </div>

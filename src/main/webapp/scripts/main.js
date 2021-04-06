@@ -396,7 +396,7 @@ class PanelManager {
                     }
                 }
                 if (!hasThisMap){
-                    $("#followMap").text("Follow");
+                    $("#followMap").text("Unfollow");
                     ClickManager.setClickFollowMap(map,false);
                 }
             }
@@ -443,6 +443,21 @@ class PanelManager {
         $("#searchingPlacesTags").val("");
     }
 
+    static setParametersMenu(){
+        getServerData("ws/User/"+UserManager.currentSession,function(user){
+            for (const map of user.mapsShared) {
+                var template = _.template($("#templateMapsSharedDiv").html());
+
+                $("#mapsSharedDiv").append(template({
+                    oneMapSharedId:"oneMapShared"+map.id,
+                    nameMap:map.name,
+                    oneMapSharedFollowButtonId: "oneMapSharedFollowButton"+map.id,
+                    oneMapSharedIgnoreButtonId: "oneMapSharedIgnoreButton"+map.id
+                }));
+            }
+        })
+    }
+
 
 }
 
@@ -479,7 +494,7 @@ class ClickManager {
     static setClickParameters(){
         $("#parameters").click(function (e) { 
             openSlidingPanel("left","#parametersMenu");
-            
+            PanelManager.setParametersMenu();
         });
     }
 
@@ -906,7 +921,7 @@ class ClickManager {
 
         if(isAlreadyFollowed){
             $("#followMap").click(function (e) { 
-                alert("you have already followed this map!");
+                alert("you unfollow this map! [TODO]");
                 
             });
         }
@@ -1005,7 +1020,7 @@ class UserManager{
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.12");
+    console.log("Test 2.13");
 
     UserManager.loadUser();
     LeafletManager.build();

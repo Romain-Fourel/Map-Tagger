@@ -95,6 +95,7 @@ public class UserDaoImpl implements UserDao {
 				map.getPlaces();
 			}
 			user.getMapsVisibility();
+			user.getMapsShared();
 			
 			detached = pm.detachCopy(user);
 			tx.commit();

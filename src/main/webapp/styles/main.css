@@ -431,8 +431,15 @@ textarea{
     border-radius: 10px;
     height: 490px;
     width: 330px;
-    left: 15px;
     top: 90px;
+}
+
+.scrollBarRight{
+    left: 15px;
+}
+
+.scrollBarLeft{
+    right:15px;
 }
 
 .Scrollbar{

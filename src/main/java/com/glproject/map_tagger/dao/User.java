@@ -28,6 +28,8 @@ public class User {
 	List<Map> mapList;
 	
 	HashMap<Long, Boolean> mapsVisibility;
+	
+	List<Map> mapsShared; //map shared by other users, waiting for an answer
 
 	public User() {
 		super();
@@ -97,6 +99,16 @@ public class User {
 	}
 	
 	
+	
+	
+	public List<Map> getMapsShared() {
+		return mapsShared;
+	}
+
+	public void setMapsShared(List<Map> mapsShared) {
+		this.mapsShared = mapsShared;
+	}
+
 	/**
 	 * Add a map to the map list of the user
 	 * @param map
@@ -107,6 +119,13 @@ public class User {
 		}
 		mapList.add(map);
 		mapsVisibility.put(map.getID(), true);
+	}
+	
+	public void addMapShared(Map map) {
+		if(mapsShared == null) {
+			mapsShared = new ArrayList<Map>();
+		}
+		mapsShared.add(map);
 	}
 	
 	public void setVisibilityOf(long mapId,boolean visibility) {
@@ -140,10 +159,11 @@ public class User {
 	public String toString() {
 		return name + " #"+ID;
 	}
-	
+
+
 	public String toCompleteString() {
 		return "User [ID=" + ID + ", name=" + name + ", password=" + password + ", mapList=" + mapList
-				+ ", mapsVisibility=" + mapsVisibility + "]";
+				+ ", mapsVisibility=" + mapsVisibility + ", mapsShared=" + mapsShared + "]";
 	}
 	
 

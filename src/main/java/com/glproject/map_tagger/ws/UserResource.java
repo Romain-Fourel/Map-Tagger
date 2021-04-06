@@ -82,7 +82,7 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public User getUser(@PathParam("id") String id) {
+	public User getUser(@PathParam("id") String id) {	
 		return DAO.getUserDao().getUser(Long.parseLong(id));
 	}
 
@@ -92,7 +92,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentSession")
 	public User getCurrentUser() {
-		User user = DAO.getUserDao().getUser(currentSession);		
+		User user = DAO.getUserDao().getUser(currentSession);	
+		System.out.println(user.toCompleteString());
 		return user;
 	}
 	

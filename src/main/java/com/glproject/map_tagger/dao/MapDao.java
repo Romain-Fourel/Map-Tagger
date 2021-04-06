@@ -43,6 +43,8 @@ public interface MapDao {
 	Map getMapOf(Place place);
 
 	Map addMapTo(Long userId, Map map);
+
+	Map addMapSharedTo(Long userId, Map map);
 		
 
 }
