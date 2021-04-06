@@ -65,6 +65,19 @@ public class UserResource {
 		
 	}
 	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/update/{userId}/visibility/{mapId}")	
+	public User updateVisibilityOf(@PathParam("userId") String userId,@PathParam("mapId") String mapId,boolean visibility) {
+		User user = DAO.getUserDao().getUser(Long.parseLong(userId));
+		user.setVisibilityOf(Long.parseLong(mapId), visibility);
+		
+		user = DAO.getUserDao().updateUser(user);
+		
+		return user;
+	}
+	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -72,7 +85,7 @@ public class UserResource {
 	public User getUser(@PathParam("id") String id) {
 		return DAO.getUserDao().getUser(Long.parseLong(id));
 	}
-	
+
 	
 	
 	@GET

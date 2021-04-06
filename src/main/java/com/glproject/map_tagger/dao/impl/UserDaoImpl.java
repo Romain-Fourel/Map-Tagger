@@ -94,6 +94,7 @@ public class UserDaoImpl implements UserDao {
 			for (Map map : user.getMapList()) {
 				map.getPlaces();
 			}
+			user.getMapsVisibility();
 			
 			detached = pm.detachCopy(user);
 			tx.commit();
@@ -154,6 +155,38 @@ public class UserDaoImpl implements UserDao {
 			}
 			pm.close();
 		}
+		return detached;
+	}
+
+	@Override
+	public User updateUser(User user) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		User detached = null;
+		
+		try {
+			tx.begin();
+			User userPersistent = pm.getObjectById(User.class, user.getID());
+			userPersistent.setName(user.getName());
+			userPersistent.setPassword(user.getPassword());
+			
+			userPersistent.setMapList(null);
+			user.getMapList().forEach(map->userPersistent.addMap(pm.getObjectById(Map.class, map.getID())));	
+			
+			userPersistent.setMapsVisibility(user.getMapsVisibility());
+			
+			detached = pm.detachCopy(userPersistent);
+								
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+
 		return detached;
 	}
 

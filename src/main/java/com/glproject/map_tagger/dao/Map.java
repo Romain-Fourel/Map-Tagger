@@ -29,14 +29,10 @@ public class Map {
 	List<Place> places;
 
 	long creatorId;
-
-	Boolean isVisible;
-
 	
 
 	public Map(long creator) {
 		super();
-		isVisible = true;
 		this.creatorId = creator;
 		confidentiality = Confidentiality.PRIVATE;
 		places = new ArrayList<Place>();
@@ -58,14 +54,6 @@ public class Map {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Boolean getVisibility() {
-		return isVisible;
-	}
-
-	public void setVisibility(Boolean isVisible) {
-		this.isVisible = isVisible;
 	}
 
 	public long getCreatorId() {
@@ -112,7 +100,7 @@ public class Map {
 	
 	public String toCompleteString() {
 		return "Map [id=" + id + ", name=" + name + ", description=" + description + ", confidentiality="
-				+ confidentiality + ", places=" + places + ", creator=" + creatorId + ", isVisible=" + isVisible + "]";
+				+ confidentiality + ", places=" + places + ", creator=" + creatorId + "]";
 	}
 
 

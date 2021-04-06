@@ -1,6 +1,7 @@
 package com.glproject.map_tagger.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -23,7 +24,10 @@ public class User {
 
 	String name;
 	String password;
+	
 	List<Map> mapList;
+	
+	HashMap<Long, Boolean> mapsVisibility;
 
 	public User() {
 		super();
@@ -33,6 +37,7 @@ public class User {
 		super();
 		this.name = name;
 		mapList = new ArrayList<Map>();
+		mapsVisibility = new HashMap<Long, Boolean>();
 	}
 	
 	public User(String name, String password) {
@@ -64,6 +69,20 @@ public class User {
 		return mapList;
 	}
 	
+	public void setMapList(List<Map> mapList) {
+		this.mapList = mapList;	
+	}
+	
+	
+	
+	public HashMap<Long, Boolean> getMapsVisibility() {
+		return mapsVisibility;
+	}
+
+	public void setMapsVisibility(HashMap<Long, Boolean> mapsVisibility) {
+		this.mapsVisibility = mapsVisibility;
+	}
+
 	public List<Place> getPlaces(){
 		if (mapList == null) {
 			return null;
@@ -77,17 +96,30 @@ public class User {
 		return places;
 	}
 	
-
-	public void setMapList(List<Map> mapList) {
-		this.mapList = mapList;
-	}
 	
 	/**
 	 * Add a map to the map list of the user
 	 * @param map
 	 */
 	public void addMap(Map map) {
+		if(mapList == null) {
+			mapList = new ArrayList<Map>();
+		}
 		mapList.add(map);
+		mapsVisibility.put(map.getID(), true);
+	}
+	
+	public void setVisibilityOf(long mapId,boolean visibility) {
+		
+		if (mapsVisibility==null) {
+			mapsVisibility = new HashMap<Long, Boolean>();
+		}
+		
+		mapsVisibility.put(mapId, visibility);
+	}
+	
+	public boolean getVisibilityOf(long mapId) {
+		return mapsVisibility.get(mapId);
 	}
 	
 	/**
@@ -98,14 +130,23 @@ public class User {
 	public boolean hasPassword(String password) {
 		return this.password.equals(password);
 	}
-	
+
+
 	/**
 	 * Every user has is toString() unique
 	 */
+	
 	@Override
 	public String toString() {
 		return name + " #"+ID;
 	}
+	
+	public String toCompleteString() {
+		return "User [ID=" + ID + ", name=" + name + ", password=" + password + ", mapList=" + mapList
+				+ ", mapsVisibility=" + mapsVisibility + "]";
+	}
+	
+
 
 }
 

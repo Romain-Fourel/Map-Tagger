@@ -13,25 +13,9 @@ import javax.ws.rs.core.Response;
 
 import com.glproject.map_tagger.dao.DAO;
 import com.glproject.map_tagger.dao.Map;
-import com.glproject.map_tagger.dao.User;
 
 @Path("/Map")
 public class MapResource {
-
-
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/update/{id}/visibility")
-	public Response updateVisibility(@PathParam("id") String mapId, Boolean isVisible) {
-		
-		Map map = DAO.getMapDao().getMap(Long.parseLong(mapId));
-		map.setVisibility(isVisible);
-		
-		map = DAO.getMapDao().updateMap(map);
-
-		return Response.ok(map).build();
-	}
 	
 
 	@POST
@@ -50,8 +34,8 @@ public class MapResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/create/{userId}")
-	public Response createMap(@PathParam("userId") String userId, Map map) {
+	@Path("/addMap/{userId}")
+	public Response addMapTo(@PathParam("userId") String userId, Map map) {
 		
 		map = DAO.getMapDao().addMapTo(Long.parseLong(userId), map);	
 			
@@ -81,16 +65,5 @@ public class MapResource {
 		return DAO.getMapDao().getPublicMaps();
 	}
 	
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/fromUser/{id}")
-	public List<Map> getUserMaps(@PathParam("id") String id){
-		long userid = Long.parseLong(id);
-		
-		User user = DAO.getUserDao().getUser(userid);
-		
-		return user.getMapList();
-	}
 	
 }

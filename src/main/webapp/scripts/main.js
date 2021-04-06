@@ -150,9 +150,6 @@ class MapManager {
             }
         }
 
-        if (this.map.visibility) {
-            LeafletManager.addLayer(this.layerGroup);
-        }
     }
     
 
@@ -173,7 +170,6 @@ class MapManager {
             confidentiality:confidentialityMap,
             places:[],
             creatorId: userId,
-            visibility:true
         }
 
         return JSON.stringify(mapJson);
@@ -214,19 +210,21 @@ class PanelManager {
 
     static setAddAPlaceMenu(){
 
-        getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
+        getServerData("ws/User/"+UserManager.currentSession,function(user){
             $("#mapChoicePlace").text("");
             $("#addAPlaceTags").text("");
 
             var template = _.template($("#templateMapChoicePlace").html());
 
             $("#mapChoicePlace").append(template({nameMap:"--- Choose a map ---",valueMapChose:"CAMap"}));
-            for (const map of mapList) {
-                var mapChoiceHtml = template({
-                    nameMap: map.name,
-                    valueMapChose: map.id
-                })
-                $("#mapChoicePlace").append(mapChoiceHtml);            
+            for (const map of user.mapList) {
+                if (map.creatorId === currentSession){
+                    var mapChoiceHtml = template({
+                        nameMap: map.name,
+                        valueMapChose: map.id
+                    })
+                    $("#mapChoicePlace").append(mapChoiceHtml);     
+                }
             }
         })
         ClickManager.setClickCreatePlace();
@@ -247,19 +245,21 @@ class PanelManager {
         }
         $("#addAPlaceTags").text(tagsPlace);
 
-        getServerData("ws/Map/fromUser/"+currentSession,function(mapList){
+        getServerData("ws/User/"+UserManager.currentSession,function(user){
             $("#mapChoicePlace").text("");
             
             
             var template = _.template($("#templateMapChoicePlace").html());
 
             $("#mapChoicePlace").append(template({nameMap:"--- Choose a map ---",valueMapChose:"CAMap"}));
-            for (const map of mapList) {
-                var mapChoiceHtml = template({
-                    nameMap: map.name,
-                    valueMapChose: map.id
-                })
-                $("#mapChoicePlace").append(mapChoiceHtml);            
+            for (const map of user.mapList) {
+                if (map.creatorId === currentSession) {
+                    var mapChoiceHtml = template({
+                        nameMap: map.name,
+                        valueMapChose: map.id
+                    })
+                    $("#mapChoicePlace").append(mapChoiceHtml);    
+                }
             } 
         });
         ClickManager.setClickUpdatePlace();       
@@ -281,13 +281,13 @@ class PanelManager {
 
         $("#savedMapsButtons").text("");
 
-        getServerData("ws/Map/fromUser/"+currentSession,function (mapList){
-            for (const map of mapList) {
+        getServerData("ws/User/"+UserManager.currentSession,function (user){
+            for (const map of user.mapList) {
 
                 var mapManager = MapManager.dict.get(map.id);
     
                 var isVisible = "";
-                if (map.visibility) {
+                if (UserManager.isMapVisibleFor(user,map)) {
                     isVisible = "checked";
                 }
                 
@@ -321,6 +321,9 @@ class PanelManager {
                 })
                 $("#communityMapsButtons").append(divOneMapHtml);
                 ClickManager.setClickOneMapMenu(map);
+                
+                // in order to be able to get it id and it creatorId without going on the database server
+                new MapManager(map); 
             }
         })
     }
@@ -328,7 +331,7 @@ class PanelManager {
     static setPlacesListMenu(){
         $("#placesListButtons").text("");
 
-        getServerData("ws/Place/fromUser/"+currentSession,function(placeList){
+        getServerData("ws/Place/fromUser/"+UserManager.currentSession,function(placeList){
             for (const place of placeList) {
                 var template = _.template($("#templateOnePlaceButton").html());
 
@@ -343,6 +346,9 @@ class PanelManager {
 
     }
 
+    /**
+     * TODO: CHANGE  THE CSS WHEN THE MAP IS FOLLOWED OR NOT FOR THE FOLLOW BUTTON
+     */
     static setOneMapMenu(map){
 
         $("#nameOneMapMenu").text(map.name);
@@ -364,7 +370,37 @@ class PanelManager {
             ClickManager.setClickOnePlaceMenu(place);
         }
 
-        ClickManager.setClickModifyMap(map);
+        /**
+         * We get the entire user in order to have his map list and his id
+         */
+        getServerData("ws/User/"+UserManager.currentSession,function(user){
+            if (map.creatorId === user.id){ // this is thus the owner of the map, he can therefore modify it
+                ClickManager.setClickModifyMap(map);
+                $("#modifyMap").css("visibility", "visible");
+                $("#followMap").css("visibility", "hidden");
+            }
+            else {
+                $("#modifyMap").css("visibility", "hidden");
+                $("#followMap").css("visibility", "visible");
+
+                var hasThisMap = false;
+
+                /**
+                 * TODO: CHANGE  THE CSS WHEN THE MAP IS FOLLOWED OR NOT FOR THE FOLLOW BUTTON
+                 */
+                for (const userMap of user.mapList) {
+                    if (map.id === userMap.id){ // if the user already has the map into his map list
+                        $("#followMap").text("Followed");
+                        hasThisMap = true;
+                        ClickManager.setClickFollowMap(map,true);
+                    }
+                }
+                if (!hasThisMap){
+                    $("#followMap").text("Follow");
+                    ClickManager.setClickFollowMap(map,false);
+                }
+            }
+        });
 
     }
 
@@ -388,8 +424,17 @@ class PanelManager {
             }));
         }
         ClickManager.setClickAddAMessageButton(place);
-        ClickManager.setClickModifyPlace(place);
         ClickManager.setClickCenterToMarkerPlaceButton(place);
+
+        var map = MapManager.dict.get(place.mapId).map;
+
+        if (map.creatorId === UserManager.currentSession){
+            $("#modifyPlace").css("visibility", "visible");
+            ClickManager.setClickModifyPlace(place);
+        }
+        else{
+            $("#modifyPlace").css("visibility", "hidden");
+        }     
         
     }
 
@@ -676,9 +721,10 @@ class ClickManager {
             }
         
 
-            var mapToSend = MapManager.mapToJson(currentSession,nameMap,descriptionMap,confidentiality);
-            postServerdata("ws/Map/create/"+currentSession,mapToSend,function(newMap){
-                new MapManager(newMap);
+            var mapToSend = MapManager.mapToJson(UserManager.currentSession,nameMap,descriptionMap,confidentiality);
+            postServerdata("ws/Map/addMap/"+UserManager.currentSession,mapToSend,function(newMap){
+                var mapManager = new MapManager(newMap);
+                LeafletManager.addLayer(mapManager.layerGroup);
                 PanelManager.setSavedMapsMenu();
             })
         
@@ -818,19 +864,15 @@ class ClickManager {
         $("#checkBoxMap" +  map.id).unbind("click");
         $("#checkBoxMap" +  map.id).click(function () {
 
-            var data;
+            var data = $("#checkBoxMap" + map.id).prop("checked") ? true : false;
 
-            if ($("#checkBoxMap" + map.id).prop("checked")) {
-                data = true;
-                LeafletManager.addLayer(mapManager.layerGroup);
-            }
-            else {
-                data = false;
-                LeafletManager.removeLayer(mapManager.layerGroup);
-            }
-
-            postServerdata("ws/Map/update/"+map.id+"/visibility",JSON.stringify(data),function(mapResult){
-                mapManager.update(mapResult);
+            postServerdata("ws/User/update/"+UserManager.currentSession+"/visibility/"+map.id,JSON.stringify(data),function(user){
+                if (UserManager.isMapVisibleFor(user,map)){
+                    LeafletManager.addLayer(mapManager.layerGroup);
+                }
+                else{
+                    LeafletManager.removeLayer(mapManager.layerGroup);
+                }
             })
 
         });
@@ -856,6 +898,29 @@ class ClickManager {
                 PanelManager.setOneMapMenu(mapGot);
             }) 
         });        
+    }
+
+    static setClickFollowMap(map,isAlreadyFollowed){
+
+        $("#followMap").unbind("click");
+
+        if(isAlreadyFollowed){
+            $("#followMap").click(function (e) { 
+                alert("you have already followed this map!");
+                
+            });
+        }
+        else{
+            $("#followMap").click(function (e) { 
+                postServerdata("ws/Map/addMap/"+UserManager.currentSession,JSON.stringify(map),function(){
+                    PanelManager.setOneMapMenu(map);    
+                    var mapManager = new MapManager(map);
+                    LeafletManager.addLayer(mapManager.layerGroup);
+                })
+                
+            });
+        }
+
     }
 
 
@@ -909,35 +974,40 @@ class ClickManager {
 
 }
 
+class UserManager{
+    static currentSession;
+
+    static loadUser(){
+        getServerData("ws/User/currentSession",function (user) {
+            console.log("Welcome " + user.name + " #" + user.id);
+            UserManager.currentSession = user.id;
+    
+            for (const map of user.mapList) {
+                var mapManager = new MapManager(map);
+                
+     
+                if(UserManager.isMapVisibleFor(user,map)){
+                    LeafletManager.addLayer(mapManager.layerGroup);
+                }
+            }
+        })
+    }
 
 
-/**
- * This function loads all characteristics of the current user
- * (places and maps)
- */
-function loadUser() {
-
-    getServerData("ws/User/currentSession",function (user) {
-        console.log("Welcome " + user.name + " #" + user.id);
-        currentSession = user.id;
-
-        for (const map of user.mapList) {
-            mapManager = new MapManager(map);
-        }
-    })
+    static isMapVisibleFor(user,map){
+        var mapsVisibility = new Map(Object.entries(user.mapsVisibility));
+        return mapsVisibility.get(""+map.id);
+    }
 }
 
-
-
-var currentSession; // the current user
 
 /**
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.9.7");
+    console.log("Test 2.12");
 
-    loadUser();
+    UserManager.loadUser();
     LeafletManager.build();
     ClickManager.build();
 });

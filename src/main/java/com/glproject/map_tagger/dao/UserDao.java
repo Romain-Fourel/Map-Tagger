@@ -33,5 +33,7 @@ public interface UserDao {
 	 * @return all users who have this specific name 
 	 */
 	List<User> getUsers(String name);
+	
+	User updateUser(User user);
 
 }

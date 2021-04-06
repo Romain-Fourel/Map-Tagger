@@ -24,7 +24,7 @@ public class DaoImplTest {
 	static void generateMaps(User user) {
 		
 		for (int i = 0; i < 5; i++) {
-			Map map = new Map("user1", "map"+i);
+			Map map = new Map(user.getID(), "map"+i);
 			for (int j = 0; j < 5; j++) {
 				Place place = new Place("place"+i+""+j);
 				map.addPlace(place);

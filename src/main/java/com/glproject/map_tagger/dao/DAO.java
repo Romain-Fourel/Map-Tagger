@@ -50,9 +50,6 @@ public class DAO {
 			Map map = new Map(userId);
 			map.setName(mapNames[i]);
 			
-			if(i==3) {
-				map.setVisibility(false);
-			}
 			map.setDescription("description"+i);
 			
 			Map detached = getMapDao().addMapTo(userId, map);
@@ -69,9 +66,19 @@ public class DAO {
 				
 				getPlaceDao().addPlaceTo(mapId, place);
 			}
+			
+			userDetached = getUserDao().getUser(userId);
+			
+			if(i==3) {
+				userDetached.setVisibilityOf(mapId, false);
+			}
+			else {
+				userDetached.setVisibilityOf(mapId, true);
+			}
+				
 		}
 		
-		
+		getUserDao().updateUser(userDetached);
 		
 		UserResource.setCurrentSession(user.getID());
 		

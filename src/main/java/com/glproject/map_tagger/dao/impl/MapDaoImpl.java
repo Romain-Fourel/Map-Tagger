@@ -48,7 +48,7 @@ public class MapDaoImpl implements MapDao {
 
 	}
 	
-	
+
 	@Override
 	public Map addMapTo(Long userId, Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -60,8 +60,18 @@ public class MapDaoImpl implements MapDao {
 			tx.begin();
 			User userPersistent = pm.getObjectById(User.class, userId);
 			
-			userPersistent.addMap(map);
+			//if the map doesn't exists yet in the database:
+			if (map.getID()==null) {
+				userPersistent.addMap(map);
+			}
+			else {
+				//if the map is already in the database:
+				userPersistent.addMap(pm.getObjectById(Map.class,map.getID()));
+			}
+			userPersistent.setVisibilityOf(map.getID(), true);
 			
+			userPersistent.getMapsVisibility();
+				
 			detached = pm.detachCopy(map);
 			
 			tx.commit();
@@ -89,7 +99,6 @@ public class MapDaoImpl implements MapDao {
 			mapPersistent.setName(map.getName());
 			mapPersistent.setDescription(map.getDescription());
 			mapPersistent.setConfidentiality(map.getConfidentiality());
-			mapPersistent.setVisibility(map.getVisibility());
 			
 			mapPersistent.getPlaces();
 			
