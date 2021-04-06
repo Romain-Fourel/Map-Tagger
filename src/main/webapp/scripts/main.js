@@ -346,9 +346,6 @@ class PanelManager {
 
     }
 
-    /**
-     * TODO: CHANGE  THE CSS WHEN THE MAP IS FOLLOWED OR NOT FOR THE FOLLOW BUTTON
-     */
     static setOneMapMenu(map){
 
         $("#nameOneMapMenu").text(map.name);
@@ -370,6 +367,8 @@ class PanelManager {
             ClickManager.setClickOnePlaceMenu(place);
         }
 
+        ClickManager.setClickOneMapMenuShareButton(map);
+
         /**
          * We get the entire user in order to have his map list and his id
          */
@@ -390,13 +389,13 @@ class PanelManager {
                  */
                 for (const userMap of user.mapList) {
                     if (map.id === userMap.id){ // if the user already has the map into his map list
-                        $("#followMap").text("Followed");
+                        $("#followMap").text("Unfollow");
                         hasThisMap = true;
                         ClickManager.setClickFollowMap(map,true);
                     }
                 }
                 if (!hasThisMap){
-                    $("#followMap").text("Unfollow");
+                    $("#followMap").text("Follow");
                     ClickManager.setClickFollowMap(map,false);
                 }
             }
@@ -418,10 +417,11 @@ class PanelManager {
         var template = _.template($("#templateOnePlaceMessages").html());
 
         $("#onePlaceMessages").text("");
-        for (const message of place.messages) {
+        for (let i = 0; i<place.messages.length; i++) {
             $("#onePlaceMessages").append(template({
-                onePlaceMessage:message
+                oneMessageTextareaId:"oneMessageTextarea"+i
             }));
+            $("#oneMessageTextarea"+i).val(place.messages[i]);
         }
         ClickManager.setClickAddAMessageButton(place);
         ClickManager.setClickCenterToMarkerPlaceButton(place);
@@ -444,7 +444,9 @@ class PanelManager {
     }
 
     static setParametersMenu(){
+        $("#mapsSharedDiv").text("");
         getServerData("ws/User/"+UserManager.currentSession,function(user){
+            console.log(user);
             for (const map of user.mapsShared) {
                 var template = _.template($("#templateMapsSharedDiv").html());
 
@@ -454,6 +456,8 @@ class PanelManager {
                     oneMapSharedFollowButtonId: "oneMapSharedFollowButton"+map.id,
                     oneMapSharedIgnoreButtonId: "oneMapSharedIgnoreButton"+map.id
                 }));
+                ClickManager.setClickOneMapSharedFollowButton(map);
+                ClickManager.setClickOneMapSharedIgnoreButton(map);
             }
         })
     }
@@ -915,6 +919,19 @@ class ClickManager {
         });        
     }
 
+    /**
+     * TODO: CHANGE THE USER ID GAVE BY DEFAULT BY AN USER ID GAVE BY THE USER HIMSELF
+     */
+    static setClickOneMapMenuShareButton(map){
+        $("#oneMapMenuShareButton").unbind("click");
+        $("#oneMapMenuShareButton").click(function (e) { 
+            alert("You share this map! [TODO]");
+
+            postServerdata("ws/Map/addMapShared/"+UserManager.currentSession,JSON.stringify(map),function(){})
+            
+        });
+    }
+
     static setClickFollowMap(map,isAlreadyFollowed){
 
         $("#followMap").unbind("click");
@@ -983,6 +1000,32 @@ class ClickManager {
         $("#centerToMarkerPlaceButton").click(function (e) { 
             var center = {lat:place.latitude,lng:place.longitude};
             LeafletManager.map.flyTo(center,17);
+            
+        });
+    }
+
+
+    static setClickOneMapSharedFollowButton(map){
+        $("#oneMapSharedFollowButton"+map.id).unbind("click");
+        $("#oneMapSharedFollowButton"+map.id).click(function (e) { 
+            $("#oneMapShared"+map.id).text("");
+            postServerdata("ws/User/getSharedMap/"+UserManager.currentSession,JSON.stringify(map),function(){
+                PanelManager.setParametersMenu();    
+                var mapManager = new MapManager(map);
+                LeafletManager.addLayer(mapManager.layerGroup);
+                PanelManager.setSavedMapsMenu();
+            });
+        });
+    }
+
+    static setClickOneMapSharedIgnoreButton(map){
+        $("#oneMapSharedIgnoreButton"+map.id).unbind("click");
+        $("#oneMapSharedIgnoreButton"+map.id).click(function (e) { 
+            $("#oneMapShared"+map.id).text("");
+            
+            postServerdata("ws/User/delete/sharedMap/"+UserManager.currentSession,JSON.stringify(map),function(user){
+                PanelManager.setParametersMenu();
+            })
             
         });
     }

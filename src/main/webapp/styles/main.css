@@ -425,22 +425,26 @@ textarea{
 }
 
 
-.fullScrollbar{
+.fullScrollbarRight{
     position: absolute;
     background-color: #797575;
     border-radius: 10px;
     height: 490px;
     width: 330px;
+    left: 15px;
     top: 90px;
 }
 
-.scrollBarRight{
-    left: 15px;
+.fullScrollbarLeft{
+    position: absolute;
+    background-color: #797575;
+    border-radius: 10px;
+    height: 490px;
+    width: 330px;
+    right: 15px;
+    top: 90px;    
 }
 
-.scrollBarLeft{
-    right:15px;
-}
 
 .Scrollbar{
     overflow:auto;
@@ -469,6 +473,14 @@ textarea{
     bottom: 20px;
     width: 60px;
     height: 60px;
+}
+
+#centerToMarkerPlaceButton{
+    position: absolute;
+    left: 250px;
+    top: 20px;
+    width: 60px;
+    height: 60px;  
 }
 
 
@@ -508,6 +520,30 @@ textarea{
 #onePlaceTags{
     font-size: 16px;
 }
+
+
+
+
+/**
+ * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
+ **/
+
+.oneMapSharedFollowButton{
+    position: relative;
+    right: 100px;
+}
+
+.oneMapSharedIgnoreButton{
+    position: relative;
+    right: 20px; 
+}
+
+#disconnectButton{
+    position: absolute;
+    right: 250px;
+    bottom: 20px;    
+}
+
 
 /**
  * ################## BELOW: CODE FOR CHECKBOX BUTTONS ########################

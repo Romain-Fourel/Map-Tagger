@@ -103,7 +103,7 @@
             <div class="Menu RightSlidingPanel" id="communityMapsMenu">
                 <h1>Community Maps</h1>
                 
-                <div id="communityMapsButtons" class="Scrollbar fullScrollbar scrollbarRight"></div>
+                <div id="communityMapsButtons" class="Scrollbar fullScrollbarRight"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
                     <p class='OneDiv'>
@@ -118,7 +118,7 @@
         
             <div class="Menu RightSlidingPanel" id="savedMapsMenu">
                 <h1>My Maps</h1>
-                <div id="savedMapsButtons" class="Scrollbar fullScrollbar scrollbarRight">
+                <div id="savedMapsButtons" class="Scrollbar fullScrollbarRight">
                     <!--Here are dynamically added the maps of the current user-->              
                 </div>
                 <!--Below: the script for the div above!-->
@@ -141,7 +141,7 @@
 
             <div class="Menu RightSlidingPanel" id="placesListMenu">
                 <h1>My Places</h1>       
-                <div id="placesListButtons" class="Scrollbar fullScrollbar scrollbarRight"></div>
+                <div id="placesListButtons" class="Scrollbar fullScrollbarRight"></div>
 
                 <!--Below: the script for the div above!-->
                 <script id="templateOnePlaceButton" type="text/template">
@@ -157,7 +157,7 @@
             <div class="Menu RightSlidingPanel" id="onePlaceMenu">
                 <h1><!--Here the name of the place--></h1>   
                 
-                <div class="Scrollbar fullScrollbar scrollbarRight">
+                <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
                     <textarea id="onePlaceTags" disabled rows="7" cols="32" disabled></textarea>
                     <h3>Comments:</h3>
@@ -172,24 +172,24 @@
 
                     <div id="onePlaceMessages"></div>
                     <script id="templateOnePlaceMessages" type="text/template">
-                            <textarea class="oneMessageTextarea" cols="32" rows="4" disabled>
-                                <%= onePlaceMessage %>
+                            <textarea class="oneMessageTextarea" id= <%= oneMessageTextareaId %> cols="32" rows="4" disabled>
                             </textarea>   
                     </script>
 
                 </div>
 
                 <button class="modifyButton" id="modifyPlace">Modify place</button>
-                <button id="centerToMarkerPlaceButton">go to</button>
+                <button id="centerToMarkerPlaceButton">Go to</button>
                 <button class="RightSlidingPanelQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
             <div class="Menu RightSlidingPanel" id="oneMapMenu"> 
                 <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>     
                 
-                <div class="Scrollbar fullScrollbar scrollbarRight">
+                <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
                     <h3 id="oneMapConfidentiality"></h3>
+                    <button id="oneMapMenuShareButton">Share this map</button>
     
                     <!--list of places of this map-->
                     <div id="oneMapPlaces"></div>
@@ -223,7 +223,10 @@
             <div class="Menu LeftSlidingPanel" id="parametersMenu">
                 <h1>Parameters</h1>
 
-                <div class="Scrollbar fullScrollbar scrollbarLeft">
+                <div class="Scrollbar fullScrollbarLeft">
+
+                    <h3>Your identity:</h3>
+                    <p>here the identity of the user [and here a button to change the identity]</p>
                     
                     <h3>Map shared by other users:</h3>
                     <div id="mapsSharedDiv"></div>

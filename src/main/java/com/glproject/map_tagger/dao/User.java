@@ -121,11 +121,29 @@ public class User {
 		mapsVisibility.put(map.getID(), true);
 	}
 	
+	public void removeMap(Map map) {
+		for (int i = 0; i < mapList.size(); i++) {
+			if (mapList.get(i).getID().equals(map.id)) {
+				mapList.remove(i);
+				return;
+			}
+		}
+	}
+	
 	public void addMapShared(Map map) {
 		if(mapsShared == null) {
 			mapsShared = new ArrayList<Map>();
 		}
 		mapsShared.add(map);
+	}
+	
+	public void removeMapShared(Map map) {
+		for (int i = 0; i < mapsShared.size(); i++) {
+			if (mapsShared.get(i).getID().equals(map.id)) {
+				mapsShared.remove(i);
+				return;
+			}
+		}
 	}
 	
 	public void setVisibilityOf(long mapId,boolean visibility) {

@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.glproject.map_tagger.dao.DAO;
+import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.User;
 
 @Path("/User")
@@ -76,6 +77,34 @@ public class UserResource {
 		user = DAO.getUserDao().updateUser(user);
 		
 		return user;
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getSharedMap/{userId}")	
+	public User getSharedMap(@PathParam("userId") String userId,Map map) {
+		User user = DAO.getUserDao().getUser(Long.parseLong(userId));
+		user.addMap(map);
+		user.removeMapShared(map);
+		user = DAO.getUserDao().updateUser(user);
+		
+		return user;
+	}
+	
+	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/delete/sharedMap/{userId}")	
+	public User deleteMapShared(@PathParam("userId") String userId, Map map) {
+		User user = DAO.getUserDao().getUser(Long.parseLong(userId));	
+		user.removeMapShared(map);
+		user = DAO.getUserDao().updateUser(user); 
+		
+		return user;
+		
 	}
 	
 	

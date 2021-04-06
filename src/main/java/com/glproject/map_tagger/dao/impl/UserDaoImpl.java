@@ -96,7 +96,9 @@ public class UserDaoImpl implements UserDao {
 			}
 			user.getMapsVisibility();
 			user.getMapsShared();
-			
+			for (Map map : user.getMapsShared()) {
+				map.getPlaces();
+			}
 			detached = pm.detachCopy(user);
 			tx.commit();
 
@@ -174,6 +176,9 @@ public class UserDaoImpl implements UserDao {
 			
 			userPersistent.setMapList(null);
 			user.getMapList().forEach(map->userPersistent.addMap(pm.getObjectById(Map.class, map.getID())));	
+			
+			userPersistent.setMapsShared(null);
+			user.getMapsShared().forEach(map->userPersistent.addMapShared(pm.getObjectById(Map.class, map.getID())));
 			
 			userPersistent.setMapsVisibility(user.getMapsVisibility());
 			
