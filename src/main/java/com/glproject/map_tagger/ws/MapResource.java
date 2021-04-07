@@ -45,7 +45,7 @@ public class MapResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/addMapShared/{userId}")
+	@Path("/addSharedMap/{userId}")
 	public Map addMapSharedTo(@PathParam("userId") String userId,Map map) {
 		map = DAO.getMapDao().addMapSharedTo(Long.parseLong(userId), map);
 		

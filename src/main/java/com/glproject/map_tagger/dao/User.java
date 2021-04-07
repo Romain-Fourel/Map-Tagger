@@ -123,7 +123,7 @@ public class User {
 	
 	public void removeMap(Map map) {
 		for (int i = 0; i < mapList.size(); i++) {
-			if (mapList.get(i).getID().equals(map.id)) {
+			if (mapList.get(i).equals(map)) {
 				mapList.remove(i);
 				return;
 			}
@@ -139,7 +139,7 @@ public class User {
 	
 	public void removeMapShared(Map map) {
 		for (int i = 0; i < mapsShared.size(); i++) {
-			if (mapsShared.get(i).getID().equals(map.id)) {
+			if (mapsShared.get(i).equals(map)) {
 				mapsShared.remove(i);
 				return;
 			}
@@ -182,6 +182,12 @@ public class User {
 	public String toCompleteString() {
 		return "User [ID=" + ID + ", name=" + name + ", password=" + password + ", mapList=" + mapList
 				+ ", mapsVisibility=" + mapsVisibility + ", mapsShared=" + mapsShared + "]";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		User user = (User) obj;
+		return getID().equals(user.getID());
 	}
 	
 

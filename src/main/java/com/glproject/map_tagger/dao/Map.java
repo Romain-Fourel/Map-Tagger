@@ -102,6 +102,12 @@ public class Map {
 		return "Map [id=" + id + ", name=" + name + ", description=" + description + ", confidentiality="
 				+ confidentiality + ", places=" + places + ", creator=" + creatorId + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Map map = (Map) obj;
+		return getID().equals(map.getID());
+	}
 
 
 }

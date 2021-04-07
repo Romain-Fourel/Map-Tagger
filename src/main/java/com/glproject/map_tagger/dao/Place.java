@@ -162,6 +162,12 @@ public class Place {
 				+ ", longitude=" + longitude + ", pictures=" + pictures + ", messages=" + messages + ", tags=" + tags
 				+ ", mapId=" + mapId + "]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Place place = (Place) obj;
+		return getID().equals(place.getID());
+	}
 
 }
 

@@ -97,10 +97,23 @@ public class UserResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/delete/sharedMap/{userId}")	
-	public User deleteMapShared(@PathParam("userId") String userId, Map map) {
+	@Path("/remove/sharedMap/{userId}")	
+	public User ignoreMapShared(@PathParam("userId") String userId, Map map) {
 		User user = DAO.getUserDao().getUser(Long.parseLong(userId));	
 		user.removeMapShared(map);
+		user = DAO.getUserDao().updateUser(user); 
+		
+		return user;
+		
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/remove/map/{userId}")	
+	public User removeMap(@PathParam("userId") String userId, Map map) {
+		User user = DAO.getUserDao().getUser(Long.parseLong(userId));	
+		user.removeMap(map);
 		user = DAO.getUserDao().updateUser(user); 
 		
 		return user;
