@@ -47,7 +47,7 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/connection")
-	public Response retrieveIdentity(Object[] data) {
+	public Boolean retrieveIdentity(Object[] data) {
 		
 		String username = (String) data[0];
 		String password = (String) data[1];
@@ -57,13 +57,11 @@ public class UserResource {
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
 				currentSession = user.getID();
-				return Response.ok(true).build();
+				return true;
 			}
 		}	
-
-		//We want to return a "not accepted" response
-		return Response.ok(false).build();
-		
+		return false;
+	
 	}
 	
 	@POST

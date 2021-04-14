@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin=""/>
+
+          <!--To get the font awesome !!-->
+        <script src="https://use.fontawesome.com/ba7c0f482b.js"></script>
         
         <title>Map Tagger</title>
     </head>
@@ -113,7 +116,7 @@
                 </script>
 
 
-                <button class="RightSlidingPanelQuit" id="communityMapsMenuQuit">Close</button>
+                <button class="RightSlidingPanelQuit" id="communityMapsMenuQuit"><i class="fas fa-angle-right"></i></button>
             </div>
         
             <div class="Menu RightSlidingPanel" id="savedMapsMenu">
@@ -190,6 +193,8 @@
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
                     <h3 id="oneMapConfidentiality"></h3>
                     <button id="oneMapMenuShareButton">Share this map</button>
+                    <input  placeholder="User id" id="oneMapMenuShareUserId" type="text"/> 
+                    <button id="oneMapMenuShareSendButton">Send</button>
     
                     <!--list of places of this map-->
                     <div id="oneMapPlaces"></div>
@@ -212,6 +217,8 @@
             <div class="Menu LeftSlidingPanel" id="searchingPlacesMenu">
                 <input type="search" placeholder="add a new tag..." id="addASearchingTagInput" autocomplete="off"/>
                 <button id="searchByTagsButton" type="button">Search</button>
+                <button id="resetSearchByTagsButton" type="button">Reset search</button>
+                <button id="addATagToSearchingPlacesButton" type="button">Add</button>
 
 
                 <textarea id="searchingPlacesTags" disabled rows="7" cols="25" ></textarea>

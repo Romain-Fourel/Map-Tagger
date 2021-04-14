@@ -348,6 +348,10 @@ class PanelManager {
         $("#nameOneMapMenu").text(map.name);
         $("#descriptionOneMapMenu").text(map.description);
         $("#oneMapConfidentiality").text(map.confidentiality);
+        
+        $("#oneMapMenuShareUserId").css("visibility", "hidden");
+        $("#oneMapMenuShareSendButton").css("visibility", "hidden");
+        $("#oneMapMenuShareButton").css("visibility", "visible");
 
         $("#oneMapPlaces").text("");
 
@@ -918,15 +922,36 @@ class ClickManager {
         });        
     }
 
-    /**
-     * TODO: CHANGE THE USER ID GAVE BY DEFAULT BY AN USER ID GAVE BY THE USER HIMSELF
-     */
+
     static setClickOneMapMenuShareButton(map){
         $("#oneMapMenuShareButton").unbind("click");
         $("#oneMapMenuShareButton").click(function (e) { 
-            alert("You share this map! [TODO]");
+            
+            $("#oneMapMenuShareUserId").css("visibility", "visible");
+            $("#oneMapMenuShareSendButton").css("visibility", "visible");
+            $("#oneMapMenuShareButton").css("visibility", "hidden");
 
-            postServerdata("ws/Map/addSharedMap/"+UserManager.currentSession,JSON.stringify(map),function(){})
+            ClickManager.setClickOneMapMenuShareSendButton(map);
+            
+        });
+    }
+
+    static setClickOneMapMenuShareSendButton(map){
+        $("#oneMapMenuShareSendButton").unbind("click");
+        $("#oneMapMenuShareSendButton").click(function () { 
+            
+            var userId = $("#oneMapMenuShareUserId").val();
+
+            postServerdata("ws/Map/addSharedMap/"+userId,JSON.stringify(map),function(map){
+                if(map==null){
+                    alert("There is no user with this such id");
+                }
+                else {
+                    $("#oneMapMenuShareUserId").css("visibility", "hidden");
+                    $("#oneMapMenuShareSendButton").css("visibility", "hidden");
+                    $("#oneMapMenuShareButton").css("visibility", "visible");
+                }
+            });
             
         });
     }
@@ -1072,7 +1097,7 @@ class UserManager{
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.13");
+    console.log("Test 2.14");
 
     UserManager.loadUser();
     LeafletManager.build();

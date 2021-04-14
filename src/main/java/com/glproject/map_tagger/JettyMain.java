@@ -16,7 +16,7 @@ import org.glassfish.jersey.servlet.ServletContainer;
 import com.glproject.map_tagger.dao.DAO;
 
 public class JettyMain {
-	
+
 	public static void main(String[] args) throws Exception {
 
 		Server server = new Server();
@@ -37,9 +37,8 @@ public class JettyMain {
 		ResourceHandler handlerPortal = new ResourceHandler();
 		handlerPortal.setResourceBase("src/main/webapp");
 		handlerPortal.setDirectoriesListed(false);
-		
-		//TODO: index.html has been replaced by main.html ONLY FOR THE TESTS
-		handlerPortal.setWelcomeFiles(new String[] { "main.html" });
+
+		handlerPortal.setWelcomeFiles(new String[] { "index.html" });
 		ContextHandler handlerPortalCtx = new ContextHandler();
 		handlerPortalCtx.setContextPath("/");
 		handlerPortalCtx.setHandler(handlerPortal);
@@ -57,9 +56,9 @@ public class JettyMain {
 
 		// Start server
 		server.start();
-		
+
 		DAO.generateFakeUser();
-		
+
 		DAO.generateManyFakeUsers();
 	}
 }

@@ -11,7 +11,6 @@ import com.glproject.map_tagger.dao.Map.Confidentiality;
 import com.glproject.map_tagger.dao.impl.MapDaoImpl;
 import com.glproject.map_tagger.dao.impl.PlaceDaoImpl;
 import com.glproject.map_tagger.dao.impl.UserDaoImpl;
-import com.glproject.map_tagger.ws.UserResource;
 
 public class DAO {
 	
@@ -80,7 +79,7 @@ public class DAO {
 		
 		getUserDao().updateUser(userDetached);
 		
-		UserResource.setCurrentSession(user.getID());
+		//UserResource.setCurrentSession(user.getID());
 		
 	}
 	
@@ -127,7 +126,7 @@ public class DAO {
 			map.setConfidentiality(Confidentiality.PUBLIC);
 			Map detached = getMapDao().addMapTo(userId, map);
 			long mapId = detached.getID();
-			getMapDao().addMapSharedTo(UserResource.getCurrentSession(), detached);
+			getMapDao().addMapSharedTo((long) 0, detached);
 			
 			for (int j = 0; j < nbPlacesPerUser; j++) {
 				Place place = new Place("Place "+i+","+j);

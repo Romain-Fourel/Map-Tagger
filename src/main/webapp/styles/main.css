@@ -368,6 +368,7 @@ textarea{
 }
 
 
+
 .RightSlidingPanelQuit{
     background: #afafaf;
     color: #ffffff;
@@ -379,6 +380,8 @@ textarea{
     width:auto;
     position: relative;
   }
+
+
 .RightSlidingPanelQuit:after {
     content: "\0027A9";
     font-weight: 400;
@@ -402,6 +405,7 @@ textarea{
     opacity: 1;
     transition: all 0.5s;
 }
+
 
 .buttonShowsDetails{
     font-size: 40px;

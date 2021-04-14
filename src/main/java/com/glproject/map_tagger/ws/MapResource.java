@@ -46,10 +46,14 @@ public class MapResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addSharedMap/{userId}")
-	public Map addMapSharedTo(@PathParam("userId") String userId,Map map) {
-		map = DAO.getMapDao().addMapSharedTo(Long.parseLong(userId), map);
+	public Response addMapSharedTo(@PathParam("userId") String userId,Map map) {
 		
-		return map;
+		try {
+			map = DAO.getMapDao().addMapSharedTo(Long.parseLong(userId), map);
+		} catch (Exception e) {
+			return null;
+		}	
+		return Response.ok(map).build();
 	}
 	
 	
