@@ -38,11 +38,10 @@ function createNewUser(username,password,confirmedPassword){
 $(document).ready(function () {
     console.log("test 1.0");
 
-    $("#registration").click(function () { 
-        console.log("clicked");
-        var username = $("#usernameId").val();
-        var password = $("#passwordId").val(); 
-        var confirmedPassword = $("#confirmPasswordId").val();
+    $("#register-btn ").click(function () { 
+        var username = $("#login").val();
+        var password = $("#password").val(); 
+        var confirmedPassword = $("#confirm-password").val();
         
         createNewUser(username,password,confirmedPassword);
     });

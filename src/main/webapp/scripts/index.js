@@ -5,7 +5,6 @@
  */
 function connection(username,password){
 
-    console.log("connection...");
     var data = [username,password];
 
     $.ajax({
@@ -31,9 +30,9 @@ function connection(username,password){
  */
 $(document).ready(function () {
 
-    $("#login").click(function () { 
-        var username = $("#usernameId").val();
-        var password = $("#passwordId").val();
+    $("#login-btn").click(function () { 
+        var username = $("#login").val();
+        var password = $("#password").val();
 
         connection(username,password);
     });

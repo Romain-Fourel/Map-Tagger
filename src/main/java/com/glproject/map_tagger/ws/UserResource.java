@@ -47,10 +47,10 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/connection")
-	public Boolean retrieveIdentity(Object[] data) {
+	public Boolean retrieveIdentity(String[] data) {
 		
-		String username = (String) data[0];
-		String password = (String) data[1];
+		String username = data[0];
+		String password = data[1];
 		
 		List<User> usersRegistered = DAO.getUserDao().getUsers(username);
 		
@@ -133,7 +133,6 @@ public class UserResource {
 	@Path("/currentSession")
 	public User getCurrentUser() {
 		User user = DAO.getUserDao().getUser(currentSession);	
-		System.out.println(user.toCompleteString());
 		return user;
 	}
 	
