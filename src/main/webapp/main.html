@@ -120,7 +120,7 @@
             </div>
         
             <div class="Menu RightSlidingPanel" id="savedMapsMenu">
-                <h1>My Maps</h1>
+                <h1> <i class="fa fa-map"></i> My Maps</h1>
                 <div id="savedMapsButtons" class="Scrollbar fullScrollbarRight">
                     <!--Here are dynamically added the maps of the current user-->              
                 </div>
@@ -158,7 +158,7 @@
             </div>
             
             <div class="Menu RightSlidingPanel" id="onePlaceMenu">
-                <h1><!--Here the name of the place--></h1>   
+                <h1><i class="fa fa-map-marker"></i> <span id="nameOnePlaceMenu"></span></h1>   
                 
                 <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
@@ -181,18 +181,18 @@
 
                 </div>
 
-                <button class="modifyButton" id="modifyPlace">Modify place</button>
-                <button id="centerToMarkerPlaceButton">Go to</button>
+                <button class="modifyButton" id="modifyPlace"><i class="fa fa-pencil"></i></button>
+                <button id="centerToMarkerPlaceButton"><i class="fa fa-location-arrow"></i></button>
                 <button class="RightSlidingPanelQuit" id="onePlaceMenuQuit">Close</button> 
             </div>
 
             <div class="Menu RightSlidingPanel" id="oneMapMenu"> 
-                <h1 id="nameOneMapMenu"><!--Here the name of the map--></h1>     
+                <h1><i class="fa fa-map-marked"></i> <span id="nameOneMapMenu"></span></h1>     
                 
                 <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
                     <h3 id="oneMapConfidentiality"></h3>
-                    <button id="oneMapMenuShareButton">Share this map</button>
+                    <button id="oneMapMenuShareButton"><i class="fa fa-share-alt"></i></button>
                     <input  placeholder="User id" id="oneMapMenuShareUserId" type="text"/> 
                     <button id="oneMapMenuShareSendButton">Send</button>
     
@@ -206,7 +206,7 @@
                     </script>
                 </div>
 
-                <button class="modifyButton" id="modifyMap">Modify map</button>
+                <button class="modifyButton" id="modifyMap"><i class="fa fa-pencil"></i></button>
                 <button class="modifyButton" id="followMap">Follow</button>
                 <button class="RightSlidingPanelQuit" id="oneMapMenuQuit">Close</button> 
             </div>

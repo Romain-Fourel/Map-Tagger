@@ -405,7 +405,7 @@ class PanelManager {
     }
 
     static setOnePlaceMenu(place){
-        $("#onePlaceMenu h1").text(place.name);
+        $("#nameOnePlaceMenu").text(place.name);
         $("#onePlaceMenu .descriptionArea").text(place.description);
 
         $("#onePlaceTags").text("");
