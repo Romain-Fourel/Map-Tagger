@@ -174,8 +174,7 @@ public class PlaceDaoImpl implements PlaceDao {
 		try {
 			tx.begin();
 			place = pm.getObjectById(Place.class, ID);
-			place.getTags();
-			place.getMessages();
+			place.toString();
 			detached = pm.detachCopy(place);
 			tx.commit();
 

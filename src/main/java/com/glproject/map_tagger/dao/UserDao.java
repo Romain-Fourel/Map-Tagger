@@ -3,17 +3,7 @@ package com.glproject.map_tagger.dao;
 import java.util.List;
 
 public interface UserDao {
-
-	/**
-	 * Add a new user to the database
-	 * 
-	 * @param user
-	 * @return 
-	 */
-	User addUser(User user);
-
-	void delete(User user);
-
+	
 	/**
 	 * 
 	 * @param ID is a primary key
@@ -34,6 +24,18 @@ public interface UserDao {
 	 */
 	List<User> getUsers(String name);
 	
+
+	/**
+	 * Add a new user to the database
+	 * 
+	 * @param user
+	 * @return 
+	 */
+	User addUser(User user);
+	
 	User updateUser(User user);
+
+	void delete(User user);
+	
 
 }

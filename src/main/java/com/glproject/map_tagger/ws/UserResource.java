@@ -77,6 +77,13 @@ public class UserResource {
 		return user;
 	}
 	
+	/***
+	 * this webservice is used to drop a movie from the sharedMap list into the map list of the user
+	 * this is the agreement of an invitation by an other user to follow a specific map
+	 * @param userId
+	 * @param map
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

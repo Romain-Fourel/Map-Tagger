@@ -19,33 +19,6 @@ public class UserDaoImpl implements UserDao {
 	public UserDaoImpl(PersistenceManagerFactory pmf) {
 		this.pmf = pmf;
 	}
-
-	@Override
-	public User addUser(User user) {
-
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		
-		User detached = new User();
-		
-		try {
-			tx.begin();
-			user = pm.makePersistent(user);
-			
-			detached = pm.detachCopy(user);
-			
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-
-	}
-
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -86,16 +59,11 @@ public class UserDaoImpl implements UserDao {
 			tx.begin();
 			user = pm.getObjectById(User.class, ID);
 			
-			//TODO, is it really like that we could debug???
-			user.getMapList();
-			for (Map map : user.getMapList()) {
-				map.getPlaces();
-			}
-			user.getMapsVisibility();
-			user.getMapsShared();
-			for (Map map : user.getMapsShared()) {
-				map.getPlaces();
-			}
+			//without this line, items of user are becoming null after the pm.close()
+			// weird...
+			user.toString();
+			
+			
 			detached = pm.detachCopy(user);
 			tx.commit();
 
@@ -108,26 +76,7 @@ public class UserDaoImpl implements UserDao {
 		return detached;
 	}
 
-	@Override
-	public void delete(User user) {
 
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-
-		try {
-			tx.begin();
-			
-			pm.deletePersistent(user);
-			
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -157,6 +106,33 @@ public class UserDaoImpl implements UserDao {
 		}
 		return detached;
 	}
+
+	@Override
+	public User addUser(User user) {
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		User detached = new User();
+		
+		try {
+			tx.begin();
+			user = pm.makePersistent(user);
+			
+			detached = pm.detachCopy(user);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+
+	}
+
 
 	@Override
 	public User updateUser(User user) {
@@ -194,6 +170,25 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	
-	
+	@Override
+	public void delete(User user) {
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			
+			pm.deletePersistent(user);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
 
 }

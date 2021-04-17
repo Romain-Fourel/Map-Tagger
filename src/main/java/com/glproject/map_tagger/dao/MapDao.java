@@ -4,29 +4,27 @@ import java.util.List;
 
 public interface MapDao {
 
-	/**
-	 * Add a new map to the database
-	 * 
-	 * @param map
-	 * @return 
-	 */
-	Map addMap(Map map);
 	
-	Map updateMap(Map map);
-
-	void delete(Map map);
-
 	/**
 	 * Get all maps of the database
 	 * 
 	 * @return
 	 */
 	List<Map> getMaps();
-
+	
+	/**
+	 * get the map by its unique id
+	 * @param ID
+	 * @return
+	 */
 	Map getMap(Long ID);
-
+	
+	/**
+	 * Get all public maps in the database
+	 * @return
+	 */
 	List<Map> getPublicMaps();
-
+	
 	/**
 	 * 
 	 * @param name of the map
@@ -35,16 +33,17 @@ public interface MapDao {
 	 */
 	List<Map> getMaps(String name);
 	
-	/**
-	 * get the map which contains a specific place
-	 * @param place
-	 * @return
-	 */
-	Map getMapOf(Place place);
-
+	
+	
 	Map addMapTo(Long userId, Map map);
 
 	Map addMapSharedTo(Long userId, Map map);
-		
+	
+	
+	Map updateMap(Map map);
 
+	void delete(Map map);
+
+	
+	
 }

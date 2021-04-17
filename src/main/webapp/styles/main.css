@@ -8,6 +8,11 @@ body{
     font-family: "Open Sans", "Segoe WP", "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
+.modifyButton{
+    font-size: 40px;
+    color: rgb(63, 60, 60);
+}
+
 textarea{
     resize: none;
 }

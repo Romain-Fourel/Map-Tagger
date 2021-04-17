@@ -507,8 +507,9 @@ class ClickManager {
 
     static setClickDisconnectButton(){
         $("#disconnectButton").click(function (e) { 
-            window.location.href="index.html";
-            
+            if(confirm("Do you really want to disconnect ?")){
+                window.location.href="index.html";
+            }      
         });
     }
 

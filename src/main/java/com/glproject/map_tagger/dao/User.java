@@ -169,21 +169,14 @@ public class User {
 	}
 
 
-	/**
-	 * Every user has is toString() unique
-	 */
+	
 	
 	@Override
 	public String toString() {
-		return name + " #"+ID;
-	}
-
-
-	public String toCompleteString() {
 		return "User [ID=" + ID + ", name=" + name + ", password=" + password + ", mapList=" + mapList
 				+ ", mapsVisibility=" + mapsVisibility + ", mapsShared=" + mapsShared + "]";
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		User user = (User) obj;

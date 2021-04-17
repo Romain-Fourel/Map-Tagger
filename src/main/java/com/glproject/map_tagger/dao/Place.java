@@ -151,18 +151,15 @@ public class Place {
 	}
 	
 	
+	
+	
 	@Override
 	public String toString() {
-		return name+" #"+id;
-	}
-	
-	
-	public String toCompleteString() {
 		return "Place [id=" + id + ", name=" + name + ", description=" + description + ", latitude=" + latitude
 				+ ", longitude=" + longitude + ", pictures=" + pictures + ", messages=" + messages + ", tags=" + tags
 				+ ", mapId=" + mapId + "]";
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		Place place = (Place) obj;

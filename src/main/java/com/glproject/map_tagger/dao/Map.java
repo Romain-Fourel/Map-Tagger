@@ -93,16 +93,14 @@ public class Map {
 	}
 	
 	
+	
+	
 	@Override
 	public String toString() {
-		return name+" #"+id;
-	}
-	
-	public String toCompleteString() {
 		return "Map [id=" + id + ", name=" + name + ", description=" + description + ", confidentiality="
-				+ confidentiality + ", places=" + places + ", creator=" + creatorId + "]";
+				+ confidentiality + ", places=" + places + ", creatorId=" + creatorId + "]";
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		Map map = (Map) obj;
