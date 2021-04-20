@@ -1098,7 +1098,7 @@ class UserManager{
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.14");
+    console.log("Test 2.141");
 
     UserManager.loadUser();
     LeafletManager.build();

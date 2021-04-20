@@ -197,6 +197,8 @@ textarea{
     left: 5%;
 }
 #addImages{
+    font-family: FontAwesome;
+    content: "\f095";
     position: absolute;
     top: 10%;
     right: 10%;
@@ -345,6 +347,31 @@ textarea{
     bottom: 20px;
 }
 
+.LeftSlidingPanelQuit{
+    background: #afafaf;
+    color: #ffffff;
+    font-size: 35px;
+    padding: 0.2rem 1.2rem 0.2rem 1.0rem;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 35px;
+    width:auto;
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    
+  }
+
+.LeftSlidingPanelQuit:hover {
+    background: #e04747;
+    transition: all 0.5s;
+    border-radius: 20px;
+    box-shadow: 0px 6px 15px #ca5d5da2;
+    padding: 0.05rem 1.5rem 0.05rem 1.2rem;
+    position: absolute;
+    right: 47px;
+    bottom: 17px;
+}
 
 .RightSlidingPanel{
     right: -400px;
@@ -373,48 +400,36 @@ textarea{
 }
 
 
-
 .RightSlidingPanelQuit{
     background: #afafaf;
     color: #ffffff;
-    font-size: 19px;
-    padding: 1.0rem;
+    font-size: 35px;
+    padding: 0.2rem 1.0rem 0.2rem 1.2rem;
     border: 0;
     transition: all 0.5s;
-    border-radius: 20px;
+    border-radius: 35px;
     width:auto;
-    position: relative;
-  }
-
-
-.RightSlidingPanelQuit:after {
-    content: "\0027A9";
-    font-weight: 400;
-    font-size: 26px;
-    vertical-align: middle;
     position: absolute;
-    left: 65%;
-    top: 18%;
-    right: 5%;
-    bottom: 0;
-    opacity: 0;
+    left: 50px;
+    bottom: 20px;
+    
   }
+
 .RightSlidingPanelQuit:hover {
     background: #e04747;
     transition: all 0.5s;
     border-radius: 20px;
     box-shadow: 0px 6px 15px #ca5d5da2;
-    padding: 1.0rem 3.0rem 1.0rem 1.0rem;
-}
-.RightSlidingPanelQuit:hover::after {
-    opacity: 1;
-    transition: all 0.5s;
+    padding: 0.05rem 1.5rem 0.05rem 1.5rem;
+    position: absolute;
+    left: 47px;
+    bottom: 17px;
 }
 
 
 .buttonShowsDetails{
     font-size: 40px;
-    left: 72%;
+    left: 78%;
     border-radius: 20px;
     background: #e0474700;
     border: none;
@@ -505,12 +520,14 @@ textarea{
     position: absolute;
     left: 10px;
     top: 25%;
+    font-size: 18px;
 }
 
 .OneDiv label{
     position: relative;
-    left:10%;
-    /*top:12px;*/
+    left:6%;
+    top:12px;
+    font-size: 19px;
 }
 
 .Menu h1{
@@ -530,9 +547,88 @@ textarea{
     font-size: 16px;
 }
 
+ #addAMessageButton{
+    background: #afafaf;
+    color: #ffffff;
+    font-size: 35px;
+    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
+    border: 3px solid rgb(255, 255, 255);
+    transition: all 0.5s;
+    border-radius: 35px;
+    width:auto;
+    position: absolute;
+    left: 40%;
+    top: 62%;
+ }
 
+ #addAMessageButton:hover {
+    background: #ffffff;
+    color: #afafaf;
+    border: 3px solid #ffffff;
+    transition: all 0.5s;
+}
 
+#centerToMarkerPlaceButton {
+    background-color: #797575;
+    z-index: 501;
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    font-size: 34px;
+    color: rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
+    outline: none;
+    transition: all 0.3s;
+}
+#centerToMarkerPlaceButton:hover {
+    color: #56a8f5;
+    border: 2px solid #56a8f5;
+    transition: all 0.3s;
+  }
 
+#modifyPlace, #modifyMap{
+    background: #afafaf;
+    color: #ffffff;
+    font-size: 30px;
+    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
+    border: 3px solid rgb(255, 255, 255);
+    transition: all 0.5s;
+    border-radius: 35px;
+    width:auto;
+ }
+
+#modifyPlace:hover, #modifyMap:hover{
+    background: #ffffff;
+    color: #afafaf;
+    border: 3px solid #ffffff;
+    transition: all 0.5s;
+}
+  
+#templateOnePlaceMessages{
+    background-color: #ffffff;
+    color: #afafaf;
+    left: 15%;
+}
+
+#onePlaceSendMessage, #oneMapMenuShareSendButton{
+    background-color: #797575;
+    z-index: 501;
+    font-size: 34px;
+    color: rgb(255, 255, 255);
+    width:10px;
+    height:10px;
+    border: none;
+    outline: none;
+    transition: all 0.5s;
+}
+
+#oneMapMenuShareSendButton{
+    font-size: 25px;
+}
+#onePlaceSendMessage:hover, #oneMapMenuShareSendButton:hover{
+    color: #57cc70;
+    transition: all 0.5s;
+  }
 /**
  * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
  **/
