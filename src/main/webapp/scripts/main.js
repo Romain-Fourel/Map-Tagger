@@ -506,6 +506,7 @@ class ClickManager {
     }
 
     static setClickDisconnectButton(){
+        
         $("#disconnectButton").click(function (e) { 
             if(confirm("Do you really want to disconnect ?")){
                 window.location.href="index.html";
@@ -1098,7 +1099,7 @@ class UserManager{
  * Main
  */
 $(document).ready(function () {
-    console.log("Test 2.141");
+    console.log("Test 2.14");
 
     UserManager.loadUser();
     LeafletManager.build();

@@ -8,13 +8,12 @@ body{
     font-family: "Open Sans", "Segoe WP", "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-.modifyButton{
-    font-size: 40px;
-    color: rgb(63, 60, 60);
-}
+
+
 
 textarea{
     resize: none;
+    outline: none;
 }
 
 button{
@@ -23,10 +22,6 @@ button{
 }
 
 input{
-    outline: none;
-}
-
-textarea{
     outline: none;
 }
 
@@ -440,13 +435,7 @@ textarea{
     color: #ffffff;
 }
 
-.modifyButton{
-    position: absolute;
-    left: 250px;
-    bottom: 20px;
-    width: 60px;
-    height: 60px;
-}
+
 
 
 .fullScrollbarRight{
@@ -491,13 +480,6 @@ textarea{
     border: 1px solid #000;
   }
 
-#addAMapB{
-    position: absolute;
-    left: 250px;
-    bottom: 20px;
-    width: 60px;
-    height: 60px;
-}
 
 #centerToMarkerPlaceButton{
     position: absolute;
@@ -586,23 +568,6 @@ textarea{
     transition: all 0.3s;
   }
 
-#modifyPlace, #modifyMap{
-    background: #afafaf;
-    color: #ffffff;
-    font-size: 30px;
-    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
-    border: 3px solid rgb(255, 255, 255);
-    transition: all 0.5s;
-    border-radius: 35px;
-    width:auto;
- }
-
-#modifyPlace:hover, #modifyMap:hover{
-    background: #ffffff;
-    color: #afafaf;
-    border: 3px solid #ffffff;
-    transition: all 0.5s;
-}
   
 #templateOnePlaceMessages{
     background-color: #ffffff;
@@ -610,7 +575,7 @@ textarea{
     left: 15%;
 }
 
-#onePlaceSendMessage, #oneMapMenuShareSendButton{
+.sendButton{
     background-color: #797575;
     z-index: 501;
     font-size: 34px;
@@ -625,10 +590,52 @@ textarea{
 #oneMapMenuShareSendButton{
     font-size: 25px;
 }
-#onePlaceSendMessage:hover, #oneMapMenuShareSendButton:hover{
+.sendButton:hover{
     color: #57cc70;
     transition: all 0.5s;
   }
+
+
+
+
+
+.btn-bottom{
+    position: absolute;
+    font-size: 40px;
+    color: rgb(63, 60, 60);
+    bottom: 20px;
+    width: 60px;
+    height: 60px;
+
+    background: #afafaf;
+    color: #ffffff;
+    font-size: 30px;
+    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
+    border: 3px solid rgb(255, 255, 255);
+    transition: all 0.5s;
+    border-radius: 35px;
+    width:auto;
+}
+
+.btn-bottom:hover{
+    background: #ffffff;
+    color: #afafaf;
+    border: 3px solid #ffffff;
+    transition: all 0.5s;
+}
+
+.modifyButton{ 
+    left: 250px;
+}
+
+.delButton{
+    left: 175px;
+}
+
+
+
+
+
 /**
  * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
  **/

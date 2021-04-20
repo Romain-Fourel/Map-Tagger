@@ -141,7 +141,7 @@
 
                 </script>
 
-                <button id="addAMapB">Add a map</button>
+                <button class="btn-bottom modifyButton" id="addAMapB"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 <button class="RightSlidingPanelQuit" id="savedMapsMenuQuit" ><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 
                 
@@ -175,7 +175,7 @@
                     <div id="addAMessageDiv"></div>
                     <script id="templateOnePlaceAddAMessage" type="text/template">
                         <textarea id="addAMessageTextarea" cols="32" rows="4"></textarea>
-                        <button id="onePlaceSendMessage"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                        <button class="sendButton" id="onePlaceSendMessage"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                     </script>
 
                     <div id="onePlaceMessages"></div>
@@ -186,7 +186,7 @@
 
                 </div>
 
-                <button class="btn btn-outline-primary modifyButton" id="modifyPlace"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                <button class="btn-bottom modifyButton" id="modifyPlace"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                 <button id="centerToMarkerPlaceButton"><i class="fa fa-location-arrow"></i></button>
                 <button class="RightSlidingPanelQuit" id="onePlaceMenuQuit"><i class="fa fa-angle-right" aria-hidden="true"></i></button> 
             </div>
@@ -199,7 +199,7 @@
                     <h3 id="oneMapConfidentiality"></h3>
                     <button id="oneMapMenuShareButton"><i class="fa fa-share-alt"></i></button>
                     <input  placeholder="User id" id="oneMapMenuShareUserId" type="text"/> 
-                    <button id="oneMapMenuShareSendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    <button class="sendButton" id="oneMapMenuShareSendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     
                     <!--list of places of this map-->
                     <div id="oneMapPlaces"></div>
@@ -211,8 +211,9 @@
                     </script>
                 </div>
 
-                <button class="btn btn-outline-primary modifyButton" id="modifyMap"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                <button class="btn btn-outline-primary modifyButton" id="followMap">Follow</button>
+                <button class="btn-bottom delButton" id="removeMap"><i class="fa fa-trash-o"></i></button>
+                <button class="btn-bottom modifyButton" id="modifyMap"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                <button class="btn-bottom modifyButton" id="followMap">Follow</button>
                 <button class="RightSlidingPanelQuit" id="oneMapMenuQuit"><i class="fa fa-angle-right" aria-hidden="true"></i></button> 
             </div>
 
