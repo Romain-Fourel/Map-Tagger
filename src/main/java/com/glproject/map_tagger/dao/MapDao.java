@@ -25,24 +25,15 @@ public interface MapDao {
 	 */
 	List<Map> getPublicMaps();
 	
-	/**
-	 * 
-	 * @param name of the map
-	 * @return the map in which its name contains "name" or all creators who has
-	 *         "name" into their user name
-	 */
-	List<Map> getMaps(String name);
-	
-	
 	
 	Map addMapTo(Long userId, Map map);
 
-	Map addMapSharedTo(Long userId, Map map);
+	Map addSharedMapTo(Long userId, Map map);
 	
 	
 	Map updateMap(Map map);
 
-	void delete(Map map);
+	User deleteMapTo(Long userId, Map map);
 
 	
 	

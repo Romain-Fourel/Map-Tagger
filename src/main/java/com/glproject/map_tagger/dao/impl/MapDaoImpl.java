@@ -10,6 +10,7 @@ import javax.jdo.Transaction;
 
 import com.glproject.map_tagger.dao.Map;
 import com.glproject.map_tagger.dao.MapDao;
+import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.User;
 
 public class MapDaoImpl implements MapDao {
@@ -48,34 +49,7 @@ public class MapDaoImpl implements MapDao {
 		return detached;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Map> getMaps(String name) {
-		List<Map> maps = null;
-		List<Map> detached = new ArrayList<Map>();
 
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-
-		try {
-			tx.begin();
-
-			Query q = pm.newQuery(Map.class);
-			q.declareParameters("String nameMap");	
-			q.setFilter("name.indexOf(nameMap)>-1");
-			maps = (List<Map>) q.execute(name);
-			detached = (List<Map>) pm.detachCopyAll(maps);
-
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-	}
 
 	@Override
 	public Map getMap(Long ID) {
@@ -173,7 +147,7 @@ public class MapDaoImpl implements MapDao {
 	
 	
 	@Override
-	public Map addMapSharedTo(Long userId, Map map) {
+	public Map addSharedMapTo(Long userId, Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		
@@ -236,12 +210,25 @@ public class MapDaoImpl implements MapDao {
 	
 	
 	@Override
-	public void delete(Map map) {
+	public User deleteMapTo(Long userId, Map map) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
+		
+		User detached = null;
 
 		try {
 			tx.begin();
+			
+			User user = pm.getObjectById(User.class,userId);
+			user.removeMap(map);
+			detached = pm.detachCopy(user);
+			
+			for (Place place : map.getPlaces()) {
+				place = pm.getObjectById(Place.class,place.getID());
+				pm.deletePersistent(place);
+			}
+			
+			map = pm.getObjectById(Map.class, map.getID());
 			
 			pm.deletePersistent(map);
 			
@@ -253,6 +240,8 @@ public class MapDaoImpl implements MapDao {
 			}
 			pm.close();
 		}
+		
+		return detached;
 
 	}
 

@@ -34,7 +34,6 @@ class LeafletManager {
 }
 
 
-
 function hideButtons() {
     $("#buttons button").css("visibility", function () {
         return "hidden";
@@ -202,6 +201,19 @@ function getServerData(url,callDone){
     });
 }
 
+function deleteServerData(url,data,callDone){
+    $.ajax({
+        type: "DELETE",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (response) {
+            callDone(response);
+        }
+    });    
+}
+
 /**
  * Here are all function which fill panels by getting informations from the server
  */
@@ -238,12 +250,20 @@ class PanelManager {
         var mapid = place.mapId;
         $("#mapChoicePlace").val(mapid);    
 
+
+        for (let i=0; i<place.tags.length; i++) {
+            $("#addTagsInput").tagsinput("add",{"value":i,"text":place.tags[i]})
+        }
+        
+
+        /*
         var tagsPlace = "";
         tagsPlace += place.tags[0];
         for (let i = 1; i < place.tags.length; i++) {
             tagsPlace += " "+place.tags[i];        
         }
         $("#addAPlaceTags").text(tagsPlace);
+        */
 
         getServerData("ws/User/"+UserManager.currentSession,function(user){
             $("#mapChoicePlace").text("");
@@ -314,6 +334,9 @@ class PanelManager {
         $("#communityMapsButtons").text("");
         getServerData("ws/Map/allPublic",function(mapList){
             for (const map of mapList) {
+                if(MapManager.dict.get(map.id)===undefined){
+                    new MapManager(map);
+                } 
                 var template = _.template($("#templateOneCommunityMapButton").html());
                 var divOneMapHtml = template({
                     "nameMap": map.name,
@@ -376,12 +399,15 @@ class PanelManager {
         getServerData("ws/User/"+UserManager.currentSession,function(user){
             if (map.creatorId === user.id){ // this is thus the owner of the map, he can therefore modify it
                 ClickManager.setClickModifyMap(map);
+                ClickManager.setClickRemoveMap(map);
                 $("#modifyMap").css("visibility", "visible");
                 $("#followMap").css("visibility", "hidden");
+                $("#removeMap").css("visibility", "visible");
             }
             else {
                 $("#modifyMap").css("visibility", "hidden");
                 $("#followMap").css("visibility", "visible");
+                $("#removeMap").css("visibility", "hidden");
 
                 var hasThisMap = false;
 
@@ -391,6 +417,7 @@ class PanelManager {
                 for (const userMap of user.mapList) {
                     if (map.id === userMap.id){ // if the user already has the map into his map list
                         $("#followMap").text("Unfollow");
+                        
                         hasThisMap = true;
                         ClickManager.setClickFollowMap(map,true);
                     }
@@ -431,10 +458,13 @@ class PanelManager {
 
         if (map.creatorId === UserManager.currentSession){
             $("#modifyPlace").css("visibility", "visible");
+            $("#removePlace").css("visibility", "visible");
             ClickManager.setClickModifyPlace(place);
+            ClickManager.setClickRemovePlace(place);
         }
         else{
             $("#modifyPlace").css("visibility", "hidden");
+            $("#removePlace").css("visibility", "hidden");
         }     
         
     }
@@ -506,7 +536,7 @@ class ClickManager {
     }
 
     static setClickDisconnectButton(){
-        
+
         $("#disconnectButton").click(function (e) { 
             if(confirm("Do you really want to disconnect ?")){
                 window.location.href="index.html";
@@ -607,6 +637,35 @@ class ClickManager {
     
             $("#addAPlaceMenu").css("visibility", "visible");   
             $("#mapChoicePlace").css("visibility", "hidden");    
+        });
+    }
+
+    static setClickRemovePlace(place){
+        $("#removePlace").unbind("click");
+        $("#removePlace").click(function (e) { 
+            if (confirm("Do you really want to remove this place ?")){
+                deleteServerData("ws/Place/"+place.mapId,JSON.stringify(place),function(map){
+                    closeSlidingPanel("right","#onePlaceMenu");
+                    PanelManager.setOneMapMenu(map);
+                    openSlidingPanel("right","#oneMapMenu");
+                    LeafletManager.removeLayer(PlaceManager.dict.get(place.id).marker);
+                });
+            }
+            
+        });
+    }
+
+    static setClickRemoveMap(map){
+        $("#removeMap").unbind("click");
+        $("#removeMap").click(function (e) { 
+            if(confirm("Do you really want to remove this map and all of its places ?\n It is irreversible")){
+                deleteServerData("ws/Map/"+UserManager.currentSession,JSON.stringify(map),function(){
+                    PanelManager.setSavedMapsMenu();
+                    closeSlidingPanel("right","#oneMapMenu");
+                    LeafletManager.removeLayer(MapManager.dict.get(map.id).layerGroup);                 
+                })
+            }
+            
         });
     }
 
@@ -944,14 +1003,17 @@ class ClickManager {
             
             var userId = $("#oneMapMenuShareUserId").val();
 
-            postServerdata("ws/Map/addSharedMap/"+userId,JSON.stringify(map),function(map){
-                if(map==null){
+            postServerdata("ws/Map/addSharedMap/"+userId,JSON.stringify(map),function(result){
+                if(result==null){
                     alert("There is no user with this such id");
                 }
                 else {
                     $("#oneMapMenuShareUserId").css("visibility", "hidden");
                     $("#oneMapMenuShareSendButton").css("visibility", "hidden");
                     $("#oneMapMenuShareButton").css("visibility", "visible");
+                    if(!result){
+                        alert("This user already has this map!");
+                    }
                 }
             });
             
@@ -1080,11 +1142,6 @@ class UserManager{
                 }
             }
         });
-        getServerData("ws/Map/allPublic",function(mapList){
-            for (const map of mapList) {
-                new MapManager(map);
-            }
-        })
     }
 
 

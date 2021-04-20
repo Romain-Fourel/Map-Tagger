@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -102,6 +103,14 @@ public class PlaceResource {
 		place = DAO.getPlaceDao().updatePlace(place);
 		
 		return Response.ok(place).build();
+	}
+	
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public Map removePlace(@PathParam("id") String mapId, Place place) {
+		return DAO.getPlaceDao().deletePlaceTo(Long.parseLong(mapId), place);
 	}
 	
 

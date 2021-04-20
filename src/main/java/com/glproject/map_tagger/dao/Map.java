@@ -92,7 +92,9 @@ public class Map {
 		places.add(place);
 	}
 	
-	
+	public void removePlace(Place place) {
+		places.remove(place);
+	}
 	
 	
 	@Override

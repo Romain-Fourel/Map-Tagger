@@ -35,6 +35,8 @@ public class DAO {
 								  {{48.802605, 2.42433},{48.868944, 2.334906},{48.85747, 2.359041}},
 								  {{45.740027, 4.871898},{45.781056, 4.850082},{45.456536, 4.778787}}
 								 };
+		
+		
 		String[] mapNames = {"Tours","Cour-Cheverny","Paris","Lyon"};
 		
 		String[][][] tags = {{{"#appartement","#centre-ville","#9m²"},{"#jardin","#botanique"},{"#université","#bretonneau"}},
@@ -126,7 +128,7 @@ public class DAO {
 			map.setConfidentiality(Confidentiality.PUBLIC);
 			Map detached = getMapDao().addMapTo(userId, map);
 			long mapId = detached.getID();
-			getMapDao().addMapSharedTo((long) 0, detached);
+			getMapDao().addSharedMapTo((long) 0, detached);
 			
 			for (int j = 0; j < nbPlacesPerUser; j++) {
 				Place place = new Place("Place "+i+","+j);

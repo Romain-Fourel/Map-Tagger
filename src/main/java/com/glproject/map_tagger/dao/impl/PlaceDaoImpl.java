@@ -19,29 +19,6 @@ public class PlaceDaoImpl implements PlaceDao {
 	public PlaceDaoImpl(PersistenceManagerFactory pmf) {
 		this.pmf = pmf;
 	}
-
-	@Override
-	public Place addPlace(Place place) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		
-		Place detached = new Place();
-		
-		try {
-			tx.begin();
-			place = pm.makePersistent(place);	
-			detached = pm.detachCopy(place);
-			
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-	}
 	
 	@Override
 	public Place addPlaceTo(Long mapId, Place place) {
@@ -131,37 +108,6 @@ public class PlaceDaoImpl implements PlaceDao {
 		return detached;
 	}
 
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Place> getPlaces(String name) {
-		List<Place> places = null;
-		List<Place> detached = new ArrayList<Place>();
-
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-
-		try {
-			tx.begin();
-
-			Query q = pm.newQuery(Place.class);
-			q.declareParameters("String namePlace");
-			
-			q.setFilter("name.indexOf(namePlace)>-1");
-			places = (List<Place>) q.execute(name);
-			detached = (List<Place>) pm.detachCopyAll(places);
-
-			tx.commit();
-
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return detached;
-	}
-	
 
 	@Override
 	public Place getPlace(Long ID) {
@@ -189,12 +135,21 @@ public class PlaceDaoImpl implements PlaceDao {
 
 
 	@Override
-	public void delete(Place place) {
+	public Map deletePlaceTo(Long mapId, Place place) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
+		
+		Map detached = null;
 
 		try {
 			tx.begin();
+			
+			Map map = pm.getObjectById(Map.class, mapId);
+			map.removePlace(place);
+			
+			detached = pm.detachCopy(map);
+			
+			place = pm.getObjectById(Place.class, place.getID());
 			
 			pm.deletePersistent(place);
 			
@@ -206,6 +161,8 @@ public class PlaceDaoImpl implements PlaceDao {
 			}
 			pm.close();
 		}
+		
+		return detached; 
 
 	}
 

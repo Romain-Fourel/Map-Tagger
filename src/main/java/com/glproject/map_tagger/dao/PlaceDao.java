@@ -12,33 +12,12 @@ public interface PlaceDao {
 	List<Place> getPlaces();
 
 	Place getPlace(Long ID);
-
-	
-	/**
-	 * 
-	 * @param name
-	 * @return all places in which their name contains "name"
-	 */
-	List<Place> getPlaces(String name);
-	
-	
-	
-	/**
-	 * Add a new place to the database
-	 * 
-	 * @param user
-	 * @return 
-	 */
-	Place addPlace(Place place);
 	
 	Place addPlaceTo(Long mapId, Place place);
 	
 	Place updatePlace(Place place);
 
-	void delete(Place place);
-
-
-
+	Map deletePlaceTo(Long mapId, Place place);
 
 
 

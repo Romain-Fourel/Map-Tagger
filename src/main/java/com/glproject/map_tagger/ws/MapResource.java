@@ -3,6 +3,7 @@ package com.glproject.map_tagger.ws;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.glproject.map_tagger.dao.DAO;
 import com.glproject.map_tagger.dao.Map;
+import com.glproject.map_tagger.dao.User;
 
 @Path("/Map")
 public class MapResource {
@@ -46,14 +48,21 @@ public class MapResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addSharedMap/{userId}")
-	public Response addMapSharedTo(@PathParam("userId") String userId,Map map) {
+	public Response addSharedMapTo(@PathParam("userId") String userId,Map map) {
+		
+		User user = null;
 		
 		try {
-			map = DAO.getMapDao().addMapSharedTo(Long.parseLong(userId), map);
+			user = DAO.getUserDao().getUser(Long.parseLong(userId));
+			
 		} catch (Exception e) {
 			return null;
 		}	
-		return Response.ok(map).build();
+		if (user.hasMap(map)) {
+			return Response.ok(false).build();
+		}
+		DAO.getMapDao().addSharedMapTo(user.getID(), map);
+		return Response.ok(true).build();
 	}
 	
 	
@@ -77,6 +86,14 @@ public class MapResource {
 	@Path("/allPublic")
 	public List<Map> getPublicMap(){
 		return DAO.getMapDao().getPublicMaps();
+	}
+	
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	public List<Map> removeMap(@PathParam("id") String userId, Map map){
+		return DAO.getMapDao().deleteMapTo(Long.parseLong(userId), map).getMapList();
 	}
 	
 	

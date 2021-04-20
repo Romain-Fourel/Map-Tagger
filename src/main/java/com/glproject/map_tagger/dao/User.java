@@ -130,6 +130,15 @@ public class User {
 		}
 	}
 	
+	public boolean hasMap(Map map) {
+		for (Map map2 : mapList) {
+			if (map.equals(map2)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void addMapShared(Map map) {
 		if(mapsShared == null) {
 			mapsShared = new ArrayList<Map>();
