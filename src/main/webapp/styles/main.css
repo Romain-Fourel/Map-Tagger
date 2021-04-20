@@ -223,11 +223,11 @@ input{
 
 #addAPlaceTags{
     position: absolute;
-    background-color: #cac3c3;
+    background-color: #cac3c300;
     bottom: 6%;
     left: 4.7%;
-    width: 25%;
-    height: 15%;
+    /*width: 25%;
+    height: 15%;*/
     overflow-x: auto;
 }
 

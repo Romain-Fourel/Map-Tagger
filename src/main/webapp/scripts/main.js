@@ -251,19 +251,10 @@ class PanelManager {
         $("#mapChoicePlace").val(mapid);    
 
 
-        for (let i=0; i<place.tags.length; i++) {
-            $("#addTagsInput").tagsinput("add",{"value":i,"text":place.tags[i]})
-        }
-        
+        $("#addAPlaceTags").val(place.tags);
 
-        /*
-        var tagsPlace = "";
-        tagsPlace += place.tags[0];
-        for (let i = 1; i < place.tags.length; i++) {
-            tagsPlace += " "+place.tags[i];        
-        }
-        $("#addAPlaceTags").text(tagsPlace);
-        */
+        $("#addAPlaceTags").tagify();
+
 
         getServerData("ws/User/"+UserManager.currentSession,function(user){
             $("#mapChoicePlace").text("");
