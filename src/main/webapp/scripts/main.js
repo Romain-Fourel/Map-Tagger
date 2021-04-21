@@ -224,7 +224,8 @@ class PanelManager {
 
         getServerData("ws/User/"+UserManager.currentSession,function(user){
             $("#mapChoicePlace").text("");
-            $("#addAPlaceTags").text("");
+
+            setTagsOf("#addAPlaceTags",[]);
 
             var template = _.template($("#templateMapChoicePlace").html());
 
@@ -250,11 +251,7 @@ class PanelManager {
         var mapid = place.mapId;
         $("#mapChoicePlace").val(mapid);    
 
-
-        $("#addAPlaceTags").val(place.tags);
-
-        $("#addAPlaceTags").tagify();
-
+        setTagsOf("#addAPlaceTags",place.tags);
 
         getServerData("ws/User/"+UserManager.currentSession,function(user){
             $("#mapChoicePlace").text("");
@@ -426,12 +423,8 @@ class PanelManager {
         $("#nameOnePlaceMenu").text(place.name);
         $("#onePlaceMenu .descriptionArea").text(place.description);
 
-        $("#onePlaceTags").text("");
-        $("#onePlaceTags").append(place.tags[0]);
-        for (let i = 1; i < place.tags.length; i++) {
-            $("#onePlaceTags").append(" "+place.tags[i]);
-            
-        }
+        setTagsOf("#onePlaceTags",place.tags);
+
         $("#addAMessageDiv").text("");
         var template = _.template($("#templateOnePlaceMessages").html());
 
@@ -1139,6 +1132,21 @@ class UserManager{
     static isMapVisibleFor(user,map){
         var mapsVisibility = new Map(Object.entries(user.mapsVisibility));
         return mapsVisibility.get(""+map.id);
+    }
+}
+
+
+var addAPlaceTagsInput = new Tagify(document.getElementById("addAPlaceTags"));
+var onePlaceMenuTagsInput = new Tagify(document.getElementById("onePlaceTags"));
+
+function setTagsOf(inputId,tags){
+    if (inputId==="#addAPlaceTags"){
+        addAPlaceTagsInput.removeAllTags();
+        addAPlaceTagsInput.addTags(tags);
+    }
+    else{
+        onePlaceMenuTagsInput.removeAllTags();
+        onePlaceMenuTagsInput.addTags(tags);
     }
 }
 

@@ -221,28 +221,19 @@ input{
     font-size: 20px;
   }
 
-#addAPlaceTags{
+
+.tagify{
     position: absolute;
-    background-color: #cac3c300;
-    bottom: 6%;
-    left: 4.7%;
-    /*width: 25%;
-    height: 15%;*/
     overflow-x: auto;
+    font-size: smaller;
+
 }
 
-#addATagInput{
-
-    position: absolute;
-    bottom: 27%;
-    left: 5%;   
-}
-
-/*not used for now */
-#addATagButton{
-    position: absolute;
-    bottom: 27%;
-    left: 27%;   
+.addAPlaceTagify{
+    width: 95%;
+    max-height: 50px;  
+    bottom: -400px;
+    left: 10px;
 }
 
 .createOkButton {
