@@ -51,7 +51,11 @@
                             <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off>
                             <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
+                            <!--
                             <button id="addImages" type="button">add image</button>
+                            -->
+                            <input type="file" name="searchImages"  value="Add value">
+                            
                             
                             <h2>Tags :</h2>
 
@@ -156,7 +160,7 @@
                 
                 <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
-                    <textarea id="onePlaceTags" disabled rows="7" cols="32" class="Scrollbar"></textarea>
+                    <textarea id="onePlaceTags" readOnly rows="7" cols="32" class="Scrollbar readOnlyTags"></textarea>
                     <h3>Comments:</h3>
                     <button id="addAMessageButton"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                     <br/>           

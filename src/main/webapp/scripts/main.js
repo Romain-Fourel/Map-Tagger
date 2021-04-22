@@ -420,6 +420,7 @@ class PanelManager {
     }
 
     static setOnePlaceMenu(place){
+        console.log(place);
         $("#nameOnePlaceMenu").text(place.name);
         $("#onePlaceMenu .descriptionArea").text(place.description);
 
@@ -508,6 +509,8 @@ class ClickManager {
   
         ClickManager.setClickSearchByTagsButton();
         ClickManager.setClickSearchingPlacesMenuQuit();
+
+        ClickManager.setClickAddImages();
     }
 
 
@@ -674,7 +677,7 @@ class ClickManager {
             var descriptionPlace = $("#addDescriptionPlace").val();
             var mapChose = $("#mapChoicePlace").val();
 
-            var tags = $("#addAPlaceTags").val().split(" ");
+            var tags = getTagsOf("#addAPlaceTags");
         
             if (namePlace === "" && mapChose === "CAMap") {
                 alert("Please name this place and choose a map to put it in");
@@ -720,7 +723,7 @@ class ClickManager {
             var descriptionPlace = $("#addDescriptionPlace").val();
             //var mapChose = $("#mapChoicePlace").val();
 
-            var tags = $("#addAPlaceTags").val().split(" ");
+            var tags = getTagsOf("#addAPlaceTags");
         
             if (namePlace === "" && mapChose === "CAMap") {
                 alert("Please name this place and choose a map to put it in");
@@ -915,6 +918,13 @@ class ClickManager {
             postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
                 PanelManager.setOnePlaceMenu(updatedPlace);
             });                 
+        });
+    }
+
+    static setClickAddImages(){
+        $("#addImages").click(function (e) { 
+            console.log("hey!!");
+            
         });
     }
 
@@ -1135,19 +1145,22 @@ class UserManager{
     }
 }
 
-
-var addAPlaceTagsInput = new Tagify(document.getElementById("addAPlaceTags"));
-var onePlaceMenuTagsInput = new Tagify(document.getElementById("onePlaceTags"));
+var tagifies = new Map();
+tagifies.set("#addAPlaceTags", new Tagify(document.getElementById("addAPlaceTags")));
+tagifies.set("#onePlaceTags", new Tagify(document.getElementById("onePlaceTags")));
 
 function setTagsOf(inputId,tags){
-    if (inputId==="#addAPlaceTags"){
-        addAPlaceTagsInput.removeAllTags();
-        addAPlaceTagsInput.addTags(tags);
+    tagifies.get(inputId).removeAllTags();
+    tagifies.get(inputId).addTags(tags);
+}
+
+function getTagsOf(inputId){
+
+    var tags = [];
+    for (const tag of JSON.parse($(inputId).val())) {
+        tags.push(tag.value);
     }
-    else{
-        onePlaceMenuTagsInput.removeAllTags();
-        onePlaceMenuTagsInput.addTags(tags);
-    }
+    return tags;
 }
 
 

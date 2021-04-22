@@ -9,8 +9,6 @@ body{
 }
 
 
-
-
 textarea{
     resize: none;
     outline: none;
@@ -191,7 +189,7 @@ input{
     top: 30%;
     left: 5%;
 }
-#addImages{
+[type="file"]{
     font-family: FontAwesome;
     content: "\f095";
     position: absolute;
@@ -226,14 +224,14 @@ input{
     position: absolute;
     overflow-x: auto;
     font-size: smaller;
-
 }
 
 .addAPlaceTagify{
-    width: 95%;
+    max-width: 95%;
     max-height: 50px;  
     bottom: -400px;
     left: 10px;
+    
 }
 
 .createOkButton {
@@ -587,9 +585,6 @@ input{
   }
 
 
-
-
-
 .btn-bottom{
     position: absolute;
     font-size: 40px;
@@ -624,8 +619,9 @@ input{
 }
 
 
-
-
+textarea:disabled{
+    background-color: white;
+}
 
 /**
  * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
