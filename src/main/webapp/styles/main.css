@@ -529,9 +529,9 @@ input{
     transition: all 0.5s;
     border-radius: 35px;
     width:auto;
-    position: absolute;
-    left: 40%;
-    top: 62%;
+    position: relative;
+    display: inline;
+    left:40%;
  }
 
  #addAMessageButton:hover {
@@ -586,14 +586,8 @@ input{
     transition: all 0.5s;
   }
 
-
-
-
-
 .btn-bottom{
     position: absolute;
-    font-size: 40px;
-    color: rgb(63, 60, 60);
     bottom: 20px;
     width: 60px;
     height: 60px;
@@ -623,8 +617,30 @@ input{
     left: 175px;
 }
 
+.delButton:hover{
+    color: #ff0000;
+}
 
+.btn-share{
+    font-size: 30px;
+    background: #686868;
+    color: #ffffff;
+    padding: 0.1rem 0.9rem 0.1rem 0.8rem;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 35px;
+    width:auto;
+    position: absolute;
+    left: 45%;
+    top: 35%;
+    }
 
+.btn-share:hover{
+    background: #4884c9;
+    color: #4dfff6;
+    border: 3px solid #4dfff6;
+    box-shadow: #4884c9;
+    left: 44%;
+    }
 
 
 /**
@@ -632,14 +648,79 @@ input{
  **/
 
 .oneMapSharedFollowButton{
+    font-size: 36px;
+    background: #00000000;
+    color: #ffffff;
+    padding: 0.1rem 0.9rem 0.1rem 0.8rem;
+    width:10px;
+    height:10px;
     position: relative;
-    right: 100px;
+    left: 58%;
+    border: none;
+    outline: none;
+    transition: all 0.5s ease-in-out;
 }
+.oneMapSharedFollowButton:hover{
+    color: #00ff95;
+    transition: all 0.5s ease-in-out;
+    }
 
 .oneMapSharedIgnoreButton{
+    font-size: 36px;
+    background: #00000000;
+    color: #ffffff;
+    padding: 0.1rem 0.9rem 0.1rem 0.8rem;
+    width:10px;
+    height:10px;
     position: relative;
-    right: 20px; 
-}
+    left: 73%;
+    border: none;
+    outline: none;
+    transition: all 0.5s ease-in-out;
+    }
+    
+.oneMapSharedIgnoreButton:hover{
+    color: #ff0000;
+    transition: all 0.5s ease-in-out;
+    }
+
+.RedButton{
+        background: #afafaf;
+        color: #ffffff;
+        font-size: 19px;
+        padding: 1.0rem;
+        border: 0;
+        transition: all 0.5s;
+        border-radius: 20px;
+        width:auto;
+        position: relative;
+        left: 15%;
+      }
+    
+.RedButton:after {
+        content: "\f08b";
+        font-family: FontAwesome;
+        font-weight: 400;
+        font-size: 26px;
+        vertical-align: middle;
+        position: absolute;
+        right: 65%;
+        top: 27%;
+        left: 3%;
+        bottom: 0;
+        opacity: 0;
+      }
+.RedButton:hover {
+        background: #e04747;
+        transition: all 0.5s;
+        border-radius: 20px;
+        box-shadow: 0px 6px 15px #ca5d5da2;
+        padding: 1.0rem 1.0rem 1.0rem 3.0rem;
+    }
+.RedButton:hover::after {
+        opacity: 1;
+        transition: all 0.5s;
+    }
 
 #disconnectButton{
     position: absolute;
