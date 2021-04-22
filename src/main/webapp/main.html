@@ -191,7 +191,7 @@
                 <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
                     <h3 id="oneMapConfidentiality"></h3>
-                    <button id="oneMapMenuShareButton"><i class="fa fa-share-alt"></i></button>
+                    <button class='btn-share' id="oneMapMenuShareButton"><i class="fa fa-share-alt"></i></button>
                     <input  placeholder="User id" id="oneMapMenuShareUserId" type="text"/> 
                     <button class="sendButton" id="oneMapMenuShareSendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     
@@ -242,14 +242,14 @@
                     <script id="templateMapsSharedDiv" type="text/template">
                         <p class='OneDiv' id= <%= oneMapSharedId %> >
                             <label class='labelOneDiv'><%= nameMap %></label>
-                            <button class='oneMapSharedFollowButton' id= <%= oneMapSharedFollowButtonId %> > Follow </button>
-                            <button class='oneMapSharedIgnoreButton' id= <%= oneMapSharedIgnoreButtonId %> > Ignore </button>
+                            <button class='oneMapSharedFollowButton' id= <%= oneMapSharedFollowButtonId %> > <i class="fa fa-share" aria-hidden="true"></i> </button>
+                            <button class='oneMapSharedIgnoreButton' id= <%= oneMapSharedIgnoreButtonId %> > <i class="fa fa-close" aria-hidden="true"></i> </button>
                         </p>
                     </script>
 
                 </div>
 
-                <button id="disconnectButton">Disconnect</button>
+                <button class='RedButton' id="disconnectButton">Disconnect</button>
                 <button class="LeftSlidingPanelQuit" id="parametersMenuQuit"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
             </div>
 

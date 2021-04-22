@@ -404,14 +404,14 @@ class PanelManager {
                  */
                 for (const userMap of user.mapList) {
                     if (map.id === userMap.id){ // if the user already has the map into his map list
-                        $("#followMap").text("Unfollow");
+                        $("#followMap").val('<i class="fa fa-share" aria-hidden="true"></i>');
                         
                         hasThisMap = true;
                         ClickManager.setClickFollowMap(map,true);
                     }
                 }
                 if (!hasThisMap){
-                    $("#followMap").text("Follow");
+                    $("#followMap").val('<i class="fa fa-share" aria-hidden="true"></i>');
                     ClickManager.setClickFollowMap(map,false);
                 }
             }
