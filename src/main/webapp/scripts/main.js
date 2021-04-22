@@ -404,14 +404,14 @@ class PanelManager {
                  */
                 for (const userMap of user.mapList) {
                     if (map.id === userMap.id){ // if the user already has the map into his map list
-                        $("#followMap").val('<i class="fa fa-share" aria-hidden="true"></i>');
+                        $("#followMap").text('unfollow');
                         
                         hasThisMap = true;
                         ClickManager.setClickFollowMap(map,true);
                     }
                 }
                 if (!hasThisMap){
-                    $("#followMap").val('<i class="fa fa-share" aria-hidden="true"></i>');
+                    $("#followMap").text('follow');
                     ClickManager.setClickFollowMap(map,false);
                 }
             }
@@ -420,7 +420,6 @@ class PanelManager {
     }
 
     static setOnePlaceMenu(place){
-        console.log(place);
         $("#nameOnePlaceMenu").text(place.name);
         $("#onePlaceMenu .descriptionArea").text(place.description);
 
@@ -456,7 +455,8 @@ class PanelManager {
 
 
     static setSearchingPlacesMenu(){
-        $("#searchingPlacesTags").val("");
+        setTagsOf("#searchingPlacesTags",[]);
+
     }
 
     static setParametersMenu(){
@@ -504,7 +504,6 @@ class ClickManager {
         ClickManager.setClickMenuQuit();
         
         ClickManager.setClickAddAPlaceB();  
-        ClickManager.setClickAddATagButton();   
         $(".CloseButton").click(hideOverlay);    
   
         ClickManager.setClickSearchByTagsButton();
@@ -544,30 +543,13 @@ class ClickManager {
     static setClickSearchByTagsButton(){
         $("#searchByTagsButton").click(function (e) { 
             
-            var newTag = $("#addASearchingTagInput").val();
-            $("#addASearchingTagInput").val("");
-
-            if (newTag.indexOf(" ")>=0){
-                alert("This name tag doesn't exists");
-            }
-            else {
-                if ($("#searchingPlacesTags").val()===""){
-                    $("#searchingPlacesTags").val("#"+newTag);
-                    
-                }
-                else{
-                    $("#searchingPlacesTags").val($("#searchingPlacesTags").val()+" #"+newTag);
-                }
-                       
-            }
+            var tags = getTagsOf("#searchingPlacesTags");
 
             if (LeafletManager.searchingPlacesLayerGroup !== undefined){
                 LeafletManager.removeLayer(LeafletManager.searchingPlacesLayerGroup);
             }
             
             LeafletManager.searchingPlacesLayerGroup = L.layerGroup();
-
-            var tags = $("#searchingPlacesTags").val().split(" ");
 
             console.log(LeafletManager.map.getZoom());
 
@@ -578,7 +560,7 @@ class ClickManager {
             var radius = LeafletManager.map.getCenter().distanceTo(pointUpLeft);
             
             //TODO: a circle just to debug...
-            L.circle([LeafletManager.map.getCenter().lat,LeafletManager.map.getCenter().lng],radius).addTo(LeafletManager.map);
+            //L.circle([LeafletManager.map.getCenter().lat,LeafletManager.map.getCenter().lng],radius).addTo(LeafletManager.map);
 
             postServerdata("ws/Place/byTags",JSON.stringify(tags),function(places){
 
@@ -591,7 +573,23 @@ class ClickManager {
                     }
                 }
 
+                $("#placesFound").text("");
                 for (const place of placesNear) {
+
+                    getServerData("ws/Map/"+place.mapId,function(map){
+                        if(MapManager.dict.get(map.id)===undefined){
+                            new MapManager(map);
+                        } 
+                    });
+
+                    var template = _.template($("#templateOnePlaceButton").html());
+         
+                    $("#placesFound").append(template({
+                        namePlace:place.name,
+                        onePlaceButtonId: "onePlaceButton"+place.id
+                    }));
+
+                    ClickManager.setClickOnePlaceMenu(place);
 
                     var placeManager = new PlaceManager(place);
                     placeManager.marker.addTo(LeafletManager.searchingPlacesLayerGroup);
@@ -877,26 +875,6 @@ class ClickManager {
         });
     }
 
-    static setClickAddATagButton(){
-        $("#addATagButton").click(function (e) { 
-            var newTag = $("#addATagInput").val();
-            $("#addATagInput").val("");
-
-            if (newTag.indexOf(" ")>=0){
-                alert("A name tag has to be only one word");
-            }
-            else {
-                    
-                if ($("#addAPlaceTags").val()===""){
-                    $("#addAPlaceTags").append("#"+newTag);
-                }
-                else{
-                    $("#addAPlaceTags").append(" #"+newTag);
-                }
-                       
-            }
-        });
-    }
 
     static setClickAddAMessageButton(place){
         $("#addAMessageButton").unbind("click");
@@ -922,8 +900,7 @@ class ClickManager {
     }
 
     static setClickAddImages(){
-        $("#addImages").click(function (e) { 
-            console.log("hey!!");
+        $("#searchImages").click(function (e) { 
             
         });
     }
@@ -1065,7 +1042,18 @@ class ClickManager {
                 PanelManager.setOnePlaceMenu(result);
                 ClickManager.setClickModifyPlace(result);  
             });    
-        });        
+        });  
+        
+        $("#onePlaceButton"+place.id).unbind("click");
+        $("#onePlaceButton"+place.id).click(function () {
+            openSlidingPanel("right","#onePlaceMenu");
+            closeSlidingPanel("right","#oneMapMenu");  
+
+            getServerData("ws/Place/"+place.id,function (result) {
+                PanelManager.setOnePlaceMenu(result);
+                ClickManager.setClickModifyPlace(result);  
+            });    
+        });  
     }
 
     static setClickMarker(placeManager){
@@ -1148,6 +1136,7 @@ class UserManager{
 var tagifies = new Map();
 tagifies.set("#addAPlaceTags", new Tagify(document.getElementById("addAPlaceTags")));
 tagifies.set("#onePlaceTags", new Tagify(document.getElementById("onePlaceTags")));
+tagifies.set("#searchingPlacesTags",new Tagify(document.getElementById('searchingPlacesTags')));
 
 function setTagsOf(inputId,tags){
     tagifies.get(inputId).removeAllTags();
@@ -1157,9 +1146,12 @@ function setTagsOf(inputId,tags){
 function getTagsOf(inputId){
 
     var tags = [];
-    for (const tag of JSON.parse($(inputId).val())) {
-        tags.push(tag.value);
+    if($(inputId).val()!==""){
+        for (const tag of JSON.parse($(inputId).val())) {
+            tags.push(tag.value);
+        }
     }
+
     return tags;
 }
 

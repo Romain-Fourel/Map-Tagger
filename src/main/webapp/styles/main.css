@@ -189,7 +189,7 @@ input{
     top: 30%;
     left: 5%;
 }
-[type="file"]{
+#addImages{
     font-family: FontAwesome;
     content: "\f095";
     position: absolute;
@@ -366,14 +366,9 @@ input{
 }
 
 
-#addASearchingTagInput{
-    position: relative;
-    right:-50px;
-}
-
-#searchByTagsButton{
-    position: relative;
-    right: 245px;
+.researcherTags{
+    width: 98%;
+    right: -5px;
 }
 
 
@@ -725,6 +720,11 @@ input{
     position: absolute;
     right: 250px;
     bottom: 20px;    
+}
+
+
+.tagify[readOnly]{
+    border: none;
 }
 
 
