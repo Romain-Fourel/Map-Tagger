@@ -9,8 +9,6 @@ body{
 }
 
 
-
-
 textarea{
     resize: none;
     outline: none;
@@ -244,14 +242,14 @@ input{
     position: absolute;
     overflow-x: auto;
     font-size: smaller;
-
 }
 
 .addAPlaceTagify{
-    width: 95%;
+    max-width: 95%;
     max-height: 50px;  
     bottom: -400px;
     left: 10px;
+    
 }
 
 .createOkButton {
@@ -386,14 +384,9 @@ input{
 }
 
 
-#addASearchingTagInput{
-    position: relative;
-    right:-50px;
-}
-
-#searchByTagsButton{
-    position: relative;
-    right: 245px;
+.researcherTags{
+    width: 98%;
+    right: -5px;
 }
 
 
@@ -790,6 +783,11 @@ textarea:disabled{
     left: 60%;
     color: #b1e9ff;
 }
+
+.tagify[readOnly]{
+    border: none;
+}
+
 
 /**
  * ################## BELOW: CODE FOR CHECKBOX BUTTONS ########################

@@ -39,10 +39,10 @@ public class DAO {
 		
 		String[] mapNames = {"Tours","Cour-Cheverny","Paris","Lyon"};
 		
-		String[][][] tags = {{{"#appartement","#centre-ville","#9m²"},{"#jardin","#botanique"},{"#université","#bretonneau"}},
-				             {{"#transport","#bus"},{"#parking","#cascade","#arbres"},{"#butte","#étang","#hérissons"}},
-				             {{"#appartement","#32m²"},{"#restaurant","#japonais"},{"#restaurant","#falafel","#Marais"}},
-				             {{"#tag1","#tag2","#tag3"},{"#tag1","#tag3","#tag4"},{"#tag2","#tag4","#tag5"}}};
+		String[][][] tags = {{{"appartement","centre-ville","9m²"},{"jardin","botanique"},{"université","bretonneau"}},
+				             {{"transport","bus"},{"parking","cascade","arbres"},{"campagne","étang","#hérissons"}},
+				             {{"appartement","32m²"},{"restaurant","japonais"},{"restaurant","falafel","Marais"}},
+				             {{"tag1","tag2","tag3"},{"tag1","tag3","tag4"},{"tag2","tag4","tag5"}}};
 		
 		User userDetached = getUserDao().addUser(user);
 		long userId = userDetached.getID();
@@ -102,7 +102,7 @@ public class DAO {
 		for (int i = 0; i < nbUsers; i++) {
 			List<String[]> list = new ArrayList<>();
 			for (int j = 0; j < nbPlacesPerUser; j++) {
-				String[] tagsTab = {"#tag"+i+""+j,"#tagi"+i,"#tagj"+j,"#tagmod"+i%3,"#tagdiv4"+i/4,"#tagdiv3"+i/3,"#tag"};
+				String[] tagsTab = {"tag"+i+""+j,"tagi"+i,"tagj"+j,"tagmod"+i%3,"tagdiv4"+i/4,"tagdiv3"+i/3,"tag"};
 				list.add(tagsTab);
 			}
 			tags.add(list);
