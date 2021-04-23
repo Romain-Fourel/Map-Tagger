@@ -581,10 +581,10 @@ input{
     background-color: #414141;
     z-index: 501;
     position: absolute;
-    bottom : 5%;
+    bottom : 3%;
     left: 34%;
     font-size: 23px;
-    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
+    padding: 0.6rem 0.8rem 0.6rem 0.8rem;
     border-radius: 100%;
     color: rgb(255, 255, 255);
     outline: none;
@@ -784,10 +784,20 @@ textarea:disabled{
     color: #b1e9ff;
 }
 
+/**
+ * ########################## BELOW: CODE FOR SEARCH MENU ###########################
+ **/
+
 .tagify[readOnly]{
     border: none;
 }
 
+#searchByTagsButton{
+    background-color: #00000000;
+    font-size: 16px;
+    color:white;
+    left: 5%;
+}
 
 /**
  * ################## BELOW: CODE FOR CHECKBOX BUTTONS ########################
