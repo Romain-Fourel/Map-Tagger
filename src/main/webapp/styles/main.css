@@ -46,7 +46,7 @@ input{
     width:70px;
     height:70px;
     border-radius: 50%;
-    border: 5px solid rgb(255, 255, 255);
+    border: 3px solid rgb(255, 255, 255);
 }
 
 #circleButton button:hover{
@@ -131,7 +131,7 @@ input{
 }
 
 .PopupMenu {
-  background-color: rgb(204, 204, 204);
+  background-color: #cccccc;
   z-index: 500;
   border-radius: 50px;
   width:50%;
@@ -150,7 +150,25 @@ input{
     visibility: hidden;
 }
 
+/*
+.hide{
+    z-index: 600;
+    position: absolute;
+    top: 10%;
+    left: 27%;
+    color:red;
+}
 
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+  
+@keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+}
+*/
 /**
  * ######################## BELOW: STYLE FOR ADD A PLACE MENU ###################################
  **/
@@ -315,9 +333,9 @@ input{
     width: 380px;
     height: 650px;
 	padding: 10px;
-	background: #797575; /*#797575*/
+	background: #414141; /*#414141*/
     color: #fff;
-    border-radius: 80px;
+    border-radius: 60px;
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
 }
@@ -336,7 +354,7 @@ input{
 .LeftSlidingPanelQuit{
     background: #afafaf;
     color: #ffffff;
-    font-size: 35px;
+    font-size: 28px;
     padding: 0.2rem 1.2rem 0.2rem 1.0rem;
     border: 0;
     transition: all 0.5s;
@@ -389,7 +407,7 @@ input{
 .RightSlidingPanelQuit{
     background: #afafaf;
     color: #ffffff;
-    font-size: 35px;
+    font-size: 28px;
     padding: 0.2rem 1.0rem 0.2rem 1.2rem;
     border: 0;
     transition: all 0.5s;
@@ -417,7 +435,7 @@ input{
     font-size: 40px;
     left: 78%;
     border-radius: 20px;
-    background: #e0474700;
+    background: #2600ff00;
     border: none;
     outline: none;
     transition: all 0.6s;
@@ -431,22 +449,22 @@ input{
 
 .fullScrollbarRight{
     position: absolute;
-    background-color: #797575;
+    background-color: #414141;
     border-radius: 10px;
-    height: 490px;
+    height: 480px;
     width: 330px;
     left: 15px;
-    top: 90px;
+    top: 100px;
 }
 
 .fullScrollbarLeft{
     position: absolute;
-    background-color: #797575;
+    background-color: #414141;
     border-radius: 10px;
-    height: 490px;
+    height: 480px;
     width: 330px;
     right: 15px;
-    top: 90px;    
+    top: 100px;
 }
 
 
@@ -472,21 +490,13 @@ input{
   }
 
 
-#centerToMarkerPlaceButton{
-    position: absolute;
-    left: 250px;
-    top: 20px;
-    width: 60px;
-    height: 60px;  
-}
-
-
 .OneDivSMM,.OneDiv{
-    background-color: #2e302f; 
-    border-radius: 30px;
-    height: 50px;
+    background-color: #414141; 
+    height: 40px;
     width: 300px;
-
+    border-top: solid;
+    border-top-color: #ffffff;
+    border-top-width: 2px;
 }
 
 .OneDivSMM label{
@@ -503,13 +513,46 @@ input{
     font-size: 19px;
 }
 
+.titleBox{
+    position: absolute;
+    left: 7%;
+    background-color: #414141; 
+    height: 100px;
+    width: 286px;
+    border-radius: 20%;
+    text-align: center;
+}
+
+.titleBoxL{
+    position: absolute;
+    right: 15%;
+    background-color: #414141; 
+    height: 100px;
+    width: 286px;
+    border-radius: 20%;
+    text-align: center;
+}
+
+.sizeIcon2{
+    font-size: 32px;
+    color: #4884c9;
+    display: inline-block;
+}
+
 .Menu h1{
     /*vertical-align: middle;*/
     position: relative;
-    left: 20%;
+    font-size: 26px;
+    font-family: system-ui;
+    color: #b1e9ff;
+    display: inline-block;
 }
-
-
+/*
+#communityh1{
+    position: relative;
+    left: 10%;
+}
+*/
 .Menu .descriptionArea{
     font-size: 16px;
     position: relative;
@@ -521,13 +564,13 @@ input{
 }
 
  #addAMessageButton{
-    background: #afafaf;
+    background: #414141;
     color: #ffffff;
-    font-size: 35px;
+    font-size: 25px;
     padding: 0.1rem 0.8rem 0.1rem 0.8rem;
-    border: 3px solid rgb(255, 255, 255);
+    border: 1px solid rgb(255, 255, 255);
     transition: all 0.5s;
-    border-radius: 35px;
+    border-radius: 25px;
     width:auto;
     position: relative;
     display: inline;
@@ -536,40 +579,40 @@ input{
 
  #addAMessageButton:hover {
     background: #ffffff;
-    color: #afafaf;
-    border: 3px solid #ffffff;
+    color: #414141;
+    border: 1px solid #ffffff;
     transition: all 0.5s;
 }
 
 #centerToMarkerPlaceButton {
-    background-color: #797575;
+    background-color: #414141;
     z-index: 501;
     position: absolute;
-    top: 15px;
-    right: 35px;
-    font-size: 34px;
+    bottom : 5%;
+    left: 34%;
+    font-size: 23px;
+    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
+    border-radius: 100%;
     color: rgb(255, 255, 255);
-    border: 2px solid rgb(255, 255, 255);
     outline: none;
     transition: all 0.3s;
 }
 #centerToMarkerPlaceButton:hover {
     color: #56a8f5;
-    border: 2px solid #56a8f5;
     transition: all 0.3s;
   }
 
   
 #templateOnePlaceMessages{
     background-color: #ffffff;
-    color: #afafaf;
+    color: #414141;
     left: 15%;
 }
 
 .sendButton{
-    background-color: #797575;
+    background-color: #414141;
     z-index: 501;
-    font-size: 34px;
+    font-size: 22px;
     color: rgb(255, 255, 255);
     width:10px;
     height:10px;
@@ -578,43 +621,39 @@ input{
     transition: all 0.5s;
 }
 
-#oneMapMenuShareSendButton{
-    font-size: 25px;
-}
 .sendButton:hover{
     color: #57cc70;
     transition: all 0.5s;
   }
+
+#oneMapMenuShareSendButton{
+    font-size: 18px;
+}
 
 .btn-bottom{
     position: absolute;
     bottom: 20px;
     width: 60px;
     height: 60px;
-
-    background: #afafaf;
+    padding: 0.01rem 1rem 0.01rem 1rem;
+    background: #41414100;
     color: #ffffff;
-    font-size: 30px;
-    padding: 0.1rem 0.8rem 0.1rem 0.8rem;
-    border: 3px solid rgb(255, 255, 255);
+    font-size: 23px;
     transition: all 0.5s;
-    border-radius: 35px;
     width:auto;
 }
 
 .btn-bottom:hover{
-    background: #ffffff;
-    color: #afafaf;
-    border: 3px solid #ffffff;
+    color: #4884c9;
     transition: all 0.5s;
 }
 
 .modifyButton{ 
-    left: 250px;
+    left: 275px;
 }
 
 .delButton{
-    left: 175px;
+    left: 210px;
 }
 
 .delButton:hover{
@@ -623,10 +662,9 @@ input{
 
 .btn-share{
     font-size: 30px;
-    background: #686868;
     color: #ffffff;
+    background: #41414100;
     padding: 0.1rem 0.9rem 0.1rem 0.8rem;
-    border: 2px solid rgb(255, 255, 255);
     border-radius: 35px;
     width:auto;
     position: absolute;
@@ -634,21 +672,34 @@ input{
     top: 35%;
     }
 
-.btn-share:hover{
-    background: #4884c9;
-    color: #4dfff6;
-    border: 3px solid #4dfff6;
-    box-shadow: #4884c9;
-    left: 44%;
-    }
+.OneLine{
+    position: relative;
+    background-color: #414141; 
+    height: 2px;
+    width: 300px;
+    border-top: solid;
+    border-top-color: #ffffff;
+    border-top-width: 1px;
+}
 
+.OneSpace{
+    position: relative;
+    background-color: #414141; 
+    height: 4px;
+    width: 300px;
+}
 
+textarea:disabled{
+    background-color: #646464;
+    border-radius: 3%;
+    color:#ffffff;
+}
 /**
  * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
  **/
 
 .oneMapSharedFollowButton{
-    font-size: 36px;
+    font-size: 22px;
     background: #00000000;
     color: #ffffff;
     padding: 0.1rem 0.9rem 0.1rem 0.8rem;
@@ -666,7 +717,7 @@ input{
     }
 
 .oneMapSharedIgnoreButton{
-    font-size: 36px;
+    font-size: 22px;
     background: #00000000;
     color: #ffffff;
     padding: 0.1rem 0.9rem 0.1rem 0.8rem;
@@ -728,6 +779,17 @@ input{
     bottom: 20px;    
 }
 
+.sizeIcon1{
+    font-size: 33px;
+    color: #4884c9;
+}
+
+.inline{
+    display: inline;
+    font-size: 20px;
+    left: 60%;
+    color: #b1e9ff;
+}
 
 /**
  * ################## BELOW: CODE FOR CHECKBOX BUTTONS ########################

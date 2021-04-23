@@ -38,12 +38,18 @@ function hideButtons() {
     $("#buttons button").css("visibility", function () {
         return "hidden";
     });
+    /*$(".hide").css("z-index", function () {
+        return "600";
+    });*/
 }
 
 function showButtons() {
     $("#buttons button").css("visibility", function () {
         return "visible";
     });
+    /*$(".hide").css("z-index", function () {
+        return "0";
+    });*/
 }
 
 
@@ -404,14 +410,14 @@ class PanelManager {
                  */
                 for (const userMap of user.mapList) {
                     if (map.id === userMap.id){ // if the user already has the map into his map list
-                        $("#followMap").val('<i class="fa fa-share" aria-hidden="true"></i>');
+                        $("#followMap").val('unfollow');
                         
                         hasThisMap = true;
                         ClickManager.setClickFollowMap(map,true);
                     }
                 }
                 if (!hasThisMap){
-                    $("#followMap").val('<i class="fa fa-share" aria-hidden="true"></i>');
+                    $("#followMap").text('follow');
                     ClickManager.setClickFollowMap(map,false);
                 }
             }

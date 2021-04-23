@@ -43,6 +43,7 @@
 
             </div><!--End of buttons div-->
 
+            <!--<h5 class="blink_me" class="hide" id="blinkText">Click on the screen to add a place</h5>-->
             
             <div class="overlay">
                 <div class="PopupMenu" id="addAPlaceMenu">
@@ -98,8 +99,10 @@
             <!------------ all RightSlidingPanels:--------------->
 
             <div class="Menu RightSlidingPanel" id="communityMapsMenu">
-                <h1>Community Maps</h1>
-                
+                <div class="titleBox">
+                    <a class="sizeIcon2"><i class="fa fa-globe" aria-hidden="true"></i></a>
+                    <h1 id="communityh1">Community Maps</h1>
+                </div>
                 <div id="communityMapsButtons" class="Scrollbar fullScrollbarRight"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
@@ -114,7 +117,10 @@
             </div>
         
             <div class="Menu RightSlidingPanel" id="savedMapsMenu">
-                <h1> <i class="fa fa-map"></i> My Maps</h1>
+                <div class="titleBox">
+                    <a class="sizeIcon2"><i class="fa fa-map"></i></a>
+                    <h1> My Maps</h1>
+                </div>
                 <div id="savedMapsButtons" class="Scrollbar fullScrollbarRight">
                     <!--Here are dynamically added the maps of the current user-->              
                 </div>
@@ -137,7 +143,10 @@
             </div>
 
             <div class="Menu RightSlidingPanel" id="placesListMenu">
-                <h1>My Places</h1>       
+                <div class="titleBox">
+                    <a class="sizeIcon2"><i class="fa fa-thumb-tack" aria-hidden="true"></i></a>
+                    <h1>My Places</h1>
+                </div>    
                 <div id="placesListButtons" class="Scrollbar fullScrollbarRight"></div>
 
                 <!--Below: the script for the div above!-->
@@ -152,11 +161,17 @@
             </div>
             
             <div class="Menu RightSlidingPanel" id="onePlaceMenu">
-                <h1><i class="fa fa-map-marker"></i> <span id="nameOnePlaceMenu"></span></h1>   
-                
+                <div class="titleBox">
+                    <a class="sizeIcon2"><i class="fa fa-map-marker"></i></a>
+                    <h1><span id="nameOnePlaceMenu"></span></h1>  
+                </div>     
+
                 <div class="Scrollbar fullScrollbarRight">
+                    <p class='OneSpace'></p>
                     <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
+                    <p class='OneSpace'></p>
                     <textarea id="onePlaceTags" disabled rows="7" cols="32" class="Scrollbar"></textarea>
+                    <p class='OneSpace'></p>
                     <h3>Comments:
                     <button id="addAMessageButton"><i class="fa fa-commenting" aria-hidden="true"></i></button></h3>
                     <br/>           
@@ -182,7 +197,10 @@
             </div>
 
             <div class="Menu RightSlidingPanel" id="oneMapMenu"> 
-                <h1><i class="fa fa-map-marked"></i> <span id="nameOneMapMenu"></span></h1>     
+                <div class="titleBox">
+                    <a class="sizeIcon2"><i class="fa fa-map-marked"></i></a>
+                    <h1><span id="nameOneMapMenu"></span></h1>  
+                </div>      
                 
                 <div class="Scrollbar fullScrollbarRight">
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
@@ -211,6 +229,10 @@
             <!------------- all LeftSlidingPanels:----------------->
 
             <div class="Menu LeftSlidingPanel" id="searchingPlacesMenu">
+                <div class="titleBoxL">
+                    <a class="sizeIcon2"><i class="fa fa-search" aria-hidden="true"></i></a>
+                    <h1>Search</h1>
+                </div>
                 <input type="search" placeholder="add a new tag..." id="addASearchingTagInput" autocomplete="off"/>
                 <button id="searchByTagsButton" type="button">Search</button>
                 <button id="resetSearchByTagsButton" type="button">Reset search</button>
@@ -224,13 +246,16 @@
             </div>
 
             <div class="Menu LeftSlidingPanel" id="parametersMenu">
-                <h1>Parameters</h1>
+                <div class="titleBoxL">
+                    <a class="sizeIcon2"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                    <h1>Parameters</h1>
+                </div>
 
                 <div class="Scrollbar fullScrollbarLeft">
 
                     <h3>Your identity:</h3>
 
-                    <p id="userIdendityDiv"></p>
+                    <div class="sizeIcon1" ><i class="fa fa-user-circle" aria-hidden="true"></i><p class="inline" id="userIdendityDiv"></p></div>
                     
                     <h3>Map shared by other users:</h3>
                     <div id="mapsSharedDiv"></div>
