@@ -1,4 +1,4 @@
-
+[
 {
     "name":"Romain",
     "password":"24071999",
@@ -39,7 +39,7 @@
         },
         {
             "name":"Cour-Cheverny",
-            "description":"A pretty city in Centre Val-de-Loire",
+            "description":"A little country next to the cattle of Cheverny",
             "confidentiality":"PRIVATE",
             "places":[
                 {
@@ -65,7 +65,7 @@
                     "description":"Just next to the Salle des fêtes of Cour-Cheverny, this small wood contains a bicycle path.\nBut a hard one!",
                     "latitude":47.512779,
                     "longitude":1.459159,
-                    "messages":["Good to wait the bus in the shadow"],
+                    "messages":["Good to wait the bus in the shades"],
                     "tags":["hedgehog ","country","picnic"],
                     "pictures":[]
                 }
@@ -144,4 +144,209 @@
     ],
     "mapsVisibility":{},
     "mapsShared":[]
+},{
+    "name":"Alfredo",
+    "password":"123456",
+    "mapList":[
+        {
+            "name":"My favorite Restaurants",
+            "description":"If you like good meals and discovering new places, take a look to this map!",
+            "confidentiality":"PUBLIC",
+            "places":[
+                {
+                    "name":"Anima",
+                    "description":"",
+                    "latitude":48.848243,
+                    "longitude":2.323228,
+                    "messages":[],
+                    "tags":["restaurant","pizza","familly"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Restaurant Del Arte",
+                    "description":"",
+                    "latitude":48.872124, 
+                    "longitude":2.339796,
+                    "messages":[],
+                    "tags":["restaurant","pizza","Italia"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Au burger de Papa",
+                    "description":"",
+                    "latitude":48.865538, 
+                    "longitude":2.347182,
+                    "messages":[],
+                    "tags":["restaurant","burger","frites"],
+                    "pictures":[]
+                },
+                {
+                    "name":"A la bonne grillade",
+                    "description":"",
+                    "latitude":48.832118, 
+                    "longitude":2.373094,
+                    "messages":[],
+                    "tags":["restaurant","burger","steak"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Pho Tai Tai",
+                    "description":"",
+                    "latitude":48.822127, 
+                    "longitude":2.361129,
+                    "messages":[],
+                    "tags":["restaurant","spicy","asia"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Les 5 saisons",
+                    "description":"",
+                    "latitude":48.835007, 
+                    "longitude":2.344611,
+                    "messages":[],
+                    "tags":["restaurant","burger","pizza"],
+                    "pictures":[]
+                }                
+            ]
+
+        }
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]
+},{
+    "name":"Martine",
+    "password":"martinedu93",
+    "mapList":[
+        {
+            "name":"Clubs de bridge",
+            "description":"Tous mes Clubs de bridge",
+            "confidentiality":"PUBLIC"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]
+},{
+    "name":"Augustin",
+    "password":"monpapaestriche",
+    "mapList":[
+        {
+            "name":"Musées chics",
+            "description":"Les musées que j'ai visité avec Papa",
+            "confidentiality":"PUBLIC"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
+},{
+    "name":"Grégoire",
+    "password":"gregoire",
+    "mapList":[
+        {
+            "name":"Best places in London",
+            "description":"All places of my childhood",
+            "confidentiality":"PUBLIC"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
+},{
+    "name":"Laura",
+    "password":"hgLOJE458p",
+    "mapList":[
+        {
+            "name":"Pretty gardens in Orleans",
+            "description":"All gardens you have to visit in Orleans !",
+            "confidentiality":"PUBLIC"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
+},{
+    "name":"ThomasBh",
+    "password":"fg536kgH9",
+    "mapList":[
+        {
+            "name":"My quiet places in Paris",
+            "description":"Please don't go there, otherwise it will be no longer quiet!",
+            "confidentiality":"PUBLIC"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
+},
+{
+    "name":"Jean",
+    "password":"Marielou1945",
+    "mapList":[
+        {
+            "name":"Boulangeries",
+            "description":"Les meilleures boulangeries en Ile de france ! ",
+            "confidentiality":"PUBLIC",
+            "places":[
+                {
+                    "name":"La Bécondine",
+                    "description":"",
+                    "latitude":48.904661,
+                    "longitude":2.268503,
+                    "messages":[],
+                    "tags":["boulangerie","patisserie","gourmandise","gouter"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Oh Délices",
+                    "description":"",
+                    "latitude":48.840712, 
+                    "longitude":2.417695,
+                    "messages":[],
+                    "tags":["boulangerie","patisserie","sandwich","macarons","traiteur"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Boulangerie de la gare",
+                    "description":"",
+                    "latitude":48.801832, 
+                    "longitude":2.425854,
+                    "messages":[],
+                    "tags":["boulangerie","patisserie","sandwich"],
+                    "pictures":[]
+                },
+                {
+                    "name":"La Vitryenne",
+                    "description":"",
+                    "latitude":48.824555, 
+                    "longitude":2.376529,
+                    "messages":[],
+                    "tags":["boulangerie","patisserie","gouter","croissant"],
+                    "pictures":[]
+                },
+                {
+                    "name":"La Baguette de Mozart",
+                    "description":"",
+                    "latitude":48.854826, 
+                    "longitude":2.269128,
+                    "messages":[],
+                    "tags":["boulangerie","patisserie","gouter"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Midoré",
+                    "description":"",
+                    "latitude":48.874931, 
+                    "longitude":2.324906,
+                    "messages":[],
+                    "tags":["boulangerie","sandwich","croissant"],
+                    "pictures":[]
+                }                
+            ]
+
+        }
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]
 }
+]

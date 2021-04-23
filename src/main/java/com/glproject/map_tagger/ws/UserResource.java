@@ -156,7 +156,7 @@ public class UserResource {
 	}
 	
 	/**
-	 * Used to generate a FAKE user !
+	 * Used to generate a DEMO user !
 	 * @param user
 	 * @return
 	 */

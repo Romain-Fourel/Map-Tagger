@@ -73,6 +73,9 @@ public class Map {
 	}
 
 	public List<Place> getPlaces() {
+		if (places == null) {
+			places = new ArrayList<Place>();
+		}
 		return places;
 	}
 

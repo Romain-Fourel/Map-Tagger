@@ -13,8 +13,6 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
-import com.glproject.map_tagger.dao.DAO;
-
 public class JettyMain {
 
 	public static void main(String[] args) throws Exception {
@@ -57,6 +55,5 @@ public class JettyMain {
 		// Start server
 		server.start();
 
-		DAO.generateUsers();
 	}
 }

@@ -39,8 +39,11 @@ $(document).ready(function () {
      * We load a fake user in the database:
      */
     $.getJSON("scripts/data.json",function (data) {
-            postServerData("ws/User/add",JSON.stringify(data),function(user){
-            });
+            for (const user of data) {
+                postServerData("ws/User/add",JSON.stringify(user),function(newUser){
+                    console.log(newUser);
+                });                
+            }
         }
     );
 

@@ -482,7 +482,6 @@ input{
     border: 1px solid #000;
   }
 
-
 .OneDivSMM,.OneDiv{
     background-color: #414141; 
     height: 40px;
@@ -511,7 +510,7 @@ input{
     left: 7%;
     background-color: #414141; 
     height: 100px;
-    width: 286px;
+    width: 317px;
     border-radius: 20%;
     text-align: center;
 }
@@ -533,7 +532,6 @@ input{
 }
 
 .Menu h1{
-    /*vertical-align: middle;*/
     position: relative;
     font-size: 26px;
     font-family: system-ui;
