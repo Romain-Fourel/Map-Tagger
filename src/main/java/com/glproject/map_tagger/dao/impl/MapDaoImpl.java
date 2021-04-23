@@ -190,6 +190,7 @@ public class MapDaoImpl implements MapDao {
 			mapPersistent.setName(map.getName());
 			mapPersistent.setDescription(map.getDescription());
 			mapPersistent.setConfidentiality(map.getConfidentiality());
+			mapPersistent.setCreatorId(map.getCreatorId());
 			
 			mapPersistent.toString();
 			

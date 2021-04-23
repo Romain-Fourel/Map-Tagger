@@ -20,7 +20,7 @@ public class User {
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.NATIVE)
-	protected Long ID = null;
+	protected Long id = null;
 
 	String name;
 	String password;
@@ -47,8 +47,8 @@ public class User {
 		this.password = password;
 	}
 
-	public Long getID() {
-		return ID;
+	public Long getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -118,7 +118,6 @@ public class User {
 			mapList = new ArrayList<Map>();
 		}
 		mapList.add(map);
-		mapsVisibility.put(map.getID(), true);
 	}
 	
 	public void removeMap(Map map) {
@@ -182,14 +181,14 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [ID=" + ID + ", name=" + name + ", password=" + password + ", mapList=" + mapList
+		return "User [ID=" + id + ", name=" + name + ", password=" + password + ", mapList=" + mapList
 				+ ", mapsVisibility=" + mapsVisibility + ", mapsShared=" + mapsShared + "]";
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		User user = (User) obj;
-		return getID().equals(user.getID());
+		return getId().equals(user.getId());
 	}
 	
 

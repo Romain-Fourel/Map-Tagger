@@ -61,7 +61,7 @@ public class MapResource {
 		if (user.hasMap(map)) {
 			return Response.ok(false).build();
 		}
-		DAO.getMapDao().addSharedMapTo(user.getID(), map);
+		DAO.getMapDao().addSharedMapTo(user.getId(), map);
 		return Response.ok(true).build();
 	}
 	

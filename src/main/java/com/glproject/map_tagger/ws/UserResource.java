@@ -3,6 +3,7 @@ package com.glproject.map_tagger.ws;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,30 +14,17 @@ import javax.ws.rs.core.Response;
 
 import com.glproject.map_tagger.dao.DAO;
 import com.glproject.map_tagger.dao.Map;
+import com.glproject.map_tagger.dao.Place;
 import com.glproject.map_tagger.dao.User;
 
 @Path("/User")
 public class UserResource {
 	
 	/**
-	 * The ID of the user currently connected
+	 * The ID of the last user connected:
 	 */
-	static Long currentSession = null;
+	static Long lastConnection = null;
 	
-	/**
-	 * set the user currently connected by his id
-	 * @return
-	 */
-	
-	public static void setCurrentSession(Long currentSession) {
-		UserResource.currentSession = currentSession;
-	}
-	
-	public static Long getCurrentSession() {
-		return currentSession;
-	}
-	
-
 
 	/**
 	 * 
@@ -56,7 +44,7 @@ public class UserResource {
 		
 		for (User user : usersRegistered) {
 			if (user.hasPassword(password)) {
-				currentSession = user.getID();
+				lastConnection = user.getId();
 				return true;
 			}
 		}	
@@ -139,7 +127,7 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentSession")
 	public User getCurrentUser() {
-		User user = DAO.getUserDao().getUser(currentSession);	
+		User user = DAO.getUserDao().getUser(lastConnection);	
 		return user;
 	}
 	
@@ -162,9 +150,49 @@ public class UserResource {
 		User newUser = new User(username, password);
 		newUser = DAO.getUserDao().addUser(newUser);
 					
-		currentSession = newUser.getID();
+		lastConnection = newUser.getId();
 		
 		return Response.ok(newUser).build();
+	}
+	
+	/**
+	 * Used to generate a FAKE user !
+	 * @param user
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/add")
+	public Response generateUser(User user) {
+		
+		/**
+		 * This webservice can be only used before the first connection !
+		 */
+		if(lastConnection==null) {
+			User detached = DAO.getUserDao().addUser(user);
+			
+			for (Map map : detached.getMapList()) {
+				map.setCreatorId(detached.getId());
+				for (Place place : map.getPlaces()) {
+					place.setMapId(map.getID());
+					place = DAO.getPlaceDao().updatePlace(place);
+				}
+				map = DAO.getMapDao().updateMap(map);
+				detached.setVisibilityOf(map.getID(), true);
+			}
+			
+			detached = DAO.getUserDao().updateUser(detached);
+			return Response.ok(detached).build();
+		}
+		
+		return Response.ok(false).build();
+	}
+	
+	@DELETE
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteUser(User user) {
+		DAO.getUserDao().delete(user);
 	}
 }
 

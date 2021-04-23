@@ -1,0 +1,147 @@
+
+{
+    "name":"Romain",
+    "password":"24071999",
+    "mapList":[
+        {
+            "name":"Tours",
+            "description":"A pretty city in Centre Val-de-Loire",
+            "confidentiality":"PRIVATE",
+            "places":[
+                {
+                    "name":"168 Rue Victor Hugo",
+                    "description":"A very little  appartment!\nOnly for students.",
+                    "latitude":47.387452,
+                    "longitude":0.678244,
+                    "messages":["I don't recommand, too small!!","A great appartment, next to everything!"],
+                    "tags":["appartment","city centre","9m²"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Botanic Garden",
+                    "description":"A very beautiful garden!\n There are walabies inside!!!",
+                    "latitude":47.387648,
+                    "longitude":0.666612,
+                    "messages":["really good for pic-niques","A Great place! I recommand!"],
+                    "tags":["animals","lake","nature"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Medicine University",
+                    "description":"this place is only for the first year students,it provides a much better adaptation for the new students!.",
+                    "latitude":47.381151,
+                    "longitude":0.663797,
+                    "messages":["Rooms are quiet, goof for studying","I had a great year there!"],
+                    "tags":["university ","studies","medicine"],
+                    "pictures":[]
+                }
+            ]
+        },
+        {
+            "name":"Cour-Cheverny",
+            "description":"A pretty city in Centre Val-de-Loire",
+            "confidentiality":"PRIVATE",
+            "places":[
+                {
+                    "name":"Bus stop",
+                    "description":"A bus stop next to the 'Salle des fêtes' of Cour-Cheverny\nIf you want to go to blois, wait here!",
+                    "latitude":47.512352,
+                    "longitude":1.455964,
+                    "messages":["There is one bus every hours on average, so check the schedules before waiting a bus!"],
+                    "tags":["bus","transportation","public"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Parking",
+                    "description":"A nice parking into Cour-Chverny, quiet and next to a little river with a waterfall",
+                    "latitude":47.508095,
+                    "longitude":1.453173,
+                    "messages":["the entrance is hard to find!","this parking is quickly full during an event"],
+                    "tags":["parking","country","waterfall"],
+                    "pictures":[]
+                },
+                {
+                    "name":"A small Wood",
+                    "description":"Just next to the Salle des fêtes of Cour-Cheverny, this small wood contains a bicycle path.\nBut a hard one!",
+                    "latitude":47.512779,
+                    "longitude":1.459159,
+                    "messages":["Good to wait the bus in the shadow"],
+                    "tags":["hedgehog ","country","picnic"],
+                    "pictures":[]
+                }
+            ]
+        },
+        {
+            "name":"Paris",
+            "description":"The Capital city of France, also the place where the EIDD is!",
+            "confidentiality":"PRIVATE",
+            "places":[
+                {
+                    "name":"Appartment in Alfortville",
+                    "description":"Next to the train station, this appartment is really good for many reasons, but a little bit noisy",
+                    "latitude":48.802605,
+                    "longitude":2.42433,
+                    "messages":["When it is raining, the water is going through the ceiling, I don't recommand!"],
+                    "tags":["appartment","Suburban","32m²"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Kintaro",
+                    "description":"A japanese restaurant, if you want to eat 'yaki udon' or other meal from japan, go here!",
+                    "latitude":48.868944,
+                    "longitude":2.334906,
+                    "messages":["Delicious! I recommand",
+                                "All meals suggested are excellent, I will come back until having tested all of them",
+                                "A little bit disappointed, japanese food is definitively not for me!"],
+                    "tags":["restaurant","japan","first district"],
+                    "pictures":[]
+                },
+                {
+                    "name":"L'as du Falafel",
+                    "description":"Best falafel of all Paris",
+                    "latitude":48.85747,
+                    "longitude":2.359041,
+                    "messages":["Warning, we can't eat inside the restaurant, you only can command takeaway meals "],
+                    "tags":["restaurant ","falafel","Marais"],
+                    "pictures":[]
+                }
+            ]
+        },
+        {
+            "name":"Lyon",
+            "description":"A description here",
+            "confidentiality":"PRIVATE",
+            "places":[
+                {
+                    "name":"Place 0",
+                    "description":"descrption 0",
+                    "latitude":45.740027,
+                    "longitude":4.871898,
+                    "messages":["msg 1","msg2"],
+                    "tags":["tag1","tag2","tag3"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Place 1",
+                    "description":"descrption 1",
+                    "latitude":45.781056,
+                    "longitude":4.850082,
+                    "messages":["msg 1","msg2"],
+                    "tags":["tag1","tag2","tag3"],
+                    "pictures":[]
+                },
+                {
+                    "name":"Place 2",
+                    "description":"descrption 2",
+                    "latitude":45.456536,
+                    "longitude":4.778787,
+                    "messages":["msg 1","msg2"],
+                    "tags":["tag1","tag2","tag3"],
+                    "pictures":[]
+                }
+            ]
+        }
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]
+}

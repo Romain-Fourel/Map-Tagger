@@ -57,8 +57,6 @@ public class JettyMain {
 		// Start server
 		server.start();
 
-		DAO.generateFakeUser();
-
-		DAO.generateManyFakeUsers();
+		DAO.generateUsers();
 	}
 }

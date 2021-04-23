@@ -143,7 +143,7 @@ public class UserDaoImpl implements UserDao {
 		
 		try {
 			tx.begin();
-			User userPersistent = pm.getObjectById(User.class, user.getID());
+			User userPersistent = pm.getObjectById(User.class, user.getId());
 			userPersistent.setName(user.getName());
 			userPersistent.setPassword(user.getPassword());
 			
@@ -154,6 +154,8 @@ public class UserDaoImpl implements UserDao {
 			user.getMapsShared().forEach(map->userPersistent.addMapShared(pm.getObjectById(Map.class, map.getID())));
 			
 			userPersistent.setMapsVisibility(user.getMapsVisibility());
+			
+			userPersistent.toString();
 			
 			detached = pm.detachCopy(userPersistent);
 								
@@ -179,7 +181,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			tx.begin();
 			
-			pm.deletePersistent(user);
+			pm.deletePersistent(pm.getObjectById(User.class, user.getId()));
 			
 			tx.commit();
 

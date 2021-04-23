@@ -1,3 +1,14 @@
+function postServerData(url,data,callDone){
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        url: url,
+        data: data,
+        success: callDone
+    });
+}
+
 
 /**
  * try to get the user who has the given name and test if he has
@@ -5,30 +16,34 @@
  */
 function connection(username,password){
 
-    var data = [username,password];
+    var data = JSON.stringify([username,password]);
 
-    $.ajax({
-        type: "POST",
-        url: "ws/User/connection",
-        data: JSON.stringify(data),
-        contentType : "application/json; charSet=UTF-8",
-        dataType: "json",
-        success: function (response) { 
-            //TODO: failed option in success response is not vrey good
-            if (response){
-                window.location.href="main.html";//here we go to the map tagger!
-            }
-            else{
-                alert("Error: the username and the password doesn't match");
-            }
-         }
-    });
+    postServerData("ws/User/connection",data,function(response){
+        if (response){
+            window.location.href="main.html";//here we go to the map tagger!
+        }
+        else{
+            alert("Error: the username and the password doesn't match");
+        }
+    })
 }
+
+
 
 /**
  * Main
  */
 $(document).ready(function () {
+
+    /**
+     * We load a fake user in the database:
+     */
+    $.getJSON("scripts/data.json",function (data) {
+            postServerData("ws/User/add",JSON.stringify(data),function(user){
+            });
+        }
+    );
+
 
     $("#login-btn").click(function () { 
         var username = $("#login").val();

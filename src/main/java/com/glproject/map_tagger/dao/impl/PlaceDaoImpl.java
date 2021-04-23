@@ -65,6 +65,9 @@ public class PlaceDaoImpl implements PlaceDao {
 			placePersistent.setPictures(place.getPictures());
 			placePersistent.setTags(place.getTags());
 			placePersistent.setMapId(place.getMapId());
+			placePersistent.setMapId(place.getMapId());
+			
+			placePersistent.toString();
 			
 			detached = pm.detachCopy(placePersistent);
 								

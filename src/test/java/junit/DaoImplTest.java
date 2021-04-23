@@ -24,7 +24,7 @@ public class DaoImplTest {
 	static void generateMaps(User user) {
 		
 		for (int i = 0; i < 5; i++) {
-			Map map = new Map(user.getID(), "map"+i);
+			Map map = new Map(user.getId(), "map"+i);
 			for (int j = 0; j < 5; j++) {
 				Place place = new Place("place"+i+""+j);
 				map.addPlace(place);
@@ -43,7 +43,7 @@ public class DaoImplTest {
 
 		userDao.addUser(user);
 
-		Long id = user.getID();
+		Long id = user.getId();
 
 		User userRetrieved = userDao.getUser(id);
 		assertEquals("Alfred", userRetrieved.getName());
@@ -64,7 +64,7 @@ public class DaoImplTest {
 		for (int i = 0; i < nameTab.length; i++) {
 			User user = new User(nameTab[i]);
 			userDao.addUser(user);
-			idList.add(user.getID());
+			idList.add(user.getId());
 		}
 
 		assertEquals(nameTab.length + 1, userDao.getUsers().size());
@@ -82,7 +82,7 @@ public class DaoImplTest {
 		
 		DAO.getUserDao().addUser(user1);		
 		
-		Long id = user1.getID();
+		Long id = user1.getId();
 		
 		User userRetrieved = DAO.getUserDao().getUser(id);
 		
@@ -98,7 +98,7 @@ public class DaoImplTest {
 		User user1 = new User("user1", "password1");
 		generateMaps(user1);	
 		DAO.getUserDao().addUser(user1);
-		Long id = user1.getID();	
+		Long id = user1.getId();	
 		User userRetrieved = DAO.getUserDao().getUser(id);
 		
 		assertTrue(userRetrieved.getMapList()!=null);
@@ -141,7 +141,7 @@ public class DaoImplTest {
 		generateMaps(user);
 		
 		DAO.getUserDao().addUser(user);
-		Long id = user.getID();	
+		Long id = user.getId();	
 		User userRetrieved = DAO.getUserDao().getUser(id);
 
 		Long mapId = userRetrieved.getMapList().get(0).getID();
