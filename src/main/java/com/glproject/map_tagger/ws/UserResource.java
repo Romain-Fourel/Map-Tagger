@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.ws;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -166,6 +167,14 @@ public class UserResource {
 	@Path("/add")
 	public Response generateUser(User user) {
 		
+		String loremIpsum = "Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem "
+				          + "Gallus de futuris incertus agitare quaedam conducentia saluti suae "
+				          + "per itinera conaretur, remoti sunt omnes de industria milites agentes in civitatibus perviis.";
+		
+		List<String> toShare = Arrays.asList(new String[] {"My favorite chinese restaurants",
+														   "Best cinema in Tours",
+														   "Boulangeries"});
+		
 		/**
 		 * This webservice can be only used before the first connection !
 		 */
@@ -174,8 +183,21 @@ public class UserResource {
 			
 			for (Map map : detached.getMapList()) {
 				map.setCreatorId(detached.getId());
+				if(map.getDescription().equals("")) {
+					map.setDescription(loremIpsum);
+				}
 				for (Place place : map.getPlaces()) {
 					place.setMapId(map.getID());
+					
+					if (place.getDescription().equals("")) {
+						place.setDescription(loremIpsum);
+					}
+					if (place.getMessages().isEmpty()) {
+						for (int i = 0; i < 4; i++) {
+							place.addMessage(loremIpsum);
+						}
+					}
+					
 					place = DAO.getPlaceDao().updatePlace(place);
 				}
 				map = DAO.getMapDao().updateMap(map);
@@ -183,6 +205,13 @@ public class UserResource {
 			}
 			
 			detached = DAO.getUserDao().updateUser(detached);
+			
+			if (detached.getName().equals("Romain")) {
+				for (String mapName : toShare) {
+					Map map = DAO.getMapDao().getMaps(mapName).get(0);
+					DAO.getMapDao().addSharedMapTo(detached.getId(), map);
+				}
+			}
 			return Response.ok(detached).build();
 		}
 		

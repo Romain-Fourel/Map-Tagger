@@ -278,6 +278,53 @@
     ],
     "mapsVisibility":{},
     "mapsShared":[]    
+},{
+    "name":"Georgeo",
+    "password":"gergeo54L",
+    "mapList":[
+        {
+            "name":"All waterfall in Ile de France",
+            "description":"",
+            "confidentiality":"PUBLIC"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
+},{
+    "name":"Thibo",
+    "password":"1569874",
+    "mapList":[
+        {
+            "name":"My favorite japan restaurants",
+            "description":"",
+            "confidentiality":"PUBLIC"
+        },{
+            "name":"My favorite chinese restaurants",
+            "description":"",
+            "confidentiality":"PRIVATE"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
+},{
+    "name":"Sacha35",
+    "password":"zter5gr8t",
+    "mapList":[
+        {
+            "name":"My beautiful places in Tourcoing",
+            "description":"",
+            "confidentiality":"PUBLIC"
+        },{
+            "name":"Best cinema in Tours",
+            "description":"",
+            "confidentiality":"PRIVATE"
+        }
+
+    ],
+    "mapsVisibility":{},
+    "mapsShared":[]    
 },
 {
     "name":"Jean",

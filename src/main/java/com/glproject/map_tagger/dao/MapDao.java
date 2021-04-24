@@ -12,6 +12,8 @@ public interface MapDao {
 	 */
 	List<Map> getMaps();
 	
+	List<Map> getMaps(String name);
+	
 	/**
 	 * get the map by its unique id
 	 * @param ID
