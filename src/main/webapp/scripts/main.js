@@ -35,21 +35,17 @@ class LeafletManager {
 
 
 function hideButtons() {
-    $("#buttons button").css("visibility", function () {
-        return "hidden";
-    });
-    /*$(".hide").css("z-index", function () {
-        return "600";
-    });*/
+    $("#buttons button").css("visibility", "hidden");
+    /*Opacity for a smoother transition */
+    $("#buttons button").css("opacity", "0");
+    /*$(".hide").css("z-index", "600");*/
 }
 
 function showButtons() {
-    $("#buttons button").css("visibility", function () {
-        return "visible";
-    });
-    /*$(".hide").css("z-index", function () {
-        return "0";
-    });*/
+    $("#buttons button").css("visibility", "visible");
+    /*Opacity for a smoother transition */
+    $("#buttons button").css("opacity", "1");
+    /*$(".hide").css("z-index","0");*/
 }
 
 
@@ -57,6 +53,8 @@ function showButtons() {
 function hideOverlay() {
     $(".overlay").css("visibility", "hidden");
     $(".overlay .PopupMenu").css("visibility", "hidden");
+    $(".overlay").css("opacity", "0");
+    $(".overlay .PopupMenu").css("opacity", "0");
     showButtons();
 
     LeafletManager.map.off('click');
@@ -64,9 +62,9 @@ function hideOverlay() {
 
 function showOverlay() {
 
-    $(".overlay").css("visibility", function () {
-        return "visible";
-    });
+    $(".overlay").css("visibility", "visible");
+    $(".overlay").css("opacity", "1");
+    $(".overlay .PopupMenu").css("opacity", "1");
 }
 
 
@@ -742,6 +740,8 @@ class ClickManager {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             //var mapChose = $("#mapChoicePlace").val();
+
+            console.log($("#searchImages").val());
 
             var tags = getTagsOf("#addAPlaceTags");
         
