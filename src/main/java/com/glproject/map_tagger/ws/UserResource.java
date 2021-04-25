@@ -81,6 +81,7 @@ public class UserResource {
 		User user = DAO.getUserDao().getUser(Long.parseLong(userId));
 		user.addMap(map);
 		user.removeMapShared(map);
+		user.setVisibilityOf(map.getID(), true);
 		user = DAO.getUserDao().updateUser(user);
 		
 		return user;

@@ -45,6 +45,7 @@ input{
     height:70px;
     border-radius: 50%;
     border: 3px solid rgb(255, 255, 255);
+    transition-duration: 0.4s;
 }
 
 #circleButton button:hover{
@@ -77,6 +78,16 @@ input{
     background:url(./images/Tmapb.png) no-repeat;
 }
 
+#userLocation{
+    bottom: 10%;
+    font-size: 40px;
+    color: white;
+}
+
+#userLocation:hover{
+    color: rgb(150, 150, 150);
+    background: white;
+}
 
 #placesListB{
     background:url(./images/Ftag.png) no-repeat;
@@ -265,7 +276,11 @@ input{
  * ######################## ABOVE: STYLE FOR ADD A PLACE MENU ###################################
  **/
 
-
+.modal{
+    position: fixed;
+    vertical-align: center;
+    z-index: 600;
+}
 
 .hoverL {
     background-color: rgb(150, 150, 150);

@@ -30,10 +30,11 @@
                         <button id="communityMapsB"></button>
                         <button id="savedMapsB"></button>     
                         <button id="placesListB"></button>
+                        <button id="userLocation"><i class="fa fa-thumb-tack" aria-hidden="true"></i></button>
                     </div>
 
                     <div id="left">
-                        <button id="researcher" href="#popup1"></button>
+                        <button id="researcher"></button>
                         <button id="parameters"></button>
                     </div>
 
@@ -102,7 +103,6 @@
 
             </div>
          
-            
             <!------------ all RightSlidingPanels:--------------->
 
             <div class="Menu RightSlidingPanel" id="communityMapsMenu">
@@ -151,7 +151,7 @@
 
             <div class="Menu RightSlidingPanel" id="placesListMenu">
                 <div class="titleBox">
-                    <a class="sizeIcon2"><i class="fa fa-thumb-tack" aria-hidden="true"></i></a>
+                    <a class="sizeIcon2"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
                     <h1>My Places</h1>
                 </div>    
                 <div id="placesListButtons" class="Scrollbar fullScrollbarRight"></div>
@@ -185,13 +185,13 @@
                     
                     <div id="addAMessageDiv"></div>
                     <script id="templateOnePlaceAddAMessage" type="text/template">
-                        <textarea id="addAMessageTextarea" cols="32" rows="4"></textarea>
+                        <textarea id="addAMessageTextarea" class="Scrollbar" cols="32" rows="4"></textarea>
                         <button class="sendButton" id="onePlaceSendMessage"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                     </script>
 
                     <div id="onePlaceMessages"></div>
                     <script id="templateOnePlaceMessages" type="text/template">
-                            <textarea class="oneMessageTextarea" id= <%= oneMessageTextareaId %> cols="32" rows="4" disabled>
+                            <textarea class="oneMessageTextarea Scrollbar" id= <%= oneMessageTextareaId %> cols="32" rows="4" disabled>
                             </textarea>   
                     </script>
 

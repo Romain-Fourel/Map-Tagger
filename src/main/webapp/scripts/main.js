@@ -502,6 +502,8 @@ class ClickManager {
         ClickManager.setClickAddAMapB();
         
         ClickManager.setClickPlacesListB();
+
+        ClickManager.setClickUserLocation();
         
         ClickManager.setClickResearcher();
         ClickManager.setClickParameters();
@@ -518,7 +520,21 @@ class ClickManager {
         ClickManager.setClickAddImages();
     }
 
+    static setClickUserLocation(){
+        $("#userLocation").click(function (e) { 
+            if ("geolocation" in navigator){
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var center = {lat:position.coords.latitude,lng:position.coords.longitude};
+                    LeafletManager.map.flyTo(center,17);
+                });
 
+            }
+            else{
+                alert("The geolocation is not actived on your navigator")
+            }
+            
+        });
+    }
 
     static setClickParameters(){
         $("#parameters").click(function (e) { 
@@ -566,7 +582,7 @@ class ClickManager {
             var radius = LeafletManager.map.getCenter().distanceTo(pointUpLeft);
             
             //TODO: a circle just to debug...
-            //L.circle([LeafletManager.map.getCenter().lat,LeafletManager.map.getCenter().lng],radius).addTo(LeafletManager.map);
+            //L.circle([LeafletManager.map.getCenter().lat,LeafletManager.map.getCenter().lng],radius/2).addTo(LeafletManager.map);
 
             postServerdata("ws/Place/byTags",JSON.stringify(tags),function(places){
 
@@ -827,6 +843,7 @@ class ClickManager {
                 mapManager.update(updatedMap);
                 PanelManager.setSavedMapsMenu();
                 PanelManager.setOneMapMenu(updatedMap);
+                PanelManager.setCommunityMapsMenu();
             })
         
             hideOverlay();            
@@ -877,7 +894,8 @@ class ClickManager {
         $("#searchingPlacesMenuQuit").click(function (e) { 
             closeSlidingPanel("left","#searchingPlacesMenu");
             if (LeafletManager.searchingPlacesLayerGroup!==undefined)
-                LeafletManager.removeLayer(LeafletManager.searchingPlacesLayerGroup);       
+                LeafletManager.removeLayer(LeafletManager.searchingPlacesLayerGroup);  
+                $("#placesFound").text("");     
         });
     }
 
@@ -1081,7 +1099,17 @@ class ClickManager {
         $("#centerToMarkerPlaceButton").click(function (e) { 
             var center = {lat:place.latitude,lng:place.longitude};
             LeafletManager.map.flyTo(center,17);
-            
+
+            if ("geolocation" in navigator){
+                navigator.geolocation.getCurrentPosition(function(position){
+                    var currentPos = {lat:position.coords.latitude,lng:position.coords.longitude};
+                    window.open("https://www.google.fr/maps/dir/"+currentPos.lat+","+currentPos.lng+"/"+center.lat+","+center.lng,"_blank");
+                });
+            }
+            else {
+                alert("Your navigator doesn't allows the locatiob feature");
+            }
+        
         });
     }
 
