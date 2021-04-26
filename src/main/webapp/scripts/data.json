@@ -109,34 +109,34 @@
         },
         {
             "name":"Lyon",
-            "description":"A description here",
+            "description":"The city is recognized for its cuisine and gastronomy, and historical and architectural landmarks; as such, the districts of Old Lyon, the Fourvière hill, the Presqu'île and the slopes of the Croix-Rousse are inscribed on the UNESCO world heritage list.",
             "confidentiality":"PRIVATE",
             "places":[
                 {
-                    "name":"Place 0",
-                    "description":"descrption 0",
+                    "name":"La Martinière",
+                    "description":"La Martinière Montplaisir is a higher education establishment, with a recognised scientific preparatory school",
                     "latitude":45.740027,
                     "longitude":4.871898,
-                    "messages":["msg 1","msg2"],
-                    "tags":["tag1","tag2","tag3"],
+                    "messages":["Best education establishment !!!","The boarding school is a great place to live"],
+                    "tags":["MPSI","PCSI","school"],
                     "pictures":[]
                 },
                 {
-                    "name":"Place 1",
-                    "description":"descrption 1",
+                    "name":"Parc de la Tête d'or'",
+                    "description":"Le Parc de la Tête d'or is a public urban park in Lyon, one of the largest in France.",
                     "latitude":45.781056,
                     "longitude":4.850082,
-                    "messages":["msg 1","msg2"],
-                    "tags":["tag1","tag2","tag3"],
+                    "messages":["WHAAOOO Awesome gardens !","A great place for a picnic lunch :)"],
+                    "tags":["Ducks","Garden","Lake"],
                     "pictures":[]
                 },
                 {
-                    "name":"Place 2",
-                    "description":"descrption 2",
+                    "name":"The Condrieu peninsula",
+                    "description":"A cool place for water's sports'",
                     "latitude":45.456536,
                     "longitude":4.778787,
-                    "messages":["msg 1","msg2"],
-                    "tags":["tag1","tag2","tag3"],
+                    "messages":["Amazing <3","I love inflatables"],
+                    "tags":["Water skiing","lovely","Island"],
                     "pictures":[]
                 }
             ]
