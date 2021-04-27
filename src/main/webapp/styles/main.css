@@ -135,8 +135,25 @@ input{
     background: rgba(0, 0, 0, 0.4);
     transition: all 500ms;
     visibility: hidden;
-    opacity: 1;
+    opacity: 0;
     
+}
+
+.small-modal {
+    background-color: #cccccc;
+    z-index: 500;
+    border-radius: 50px;
+    width:20%;
+    height:50%;
+    position: absolute;
+    top: -50%;
+    left: 40%;
+    border: 5px solid rgb(255, 255, 255);
+    transition: all 500ms;
+}
+
+.users-list{
+    height:70%;
 }
 
 .PopupMenu {
@@ -146,7 +163,7 @@ input{
   width:50%;
   height:80%;
   position: absolute;
-  top: 10%;
+  top: -50%;
   left: 27%;
   border: 5px solid rgb(255, 255, 255);
   transition: all 500ms;
@@ -213,6 +230,8 @@ input{
     width:230px;
     height:40px;
 }
+
+
 .AddDescriptionInput{
     font-size: 16px;
     position: absolute;
@@ -226,7 +245,7 @@ input{
     top: 10%;
     right: 10%;
     background-size:cover;
-    width:70px;
+    width:75px;
     height:70px;
     border-radius: 20%;
     border: 5px solid rgb(255, 255, 255);
@@ -259,7 +278,7 @@ input{
 .addAPlaceTagify{
     max-width: 95%;
     max-height: 50px;  
-    bottom: -400px;
+    bottom: -375px;
     left: 10px;
     
 }
@@ -271,6 +290,11 @@ input{
     right: 10%;
     width:70px;
     height:35px;
+}
+
+.picture-icon{
+    font-size: 70px;
+    color: rgb(97, 93, 93);
 }
 
 /**
@@ -625,7 +649,7 @@ input{
     height:10px;
     border: none;
     outline: none;
-    transition: all 0.5s;
+    transition: color 0.5s;
 }
 
 .sendButton:hover{

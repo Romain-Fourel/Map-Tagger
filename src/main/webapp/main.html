@@ -53,15 +53,17 @@
                             <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off>
                             <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
-                            <label for="searchImages" id="addImages">Add an image:</label>
+                            <label for="searchImages" id="addImages" class="picture-icon"><i class="fa fa-picture-o" aria-hidden="true"></i></label>
                             <input type="file" id="searchImages" 
                                                accept="image/png,image/jpeg" 
                                                style="visibility: hidden;">
+
+                            <img src="" id="image-test">
                             
                             
                             <h2>Tags :</h2>
 
-                            <input type="textarea" id="addAPlaceTags" class="Scrollbar addAPlaceTagify">
+                            <input type="textarea" id="addAPlaceTags" class="Scrollbar addAPlaceTagify" placeholder="Add a tag...">
                             
                             
                             <script id="templateAddPlaceTags" type="text/template">
@@ -95,6 +97,23 @@
                             <button class="createOkButton" id="editMap" type="reset">Ok</button>
                         </form>
                     </p>
+
+                </div>
+
+                <div class="small-modal" >
+                    <button class="CloseButton" type="reset">x</button>
+                    <label for="share-map">Find your friend with his name!</label>
+                    <input type="text" id="share-map-user-name"> <button id="searchUsersButton"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <div id="user-list" class="Scrollbar users-list"></div>
+                    <script id="templateUserList" type="text/template">
+                        <p class='OneDiv'>
+                            <label class='labelOneDiv'> <%= nameUser %> </label>
+                            <button class='buttonShowsDetails' id= <%= oneUserButtonId %> > 
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i> 
+                            </button>
+                        </p>
+                    </script>
+                    <button>I'm done!</button>
 
                 </div>
 
@@ -132,10 +151,10 @@
                 <script id="templateSavedMapsButton" type="text/template">
 
                     <p class='OneDivSMM' id= <%= oneMapDivId %> >
-                    <input type='checkbox' id= <%= checkBoxMapId %>  <%= checked %> />
-                    <label for= <%= checkBoxMapId %> > <span class='spanLabel'></span> <%= nameMap %> </label>
-                        
-                    <button class='buttonShowsDetails' id= <%= buttonOneMapMenuId %> >  > </button>
+                        <input type='checkbox' id= <%= checkBoxMapId %>  <%= checked %> />
+                        <label for= <%= checkBoxMapId %> > <span class='spanLabel'></span> <%= nameMap %> </label>
+                            
+                        <button class='buttonShowsDetails' id= <%= buttonOneMapMenuId %> >  > </button>
                     </p>
 
                 </script>
@@ -192,6 +211,11 @@
                             </textarea>   
                     </script>
 
+                    <div id="onePlaceImages"></div>
+                    <script id="templateOnePlaceImages" type="text/template">
+                        <img src= <%= onePlaceImageSrc %> >
+                    </script>
+
                 </div>
 
                 <button class="btn-bottom delButton" id="removePlace"><i class="fa fa-trash-o"></i></button>
@@ -210,8 +234,6 @@
                     <textarea class="descriptionArea" rows=8 cols=32 disabled id="descriptionOneMapMenu"><!--Description of the map:--></textarea>
                     <h3 id="oneMapConfidentiality"></h3>
                     <button class='btn-share' id="oneMapMenuShareButton"><i class="fa fa-share-alt"></i></button>
-                    <input  placeholder="User id" id="oneMapMenuShareUserId" type="text"/> 
-                    <button class="sendButton" id="oneMapMenuShareSendButton"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
     
                     <!--list of places of this map-->
                     <div id="oneMapPlaces"></div>

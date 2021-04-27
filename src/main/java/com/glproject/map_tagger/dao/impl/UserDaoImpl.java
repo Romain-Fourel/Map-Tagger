@@ -34,6 +34,7 @@ public class UserDaoImpl implements UserDao {
 
 			Query q = pm.newQuery(User.class);
 			users = (List<User>) q.execute();
+			users.toString();
 			detached = (List<User>) pm.detachCopyAll(users);
 
 			tx.commit();
@@ -91,11 +92,12 @@ public class UserDaoImpl implements UserDao {
 			tx.begin();
 			Query q = pm.newQuery(User.class);
 			q.declareParameters("String username");
+			
 			q.setFilter("name == username");
 			
 			users = (List<User>) q.execute(name);
 			detached = (List<User>) pm.detachCopyAll(users);
-			
+				
 			tx.commit();
 
 		} finally {

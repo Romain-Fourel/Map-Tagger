@@ -142,7 +142,9 @@ public class User {
 		if(mapsShared == null) {
 			mapsShared = new ArrayList<Map>();
 		}
-		mapsShared.add(map);
+		if(!mapsShared.contains(map)) {
+			mapsShared.add(map);
+		}
 	}
 	
 	public void removeMapShared(Map map) {

@@ -53,8 +53,13 @@ function showButtons() {
 function hideOverlay() {
     $(".overlay").css("visibility", "hidden");
     $(".overlay .PopupMenu").css("visibility", "hidden");
+    $(".overlay .small-modal").css("visibility", "hidden");
     $(".overlay").css("opacity", "0");
     $(".overlay .PopupMenu").css("opacity", "0");
+    $(".overlay .PopupMenu").css("top", "-50%");
+    $(".overlay .small-modal").css("opacity", "0");
+    $(".overlay .small-modal").css("top", "-50%");
+    $("#user-list").text("");
     showButtons();
 
     LeafletManager.map.off('click');
@@ -65,6 +70,9 @@ function showOverlay() {
     $(".overlay").css("visibility", "visible");
     $(".overlay").css("opacity", "1");
     $(".overlay .PopupMenu").css("opacity", "1");
+    $(".overlay .PopupMenu").css("top", "10%");
+    $(".overlay .small-modal").css("opacity", "1");
+    $(".overlay .small-modal").css("top", "20%");
 }
 
 
@@ -110,14 +118,14 @@ class PlaceManager {
         this.marker._popup.setContent("<b>" + this.place.name + "</b>");
     }
 
-    static placeToJSon(placeName,placeDescription,placeLatitude,placeLongitude,tags){
+    static placeToJSon(placeName,placeDescription,placeLatitude,placeLongitude,tags,pictures){
         var placeJSon = 
         {
             name:placeName,
             description:placeDescription,
             latitude:placeLatitude,
             longitude:placeLongitude,
-            pictures:[],
+            pictures:pictures,
             messages:[],
             tags:tags
         }
@@ -363,10 +371,6 @@ class PanelManager {
         $("#nameOneMapMenu").text(map.name);
         $("#descriptionOneMapMenu").text(map.description);
         $("#oneMapConfidentiality").text(map.confidentiality);
-        
-        $("#oneMapMenuShareUserId").css("visibility", "hidden");
-        $("#oneMapMenuShareSendButton").css("visibility", "hidden");
-        $("#oneMapMenuShareButton").css("visibility", "visible");
 
         $("#oneMapPlaces").text("");
 
@@ -429,7 +433,6 @@ class PanelManager {
 
         setTagsOf("#onePlaceTags",place.tags);
 
-        $("#addAMessageDiv").text("");
         var template = _.template($("#templateOnePlaceMessages").html());
 
         $("#onePlaceMessages").text("");
@@ -439,6 +442,18 @@ class PanelManager {
             }));
             $("#oneMessageTextarea"+i).val(place.messages[i]);
         }
+
+        $("#onePlaceImages").text("");
+        
+        var tempPictures = _.template($("#templateOnePlaceImages").html());
+
+        $("#onePlaceImages").append(tempPictures({
+            onePlaceImageSrc: "file://D:/EIDD/deepl.jpg"
+        }));
+
+        for (let i = 0; i<place.pictures.length; i++){       
+        }
+
         ClickManager.setClickAddAMessageButton(place);
         ClickManager.setClickCenterToMarkerPlaceButton(place);
 
@@ -518,6 +533,7 @@ class ClickManager {
         ClickManager.setClickAddImages();
     }
 
+
     static setClickUserLocation(){
         $("#userLocation").click(function (e) { 
             if ("geolocation" in navigator){
@@ -530,6 +546,33 @@ class ClickManager {
             else{
                 alert("The geolocation is not actived on your navigator")
             }
+            
+        });
+    }
+
+    static setClickSearchUserButton(map){
+        $("#searchUsersButton").unbind("click");
+        $("#searchUsersButton").click(function (e) { 
+            $("#user-list").text("");
+            var username = $("#share-map-user-name").val();
+            $.ajax({
+                type: "POST",
+                contentType: "text/plain; charset=utf-8",
+                dataType: "text",
+                url: "ws/User/name",
+                data: username,
+                success: function (result) {
+                    var users = JSON.parse(result);
+                    var template = _.template($("#templateUserList").html());
+                    for (const user of users) {
+                        $("#user-list").append(template({
+                            nameUser:user.name,
+                            oneUserButtonId:"oneUserButton"+user.id
+                        }));
+                        ClickManager.setClickOnUserButtonShare(user,map);
+                    }
+                }
+            });
             
         });
     }
@@ -557,9 +600,6 @@ class ClickManager {
         });
     }
 
-    /**
-     * TODO: IN PROGRESS
-     */
     static setClickSearchByTagsButton(){
         $("#searchByTagsButton").click(function (e) { 
             
@@ -579,9 +619,6 @@ class ClickManager {
             
             var radius = LeafletManager.map.getCenter().distanceTo(pointUpLeft);
             
-            //TODO: a circle just to debug...
-            //L.circle([LeafletManager.map.getCenter().lat,LeafletManager.map.getCenter().lng],radius/2).addTo(LeafletManager.map);
-
             postServerdata("ws/Place/byTags",JSON.stringify(tags),function(places){
 
                 var placesNear = []; // all places witch are into the visible part of the map
@@ -695,6 +732,8 @@ class ClickManager {
             var descriptionPlace = $("#addDescriptionPlace").val();
             var mapChose = $("#mapChoicePlace").val();
 
+            var pictures = [];
+
             var tags = getTagsOf("#addAPlaceTags");
         
             if (namePlace === "" && mapChose === "CAMap") {
@@ -716,7 +755,8 @@ class ClickManager {
                                                         descriptionPlace,
                                                         LeafletManager.lastPointClicked.latitude,
                                                         LeafletManager.lastPointClicked.longitude,
-                                                        tags);
+                                                        tags,
+                                                        pictures);
         
             postServerdata("ws/Place/create/"+mapid,placeToSend,function (newPlace){
                 var placeManager = new PlaceManager(newPlace);
@@ -740,8 +780,8 @@ class ClickManager {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             //var mapChose = $("#mapChoicePlace").val();
-
-            console.log($("#searchImages").val());
+            
+            var pictures = [];
 
             var tags = getTagsOf("#addAPlaceTags");
         
@@ -762,6 +802,7 @@ class ClickManager {
             place.name = namePlace;
             place.description = descriptionPlace;
             place.tags= tags;
+            place.pictures = pictures;
         
             postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
                 var placeManager = PlaceManager.dict.get(updatedPlace.id);
@@ -917,6 +958,7 @@ class ClickManager {
         $("#onePlaceSendMessage").click(function (e) { 
 
             place.messages.push($("#addAMessageTextarea").val());
+            $("#addAMessageDiv").text("");
             postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
                 PanelManager.setOnePlaceMenu(updatedPlace);
             });                 
@@ -982,35 +1024,9 @@ class ClickManager {
     static setClickOneMapMenuShareButton(map){
         $("#oneMapMenuShareButton").unbind("click");
         $("#oneMapMenuShareButton").click(function (e) { 
-            
-            $("#oneMapMenuShareUserId").css("visibility", "visible");
-            $("#oneMapMenuShareSendButton").css("visibility", "visible");
-            $("#oneMapMenuShareButton").css("visibility", "hidden");
-
-            ClickManager.setClickOneMapMenuShareSendButton(map);
-            
-        });
-    }
-
-    static setClickOneMapMenuShareSendButton(map){
-        $("#oneMapMenuShareSendButton").unbind("click");
-        $("#oneMapMenuShareSendButton").click(function () { 
-            
-            var userId = $("#oneMapMenuShareUserId").val();
-
-            postServerdata("ws/Map/addSharedMap/"+userId,JSON.stringify(map),function(result){
-                if(result==null){
-                    alert("There is no user with this such id");
-                }
-                else {
-                    $("#oneMapMenuShareUserId").css("visibility", "hidden");
-                    $("#oneMapMenuShareSendButton").css("visibility", "hidden");
-                    $("#oneMapMenuShareButton").css("visibility", "visible");
-                    if(!result){
-                        alert("This user already has this map!");
-                    }
-                }
-            });
+            showOverlay();
+            $(".small-modal").css("visibility", "visible");
+            ClickManager.setClickSearchUserButton(map);
             
         });
     }
@@ -1135,6 +1151,22 @@ class ClickManager {
             postServerdata("ws/User/remove/sharedMap/"+UserManager.currentSession,JSON.stringify(map),function(user){
                 PanelManager.setParametersMenu();
             })
+            
+        });
+    }
+
+    static setClickOnUserButtonShare(user,map){
+        $("#oneUserButton"+user.id).unbind("click");
+        $("#oneUserButton"+user.id).click(function (e) { 
+            postServerdata("ws/Map/addSharedMap/"+user.id,JSON.stringify(map),function (response) { 
+                if(response){
+                    alert("Your map has been successfully sent to "+user.name+" !");
+                }
+                else {
+                    alert("This user already has this map!");
+                }
+                
+             })
             
         });
     }

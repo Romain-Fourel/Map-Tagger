@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.ws;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,6 +52,23 @@ public class UserResource {
 		}	
 		return false;
 	
+	}
+	
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/name")
+	public List<User> retrieveUserByName(String name){
+		
+		List<User> users = DAO.getUserDao().getUsers();
+		List<User> matchingUsers = new ArrayList<User>();
+		
+		for (User user : users) {
+			if (user.getName().matches("(.*)"+name+"(.*)")) {
+				matchingUsers.add(user);
+			}
+		}
+		return matchingUsers;
 	}
 	
 	@POST
