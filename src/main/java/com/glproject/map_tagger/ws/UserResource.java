@@ -64,7 +64,7 @@ public class UserResource {
 		List<User> matchingUsers = new ArrayList<User>();
 		
 		for (User user : users) {
-			if (user.getName().matches("(.*)"+name+"(.*)")) {
+			if (user.getName().toLowerCase().matches("(.*)"+name.toLowerCase()+"(.*)")) {
 				matchingUsers.add(user);
 			}
 		}

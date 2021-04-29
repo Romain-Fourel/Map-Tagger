@@ -150,6 +150,7 @@ input{
     left: 40%;
     border: 5px solid rgb(255, 255, 255);
     transition: all 500ms;
+    visibility: hidden;
 }
 
 .users-list{

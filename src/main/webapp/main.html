@@ -56,7 +56,8 @@
                             <label for="searchImages" id="addImages" class="picture-icon"><i class="fa fa-picture-o" aria-hidden="true"></i></label>
                             <input type="file" id="searchImages" 
                                                accept="image/png,image/jpeg" 
-                                               style="visibility: hidden;">
+                                               style="visibility: hidden;"
+                                               multiple>
 
                             <img src="" id="image-test">
                             
@@ -103,7 +104,7 @@
                 <div class="small-modal" >
                     <button class="CloseButton" type="reset">x</button>
                     <label for="share-map">Find your friend with his name!</label>
-                    <input type="text" id="share-map-user-name"> <button id="searchUsersButton"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <input type="text" class="searchInput" id="share-map-user-name"> <button id="searchUsersButton"><i class="fa fa-search" aria-hidden="true"></i></button>
                     <div id="user-list" class="Scrollbar users-list"></div>
                     <script id="templateUserList" type="text/template">
                         <p class='OneDiv'>
@@ -125,6 +126,8 @@
                 <div class="titleBox">
                     <a class="sizeIcon2"><i class="fa fa-globe" aria-hidden="true"></i></a>
                     <h1 id="communityh1">Community Maps</h1>
+                    <input type="text" class="searchInput" id="searchMapInput">
+                    <button id="searchMapButton"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </div>
                 <div id="communityMapsButtons" class="Scrollbar fullScrollbarRight"></div>
                 <!--Below: the script for the div above!-->
@@ -301,7 +304,7 @@
 
                 </div>
 
-                <button class='RedButton' id="disconnectButton">Disconnect</button>
+                <button class='RedButton' id="disconnectButton">Logout</button>
                 <button class="LeftSlidingPanelQuit" id="parametersMenuQuit"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
             </div>
 

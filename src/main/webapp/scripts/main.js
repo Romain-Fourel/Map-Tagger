@@ -71,8 +71,12 @@ function showOverlay() {
     $(".overlay").css("opacity", "1");
     $(".overlay .PopupMenu").css("opacity", "1");
     $(".overlay .PopupMenu").css("top", "10%");
+}
+
+function showSmallModal(){
     $(".overlay .small-modal").css("opacity", "1");
-    $(".overlay .small-modal").css("top", "20%");
+    $(".overlay .small-modal").css("top", "20%");   
+    $(".small-modal").css("visibility", "visible"); 
 }
 
 
@@ -332,6 +336,7 @@ class PanelManager {
 
     static setCommunityMapsMenu(){
         $("#communityMapsButtons").text("");
+        $("#searchMapInput").val("");  
         getServerData("ws/Map/allPublic",function(mapList){
             for (const map of mapList) {
                 if(MapManager.dict.get(map.id)===undefined){
@@ -412,14 +417,16 @@ class PanelManager {
                  */
                 for (const userMap of user.mapList) {
                     if (map.id === userMap.id){ // if the user already has the map into his map list
-                        $("#followMap").text('unfollow');
-                        
+                        $("#followMap").text("");
+                        $("#followMap").append("<i class='fa fa-close' aria-hidden='true'></i>");
+
                         hasThisMap = true;
                         ClickManager.setClickFollowMap(map,true);
                     }
                 }
                 if (!hasThisMap){
-                    $("#followMap").text('follow');
+                    $("#followMap").text("");
+                    $("#followMap").append("<i class='fa fa-share' aria-hidden='true'></i>");
                     ClickManager.setClickFollowMap(map,false);
                 }
             }
@@ -444,14 +451,20 @@ class PanelManager {
         }
 
         $("#onePlaceImages").text("");
-        
-        var tempPictures = _.template($("#templateOnePlaceImages").html());
+        var imagesDiv = document.querySelector("#onePlaceImages");
 
-        $("#onePlaceImages").append(tempPictures({
-            onePlaceImageSrc: "file://D:/EIDD/deepl.jpg"
-        }));
-
-        for (let i = 0; i<place.pictures.length; i++){       
+        for (let i = 0; i<place.pictures.length; i++){   
+            var file = JSON.parse(place.pictures[i]);
+            var reader = new FileReader;
+            
+            reader.addEventListener("load",()=>{
+                var image = new Image();
+                image.height = 100;
+                image.title = file.name;
+                image.src = this.result;
+                imagesDiv.appendChild(image);
+            },false);
+            reader.readAsDataURL(file);
         }
 
         ClickManager.setClickAddAMessageButton(place);
@@ -510,6 +523,7 @@ class ClickManager {
 
     static build(){
         ClickManager.setClickCommunityMapsB();
+        ClickManager.setclickSearchMapButton();
         
         ClickManager.setClickSavedMapsB();
         ClickManager.setClickAddAMapB();
@@ -731,8 +745,17 @@ class ClickManager {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             var mapChose = $("#mapChoicePlace").val();
+         
+            var files = document.getElementById("searchImages").files;
+            /*var pictures = [];
+            for (const value of Object.values(files)) {
+                console.log(value);
+                console.log(JSON.stringify(value));
+                pictures.push(JSON.stringify(value));
+            }
+            console.log(pictures);*/
 
-            var pictures = [];
+            var pictures = Object.values(files);
 
             var tags = getTagsOf("#addAPlaceTags");
         
@@ -781,7 +804,11 @@ class ClickManager {
             var descriptionPlace = $("#addDescriptionPlace").val();
             //var mapChose = $("#mapChoicePlace").val();
             
+            var files = document.getElementById("searchImages").files;
             var pictures = [];
+            for (const value of Object.values(files)) {
+                pictures.push(JSON.stringify(value));
+            }
 
             var tags = getTagsOf("#addAPlaceTags");
         
@@ -909,6 +936,36 @@ class ClickManager {
         });
     }
 
+    static setclickSearchMapButton(){
+        $("#searchMapButton").click(function (e) { 
+            var mapName = $("#searchMapInput").val();
+            if(mapName!==""){
+                $("#communityMapsButtons").text("");
+                $.ajax({
+                    type: "POST",
+                    contentType: "text/plain; charset=utf-8",
+                    dataType: "text",
+                    url: "ws/Map/public/name",
+                    data: mapName,
+                    success: function (result) {
+                        var maps = JSON.parse(result);
+                        var template = _.template($("#templateOneCommunityMapButton").html());
+                        for (const map of maps) {
+                            $("#communityMapsButtons").append(template({
+                                nameMap:map.name,
+                                oneCommunityMapButtonId:"buttonOneCommunityMapMenu"+map.id
+                            }));
+                            ClickManager.setClickOneMapMenu(map);                           
+                        }
+                    }
+                });
+            }
+            else{
+                PanelManager.setCommunityMapsMenu();
+            }       
+        });
+    }
+
     static setClickPlacesListB(){
         $("#placesListB").unbind("click");
         $("#placesListB").click(function (e) { 
@@ -923,7 +980,7 @@ class ClickManager {
     static setClickMenuQuit(){
 
         $(".LeftSlidingPanelQuit").click(function (e) { 
-            closeSlidingPanel("left","#"+this.id.split("Quit")[0]);     
+            closeSlidingPanel("left","#"+this.id.split("Quit")[0]);   
         });
 
         $(".RightSlidingPanelQuit").click(function (e) { 
@@ -1025,7 +1082,7 @@ class ClickManager {
         $("#oneMapMenuShareButton").unbind("click");
         $("#oneMapMenuShareButton").click(function (e) { 
             showOverlay();
-            $(".small-modal").css("visibility", "visible");
+            showSmallModal();
             ClickManager.setClickSearchUserButton(map);
             
         });
@@ -1037,13 +1094,14 @@ class ClickManager {
 
         if(isAlreadyFollowed){
             $("#followMap").click(function (e) { 
-                postServerdata("ws/User/remove/map/"+UserManager.currentSession,JSON.stringify(map),function(user){
-                    PanelManager.setOneMapMenu(map);
-                    PanelManager.setSavedMapsMenu();
-                    var mapManager = MapManager.dict.get(map.id);
-                    LeafletManager.removeLayer(mapManager.layerGroup);
-                });
-                
+                if(confirm("Do you really want to remove this map from yours ?")){
+                    postServerdata("ws/User/remove/map/"+UserManager.currentSession,JSON.stringify(map),function(user){
+                        PanelManager.setOneMapMenu(map);
+                        PanelManager.setSavedMapsMenu();
+                        var mapManager = MapManager.dict.get(map.id);
+                        LeafletManager.removeLayer(mapManager.layerGroup);
+                    });
+                }         
             });
         }
         else{

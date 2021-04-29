@@ -1,5 +1,6 @@
 package com.glproject.map_tagger.ws;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -87,6 +88,23 @@ public class MapResource {
 	public List<Map> getPublicMap(){
 		return DAO.getMapDao().getPublicMaps();
 	}
+	
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/public/name")
+	public List<Map> getPublicMapsByName(String name){
+		List<Map> publicMaps = DAO.getMapDao().getPublicMaps();
+		List<Map> matchingMaps = new ArrayList<Map>();
+		
+		for (Map map : publicMaps) {
+			if (map.getName().toLowerCase().matches("(.*)"+name+"(.*)")) {
+				matchingMaps.add(map);
+			}
+		}
+		return matchingMaps;
+	}
+	
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)

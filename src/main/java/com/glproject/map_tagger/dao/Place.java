@@ -29,7 +29,7 @@ public class Place {
 	double latitude; // the latitude of the place
 	double longitude; // the longitude of the place
 	
-	List<String> pictures; // the path of the pictures stored in webapp/style/images
+	List<Object> pictures; 
 	List<String> messages;
 	List<String> tags; // a list of strings which represents tags
 	
@@ -37,7 +37,7 @@ public class Place {
 
 	public Place() {
 		super();
-		pictures = new ArrayList<String>();
+		pictures = new ArrayList<Object>();
 		messages = new ArrayList<String>();
 		tags = new ArrayList<String>();
 	}
@@ -91,11 +91,11 @@ public class Place {
 		this.description = description;
 	}
 
-	public List<String> getPictures() {
+	public List<Object> getPictures() {
 		return pictures;
 	}
 
-	public void setPictures(List<String> pictures) {
+	public void setPictures(List<Object> pictures) {
 		this.pictures = pictures;
 	}
 
@@ -125,10 +125,7 @@ public class Place {
 		this.mapId = mapId;
 	}
 
-	public void addPicture(String picturePath) {
-		pictures.add(picturePath);
-	}
-	
+
 	public void addMessage(String message) {
 		messages.add(message);
 	}
