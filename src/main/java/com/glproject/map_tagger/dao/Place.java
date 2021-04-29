@@ -29,7 +29,7 @@ public class Place {
 	double latitude; // the latitude of the place
 	double longitude; // the longitude of the place
 	
-	List<Object> pictures; 
+	List<String> pictures; 
 	List<String> messages;
 	List<String> tags; // a list of strings which represents tags
 	
@@ -37,7 +37,7 @@ public class Place {
 
 	public Place() {
 		super();
-		pictures = new ArrayList<Object>();
+		pictures = new ArrayList<String>();
 		messages = new ArrayList<String>();
 		tags = new ArrayList<String>();
 	}
@@ -91,11 +91,11 @@ public class Place {
 		this.description = description;
 	}
 
-	public List<Object> getPictures() {
+	public List<String> getPictures() {
 		return pictures;
 	}
 
-	public void setPictures(List<Object> pictures) {
+	public void setPictures(List<String> pictures) {
 		this.pictures = pictures;
 	}
 

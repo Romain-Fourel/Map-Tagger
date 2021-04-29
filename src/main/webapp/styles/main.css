@@ -533,11 +533,14 @@ input{
     grid-gap: 10px;
     border: 1px solid transparent;
     cursor: pointer;
+    transition: all;
 }
   
 .OneDiv:hover {
     border-radius: 15px;
     border: 1px solid #fff;
+    background-color: grey;
+    transition: all;
   }
   
 .OneDiv i {
