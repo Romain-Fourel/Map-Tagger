@@ -129,9 +129,9 @@
                 <div id="communityMapsButtons" class="Scrollbar fullScrollbarRight"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
-                    <p class='OneDiv'>
-                        <label class='labelOneDiv'> <%= nameMap %> </label>
-                        <button class='buttonShowsDetails' id= <%= oneCommunityMapButtonId %> > > </button>
+                    <p class='OneDiv' id= <%= oneCommunityMapButtonId %>>
+                        <label class='OneDivL'> <%= nameMap %> </label>
+                      <i class="fa fa-angle-right"></i>
                     </p>
                 </script>
 
@@ -153,7 +153,6 @@
                     <p class='OneDivSMM' id= <%= oneMapDivId %> >
                         <input type='checkbox' id= <%= checkBoxMapId %>  <%= checked %> />
                         <label for= <%= checkBoxMapId %> > <span class='spanLabel'></span> <%= nameMap %> </label>
-                            
                         <button class='buttonShowsDetails' id= <%= buttonOneMapMenuId %> >  > </button>
                     </p>
 
@@ -174,9 +173,9 @@
 
                 <!--Below: the script for the div above!-->
                 <script id="templateOnePlaceButton" type="text/template">
-                    <p class='OneDiv'>
-                        <label class='labelOneDiv'> <%= namePlace %> </label>
-                        <button class='buttonShowsDetails' id= <%= onePlaceButtonId %> > > </button>
+                    <p class='OneDiv' id= <%= onePlaceButtonId %>>
+                        <label class='OneDivL'> <%= namePlace %> </label>
+                        <i class="fa fa-angle-right"></i>
                     </p>
                 </script>
 
@@ -238,9 +237,9 @@
                     <!--list of places of this map-->
                     <div id="oneMapPlaces"></div>
                     <script id="templateOneMapPlaces" type="text/template">
-                        <p class='OneDiv' id= <%= oneMapPlaceId %> >
-                            <label class='labelOneDiv'><%= namePlace %></label>
-                            <button class='buttonShowsDetails' id= <%= buttonOnePlaceMenuId %> > > </button>
+                        <p class='OneDiv' id= <%= buttonOnePlaceMenuId %>>
+                            <label class='OneDivL'> <%= namePlace %> </label>
+                            <i class="fa fa-angle-right"></i>
                         </p>
                     </script>
                 </div>
