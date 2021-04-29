@@ -545,6 +545,8 @@ class ClickManager {
         ClickManager.setClickSearchingPlacesMenuQuit();
 
         ClickManager.setClickAddImages();
+
+        $("#small-modal-done").click(hideOverlay);
     }
 
 
