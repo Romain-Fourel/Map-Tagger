@@ -203,7 +203,7 @@
 
                     <div id="onePlaceImages"></div>
                     <script id="templateOnePlaceImages" type="text/template">
-                        <img id= <%= onePlaceImageId %> class="image-resized" src= <%= onePlaceImageSrc %> >
+                        <img class="image-resized" src= <%= onePlaceImageSrc %>  id= <%= onePlaceImageId %> >
                     </script>
 
                     <h3>Comments:
@@ -223,7 +223,11 @@
                             </textarea>   
                     </script>
 
-
+                    <script id="templatePopup" type="text/template">
+                        <b> <%= namePlace %> </b>
+                        <br>
+                        <img class="small-image" src= <%= imgSrc %> >
+                    </script>
 
                 </div>
 

@@ -105,7 +105,17 @@ class PlaceManager {
         this.marker = L.marker([place.latitude, place.longitude]);
         PlaceManager.dict.set(place.id, this);
 
-        this.marker.bindPopup("<b>" + this.place.name + "</b>");
+        if(place.pictures.length>0){
+            var template = _.template($("#templatePopup").html());
+            this.marker.bindPopup(template({
+                namePlace:place.name,
+                imgSrc:place.pictures[0]
+            }));
+        }
+        else{
+            this.marker.bindPopup("<b>" + this.place.name + "</b>");
+        }
+        
         this.marker.on('mouseover', function (e) {
             this.openPopup();
         })
@@ -119,7 +129,17 @@ class PlaceManager {
 
     update(updatedPlace) {
         this.place = updatedPlace;
-        this.marker._popup.setContent("<b>" + this.place.name + "</b>");
+        if(updatedPlace.pictures.length>0){
+            var template = _.template($("#templatePopup").html());
+            this.marker._popup.setContent(template({
+                namePlace:updatedPlace.name,
+                imgSrc:updatedPlace.pictures[0]
+            }));
+        }
+        else{
+            this.marker._popup.setContent("<b>" + this.place.name + "</b>");
+        }
+        
     }
 
     static placeToJSon(placeName,placeDescription,placeLatitude,placeLongitude,tags,pictures){
@@ -456,7 +476,7 @@ class PanelManager {
         for (let i = 0; i<place.pictures.length; i++){   
             $("#onePlaceImages").append(template({
                 onePlaceImageSrc:place.pictures[i],
-                onePlaceImageId: "onePlaceImage"+place.id
+                onePlaceImageId: "onePlaceImage"+place.id,
             }));
         }
 
@@ -538,11 +558,7 @@ class ClickManager {
         ClickManager.setClickSearchByTagsButton();
         ClickManager.setClickSearchingPlacesMenuQuit();
 
-        ClickManager.setClickAddImages();
-
         $("#small-modal-done").click(hideOverlay);
-
-        ClickManager.setClickOnImage();
     }
 
 
@@ -791,7 +807,6 @@ class ClickManager {
         $("#editPlace").click(function () {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
-            //var mapChose = $("#mapChoicePlace").val();
 
             var tags = getTagsOf("#addAPlaceTags");
         
@@ -803,21 +818,12 @@ class ClickManager {
                 alert("Please name this place");
                 return false;
             }
-            /*TODO: maybe later the user will be able to change the map which contains his place */
-            /*else if (mapChose === "CAMap") {
-                alert("Please choose a map to put your place in");
-                return false;
-            }*/
-        
-
 
             var files = document.getElementById("searchImages").files;
-            console.log(files);
             var fileReader = new FileReader();
                 
             fileReader.onload = function(fileLoadedEvent){
                 var image = fileLoadedEvent.target.result;
-                console.log(image);
                 
                 postServerdata("ws/Place/"+place.id+"/add/image",image,function(updatedPlace1){
 
@@ -833,9 +839,19 @@ class ClickManager {
                 });
             }
 
-            fileReader.readAsDataURL(Object.values(files)[0]);
+            if(files.length>0){
+                fileReader.readAsDataURL(Object.values(files)[0]);
+            }else{
+                place.name = namePlace;
+                place.description = descriptionPlace;
+                place.tags= tags;
 
-    
+                postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){              
+                    var placeManager = PlaceManager.dict.get(updatedPlace.id);
+                    placeManager.update(updatedPlace);
+                    PanelManager.setOnePlaceMenu(updatedPlace);
+                });
+            }
             hideOverlay();             
         });
     }
@@ -1020,20 +1036,6 @@ class ClickManager {
                 PanelManager.setOnePlaceMenu(updatedPlace);
             });                 
         });
-    }
-
-    static setClickAddImages(){
-        $("#searchImages").click(function (e) { 
-            
-        });
-    }
-
-    static setClickOnImage(){
-        $(".image-resized").click(function (e) { 
-            console.log("hey !!");
-            
-        });
-        
     }
 
     /**

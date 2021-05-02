@@ -858,8 +858,13 @@ textarea:disabled{
 
 
 .image-resized{
-    width: 300px;
-    height: 100px;
+    width: 225px;
+    height: 150px;
+}
+
+.small-image{
+    width: 125px;
+    height: 80px;   
 }
 
 
