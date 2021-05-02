@@ -153,6 +153,25 @@ input{
     visibility: hidden;
 }
 
+.small-modal label{
+    font-size: 18px;
+    font-style:oblique;
+    color:rgb(0, 0, 0);
+
+}
+
+#small-modal-done{
+    font-size: 14px;
+    left: 10%;
+    border-radius: 20px;
+    outline: none;
+    transition: all 0.3s;
+    position: absolute;
+    bottom: 3%;
+    background: rgb(83, 83, 83);
+    color: white;
+}
+
 .users-list{
     height:70%;
 }
@@ -166,7 +185,7 @@ input{
   position: absolute;
   top: -50%;
   left: 27%;
-  border: 5px solid rgb(255, 255, 255);
+  border: 3px solid rgb(255, 255, 255);
   transition: all 500ms;
 }
 
@@ -225,13 +244,22 @@ input{
 
 .AddNameInput{
     position: absolute;
-    font-size: 18px;
-    top: 8%;
-    right: 40%;
+    font-size: 16px;
+    top: 10%;
+    right: 50%;
     width:230px;
-    height:40px;
+    height:30px;
 }
 
+#OneMapMarker{
+    position: absolute;
+    font-size: 80px;
+    top: 3%;
+    left: 8%;
+    width:230px;
+    height:30px;
+    color: #4884c9;
+}
 
 .AddDescriptionInput{
     font-size: 16px;
@@ -249,8 +277,15 @@ input{
     width:75px;
     height:70px;
     border-radius: 20%;
-    border: 5px solid rgb(255, 255, 255);
+    border: 0px;
     outline: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+#addImages:hover{
+    color: #83bdff;
+    transition: all 0.4s;
 }
 .PopupChoice{
     position: absolute;
@@ -379,7 +414,6 @@ input{
 	transition: all .5s ease-in;
 }
 
-
 .LeftSlidingPanel{
     left: -400px; 
 }
@@ -478,7 +512,20 @@ input{
     color: #ffffff;
 }
 
-
+.buttonShowsDetails2{
+    font-size: 30px;
+    left: 70%;
+    border-radius: 20px;
+    background: #2600ff00;
+    border: none;
+    outline: none;
+    transition: all 0.3s;
+    position: relative;
+    display: inline;
+}
+.buttonShowsDetails2:hover{
+    color: #ffffff;
+}
 
 
 .fullScrollbarRight{
@@ -568,6 +615,20 @@ input{
     border-top: solid;
     border-top-color: #ffffff;
     border-top-width: 2px;
+    display: grid;
+}
+
+.OneDivSmall{
+    background-color: #41414100; 
+    height: 40px;
+    width: 300px;
+}
+
+.labelOneDiv{
+    position: relative;
+    left: 10px;
+    top: 25%;
+    font-size: 18px;
 }
 
 .OneDivSMM label{
@@ -593,6 +654,8 @@ input{
     text-align: center;
 }
 
+
+
 .titleBoxL{
     position: absolute;
     right: 15%;
@@ -607,6 +670,25 @@ input{
     font-size: 32px;
     color: #4884c9;
     display: inline-block;
+}
+
+.searchInput{
+    background-color: #6e6e6e;
+    color: #ffffff;
+    border-radius: 30px;
+    font-size: 14px;
+    position:relative;
+    padding: 0.05rem 0.5rem 0.05rem 0.5rem;
+    }
+
+.searchInputButton{
+    display: inline;
+    background-color: #6e6e6e;
+    color: #ffffff;
+    border-radius: 30px;
+    font-size: 17px;
+    position:relative;
+    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
 }
 
 .Menu h1{
@@ -789,37 +871,31 @@ textarea:disabled{
     font-size: 22px;
     background: #00000000;
     color: #ffffff;
-    padding: 0.1rem 0.9rem 0.1rem 0.8rem;
-    width:10px;
-    height:10px;
+    padding: 0.01rem 0.4rem 0.01rem 0.4rem;
     position: relative;
-    left: 58%;
-    border: none;
+    left: 79%;
     outline: none;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s;
 }
 .oneMapSharedFollowButton:hover{
     color: #00ff95;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s;
     }
 
 .oneMapSharedIgnoreButton{
     font-size: 22px;
     background: #00000000;
     color: #ffffff;
-    padding: 0.1rem 0.9rem 0.1rem 0.8rem;
-    width:10px;
-    height:10px;
+    padding: 0.01rem 0.2rem 0.01rem 0.2rem;
     position: relative;
-    left: 73%;
-    border: none;
+    left: 91%;
     outline: none;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s;
     }
     
 .oneMapSharedIgnoreButton:hover{
     color: #ff0000;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s;
     }
 
 .RedButton{

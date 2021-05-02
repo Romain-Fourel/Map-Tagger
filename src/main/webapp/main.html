@@ -50,6 +50,7 @@
                 <div class="PopupMenu" id="addAPlaceMenu">
                     <p>
                         <form>
+                            <label id="OneMapMarker"><i class="fa fa-map-marker" aria-hidden="true"></i></label>
                             <input name="place" type="text" class="AddNameInput" id="addNamePlace" placeholder="Name this place..." autocomplete=off>
                             <textarea maxlength=255 name="description" class="AddDescriptionInput" id="addDescriptionPlace" placeholder="Describe this place..." rows=10 cols=72 autocomplete=off></textarea>
                             <button class="CloseButton" type="reset">x</button>
@@ -103,13 +104,15 @@
 
                 <div class="small-modal" >
                     <button class="CloseButton" type="reset">x</button>
+                    <br>&nbsp;&nbsp;
                     <label for="share-map">Find your friend with his name!</label>
-                    <input type="text" class="searchInput" id="share-map-user-name"> <button id="searchUsersButton"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" class="searchInput" id="share-map-user-name">&nbsp;&nbsp;&nbsp; <button class="searchInputButton" id="searchUsersButton"><i class="fa fa-search" aria-hidden="true"></i></button>
                     <div id="user-list" class="Scrollbar users-list"></div>
                     <script id="templateUserList" type="text/template">
-                        <p class='OneDiv'>
-                            <label class='labelOneDiv'> <%= nameUser %> </label>
-                            <button class='buttonShowsDetails' id= <%= oneUserButtonId %> > 
+                        <p class='OneDivSmall'>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class='labelOneDiv'> <%= nameUser %> </label>
+                            <button class='buttonShowsDetails2' id= <%= oneUserButtonId %> > 
                                 <i class="fa fa-paper-plane" aria-hidden="true"></i> 
                             </button>
                         </p>
@@ -126,9 +129,10 @@
                 <div class="titleBox">
                     <a class="sizeIcon2"><i class="fa fa-globe" aria-hidden="true"></i></a>
                     <h1 id="communityh1">Community Maps</h1>
-                    <input type="text" class="searchInput" id="searchMapInput">
-                    <button id="searchMapButton"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </div>
+                <br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" class="searchInput" id="searchMapInput">&nbsp;&nbsp;&nbsp;
+                <button class="searchInputButton" id="searchMapButton"><i class="fa fa-search" aria-hidden="true"></i></button>
                 <div id="communityMapsButtons" class="Scrollbar fullScrollbarRight"></div>
                 <!--Below: the script for the div above!-->
                 <script id="templateOneCommunityMapButton" type="text/template">
@@ -298,7 +302,7 @@
                     <div id="mapsSharedDiv"></div>
 
                     <script id="templateMapsSharedDiv" type="text/template">
-                        <p class='OneDiv' id= <%= oneMapSharedId %> >
+                        <p class='OneDivSmall' id= <%= oneMapSharedId %> >
                             <label class='labelOneDiv'><%= nameMap %></label>
                             <button class='oneMapSharedFollowButton' id= <%= oneMapSharedFollowButtonId %> > <i class="fa fa-share" aria-hidden="true"></i> </button>
                             <button class='oneMapSharedIgnoreButton' id= <%= oneMapSharedIgnoreButtonId %> > <i class="fa fa-close" aria-hidden="true"></i> </button>
