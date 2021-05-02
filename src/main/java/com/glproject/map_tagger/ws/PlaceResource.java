@@ -98,8 +98,20 @@ public class PlaceResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/update")
-	public Response updatePlace(Place place) {
+	public Response updatePlace(Place place) {	
+		place = DAO.getPlaceDao().updatePlace(place);
+		return Response.ok(place).build();
+	}
+	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/add/image")
+	public Response addImage(@PathParam("id") String id, String image64) {
 		
+		Place place = DAO.getPlaceDao().getPlace(Long.parseLong(id));
+		place.addPicture(image64);
 		place = DAO.getPlaceDao().updatePlace(place);
 		
 		return Response.ok(place).build();

@@ -134,6 +134,13 @@ public class Place {
 		tags.add(tag);
 	}
 	
+	public void addPicture(String image64) {
+		if(pictures == null) {
+			pictures = new ArrayList<String>();
+		}
+		pictures.add(image64);
+	}
+	
 	/**
 	 * @param tags
 	 * @return true if all tags into a specific list of tags are into the list of the tags place

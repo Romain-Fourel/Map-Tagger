@@ -114,7 +114,7 @@
                             </button>
                         </p>
                     </script>
-                    <button id="small-modal-done">I'm done!</button>
+                    <button id="small-modal-done" class="modal-done">I'm done!</button>
 
                 </div>
 
@@ -196,6 +196,12 @@
                     <textarea class="descriptionArea" rows=8 cols=32 disabled><!--Description of the place:--></textarea>
                     <br>
                     <textarea id="onePlaceTags" readOnly class="Scrollbar"></textarea>
+
+                    <div id="onePlaceImages"></div>
+                    <script id="templateOnePlaceImages" type="text/template">
+                        <img id= <%= onePlaceImageId %> class="image-resized" src= <%= onePlaceImageSrc %> >
+                    </script>
+
                     <h3>Comments:
                         <button id="addAMessageButton"><i class="fa fa-commenting" aria-hidden="true"></i></button>
                     </h3>
@@ -213,16 +219,14 @@
                             </textarea>   
                     </script>
 
-                    <div id="onePlaceImages"></div>
-                    <script id="templateOnePlaceImages" type="text/template">
-                        <img src= <%= onePlaceImageSrc %> >
-                    </script>
+
 
                 </div>
 
                 <button class="btn-bottom delButton" id="removePlace"><i class="fa fa-trash-o"></i></button>
                 <button class="btn-bottom modifyButton" id="modifyPlace"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                <button id="centerToMarkerPlaceButton"><i class="fa fa-location-arrow"></i></button>
+                <button class="btn-bottom-circle" id="centerToMarkerPlaceButton"><i class="fa fa-location-arrow"></i></button>
+                <button class="btn-bottom" id="goToGoogleMapButton"><i class="fa fa-plane" aria-hidden="true"></i></button>
                 <button class="RightSlidingPanelQuit" id="onePlaceMenuQuit"><i class="fa fa-angle-right" aria-hidden="true"></i></button> 
             </div>
 

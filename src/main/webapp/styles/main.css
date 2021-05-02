@@ -653,24 +653,23 @@ input{
     transition: all 0.5s;
 }
 
-#centerToMarkerPlaceButton {
+.btn-bottom-circle{
     background-color: #414141;
     z-index: 501;
     position: absolute;
-    bottom : 3%;
-    left: 34%;
+    bottom : 3%; 
     font-size: 23px;
     padding: 0.6rem 0.8rem 0.6rem 0.8rem;
     border-radius: 100%;
     color: rgb(255, 255, 255);
     outline: none;
-    transition: all 0.3s;
+    transition: all 0.3s;    
 }
-#centerToMarkerPlaceButton:hover {
-    color: #56a8f5;
-    transition: all 0.3s;
-  }
 
+.btn-bottom-circle:hover{
+    color: #56a8f5;
+    transition: all 0.3s;    
+}
   
 #templateOnePlaceMessages{
     background-color: #ffffff;
@@ -718,12 +717,22 @@ input{
 }
 
 .modifyButton{ 
-    left: 275px;
+    left: 215px;
+    
 }
 
 .delButton{
-    left: 210px;
+    left: 275px;
 }
+
+#centerToMarkerPlaceButton{
+    left: 26%;
+}
+
+#goToGoogleMapButton{
+    left: 39%;
+}
+
 
 .delButton:hover{
     color: #ff0000;
@@ -756,6 +765,22 @@ textarea:disabled{
     border-radius: 3%;
     color:#ffffff;
 }
+
+.modal-done{
+    position: relative;
+    left: 35%;
+    background-color: #00ff95;
+    font-size: large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+.image-resized{
+    width: 300px;
+    height: 100px;
+}
+
+
 /**
  * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
  **/

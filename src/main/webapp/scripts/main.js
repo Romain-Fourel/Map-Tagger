@@ -451,24 +451,18 @@ class PanelManager {
         }
 
         $("#onePlaceImages").text("");
-        var imagesDiv = document.querySelector("#onePlaceImages");
+        var template = _.template($("#templateOnePlaceImages").html());
 
         for (let i = 0; i<place.pictures.length; i++){   
-            var file = JSON.parse(place.pictures[i]);
-            var reader = new FileReader;
-            
-            reader.addEventListener("load",()=>{
-                var image = new Image();
-                image.height = 100;
-                image.title = file.name;
-                image.src = this.result;
-                imagesDiv.appendChild(image);
-            },false);
-            reader.readAsDataURL(file);
+            $("#onePlaceImages").append(template({
+                onePlaceImageSrc:place.pictures[i],
+                onePlaceImageId: "onePlaceImage"+place.id
+            }));
         }
 
         ClickManager.setClickAddAMessageButton(place);
         ClickManager.setClickCenterToMarkerPlaceButton(place);
+        ClickManager.setClickOnGoToGoogleMapButton(place);
 
         var map = MapManager.dict.get(place.mapId).map;
 
@@ -547,6 +541,8 @@ class ClickManager {
         ClickManager.setClickAddImages();
 
         $("#small-modal-done").click(hideOverlay);
+
+        ClickManager.setClickOnImage();
     }
 
 
@@ -747,17 +743,8 @@ class ClickManager {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             var mapChose = $("#mapChoicePlace").val();
-         
-            var files = document.getElementById("searchImages").files;
-            /*var pictures = [];
-            for (const value of Object.values(files)) {
-                console.log(value);
-                console.log(JSON.stringify(value));
-                pictures.push(JSON.stringify(value));
-            }
-            console.log(pictures);*/
 
-            var pictures = Object.values(files);
+            var pictures = [];
 
             var tags = getTagsOf("#addAPlaceTags");
         
@@ -805,12 +792,6 @@ class ClickManager {
             var namePlace = $("#addNamePlace").val();
             var descriptionPlace = $("#addDescriptionPlace").val();
             //var mapChose = $("#mapChoicePlace").val();
-            
-            var files = document.getElementById("searchImages").files;
-            var pictures = [];
-            for (const value of Object.values(files)) {
-                pictures.push(JSON.stringify(value));
-            }
 
             var tags = getTagsOf("#addAPlaceTags");
         
@@ -828,16 +809,33 @@ class ClickManager {
                 return false;
             }*/
         
-            place.name = namePlace;
-            place.description = descriptionPlace;
-            place.tags= tags;
-            place.pictures = pictures;
-        
-            postServerdata("ws/Place/update",JSON.stringify(place),function(updatedPlace){
-                var placeManager = PlaceManager.dict.get(updatedPlace.id);
-                placeManager.update(updatedPlace);
-                PanelManager.setOnePlaceMenu(updatedPlace);  
-            })
+
+
+            var files = document.getElementById("searchImages").files;
+            console.log(files);
+            var fileReader = new FileReader();
+                
+            fileReader.onload = function(fileLoadedEvent){
+                var image = fileLoadedEvent.target.result;
+                console.log(image);
+                
+                postServerdata("ws/Place/"+place.id+"/add/image",image,function(updatedPlace1){
+
+                    updatedPlace1.name = namePlace;
+                    updatedPlace1.description = descriptionPlace;
+                    updatedPlace1.tags= tags;
+
+                    postServerdata("ws/Place/update",JSON.stringify(updatedPlace1),function(updatedPlace2){              
+                        var placeManager = PlaceManager.dict.get(updatedPlace2.id);
+                        placeManager.update(updatedPlace2);
+                        PanelManager.setOnePlaceMenu(updatedPlace2);
+                    });
+                });
+            }
+
+            fileReader.readAsDataURL(Object.values(files)[0]);
+
+    
             hideOverlay();             
         });
     }
@@ -1030,6 +1028,14 @@ class ClickManager {
         });
     }
 
+    static setClickOnImage(){
+        $(".image-resized").click(function (e) { 
+            console.log("hey !!");
+            
+        });
+        
+    }
+
     /**
      * ############# BELOW, setClick of dynamically generated buttons: ##########
      */
@@ -1175,7 +1181,13 @@ class ClickManager {
         $("#centerToMarkerPlaceButton").click(function (e) { 
             var center = {lat:place.latitude,lng:place.longitude};
             LeafletManager.map.flyTo(center,17);
+        });
+    }
 
+    static setClickOnGoToGoogleMapButton(place){
+        $("#goToGoogleMapButton").unbind("click");
+        $("#goToGoogleMapButton").click(function (e) { 
+            var center = {lat:place.latitude,lng:place.longitude};
             if ("geolocation" in navigator){
                 navigator.geolocation.getCurrentPosition(function(position){
                     var currentPos = {lat:position.coords.latitude,lng:position.coords.longitude};
@@ -1185,7 +1197,7 @@ class ClickManager {
             else {
                 alert("Your navigator doesn't allows the locatiob feature");
             }
-        
+            
         });
     }
 
