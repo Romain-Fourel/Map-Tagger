@@ -168,8 +168,11 @@ input{
     transition: all 0.3s;
     position: absolute;
     bottom: 3%;
-    background: rgb(83, 83, 83);
+    background: rgb(124, 124, 124);
     color: white;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding: 10px;
 }
 
 .users-list{
@@ -231,7 +234,7 @@ input{
     position: absolute;
     top: 15px;
     right: 35px;
-    font-size: 34px;
+    font-size: 27px;
     color: rgb(0, 0, 0);
     width:10px;
     height:10px;
@@ -631,6 +634,19 @@ input{
     font-size: 18px;
 }
 
+.OneDivSmallLeft{
+    background-color: #41414100; 
+    height: 40px;
+    width: 300px;
+}
+
+.labelOneDivLeft{
+    position: relative;
+    left: 10px;
+    top: 25%;
+    font-size: 12px;
+}
+
 .OneDivSMM label{
     position: absolute;
     left: 10px;
@@ -643,6 +659,78 @@ input{
     cursor: pointer;
 }
 
+.OneDivLeft{
+    width: 250px;
+    padding: 10px;
+    padding-right: 23px;
+    padding-left: 23px;
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+    font-size: 13px;
+    grid-gap: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all;
+}
+  
+.OneDivLeft:hover {
+    border-radius: 15px;
+    border: 1px solid #fff;
+    background-color: grey;
+    transition: all;
+  }
+  
+.OneDivLeft i {
+    align-self: center;
+    font-size: 25px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+.labelOneDivLeft{
+    position: relative;
+    left: 10px;
+    top: 25%;
+    font-size: 15px;
+}
+
+.OneDivLeftL{
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.oneMapSharedIgnoreButton{
+    font-size: 27px;
+    background: #00000000;
+    color: #ffffff;
+    padding: 0.01rem 0.2rem 0.01rem 0.2rem;
+    position: relative;
+    left: 88%;
+    outline: none;
+    border: none;
+    transition: all 0.4s;
+    }
+    
+.oneMapSharedIgnoreButton:hover{
+    color: #ff0000;
+    transition: all 0.4s;
+    }
+
+.oneMapSharedFollowButton{
+        font-size: 27px;
+        background: #00000000;
+        color: #ffffff;
+        padding: 0.01rem 0.4rem 0.01rem 0.4rem;
+        position: relative;
+        left: 70%;
+        outline: none;
+        border:none;
+        transition: all 0.4s;
+    }
+.oneMapSharedFollowButton:hover{
+        color: #00ff95;
+        transition: all 0.4s;
+        }
 
 .titleBox{
     position: absolute;
@@ -653,8 +741,6 @@ input{
     border-radius: 20%;
     text-align: center;
 }
-
-
 
 .titleBoxL{
     position: absolute;
@@ -689,6 +775,11 @@ input{
     font-size: 17px;
     position:relative;
     padding: 0.1rem 0.5rem 0.1rem 0.5rem;
+    transition:all 0.5s;
+}
+.searchInputButton:hover{
+    color: #56a8f5;
+    transition:all 0.5s;
 }
 
 .Menu h1{
@@ -803,6 +894,10 @@ input{
     
 }
 
+.addButton{ 
+    left: 275px;
+}
+
 .delButton{
     left: 275px;
 }
@@ -830,8 +925,13 @@ input{
     position: absolute;
     left: 45%;
     top: 35%;
+    transition:all 0.5s;
     }
 
+.btn-share:hover{
+    color: #4884c9;
+    transition:all 0.5s;
+}
 .OneLine{
     position: relative;
     background-color: #414141; 
@@ -871,37 +971,6 @@ textarea:disabled{
 /**
  * ########################## BELOW: CODE FOR PARAMETERS MENU ###########################
  **/
-
-.oneMapSharedFollowButton{
-    font-size: 22px;
-    background: #00000000;
-    color: #ffffff;
-    padding: 0.01rem 0.4rem 0.01rem 0.4rem;
-    position: relative;
-    left: 79%;
-    outline: none;
-    transition: all 0.4s;
-}
-.oneMapSharedFollowButton:hover{
-    color: #00ff95;
-    transition: all 0.4s;
-    }
-
-.oneMapSharedIgnoreButton{
-    font-size: 22px;
-    background: #00000000;
-    color: #ffffff;
-    padding: 0.01rem 0.2rem 0.01rem 0.2rem;
-    position: relative;
-    left: 91%;
-    outline: none;
-    transition: all 0.4s;
-    }
-    
-.oneMapSharedIgnoreButton:hover{
-    color: #ff0000;
-    transition: all 0.4s;
-    }
 
 .RedButton{
         background: #afafaf;
