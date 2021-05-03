@@ -31,6 +31,14 @@ public class PlaceResource {
 		return place;
 	}
 	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/name")
+	public List<Place> retrievePlaces(String name){
+		return DAO.getPlaceDao().getPlaces(name);
+	}
+	
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

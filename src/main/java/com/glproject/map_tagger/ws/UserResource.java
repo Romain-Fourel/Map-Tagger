@@ -147,6 +147,9 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/currentSession")
 	public User getCurrentUser() {
+		if (lastConnection==null) {
+			return null;
+		}
 		User user = DAO.getUserDao().getUser(lastConnection);	
 		return user;
 	}
@@ -186,13 +189,16 @@ public class UserResource {
 	@Path("/add")
 	public Response generateUser(User user) {
 		
+		/**
+		 * Some lorem Ipsum to fill empty description and add fake comments
+		 */
 		String loremIpsum = "Quo cognito Constantius ultra mortalem modum exarsit ac nequo casu idem "
 				          + "Gallus de futuris incertus agitare quaedam conducentia saluti suae "
 				          + "per itinera conaretur, remoti sunt omnes de industria milites agentes in civitatibus perviis.";
 		
-		List<String> toShare = Arrays.asList(new String[] {"My favorite chinese restaurants",
-														   "Best cinema in Tours",
-														   "Boulangeries"});
+		List<String> toShare = Arrays.asList(new String[] {"Best cinema in Tours",
+														   "My favorite Restaurants",
+														   "Beautiful waterfalls"});
 		
 		/**
 		 * This webservice can be only used before the first connection !

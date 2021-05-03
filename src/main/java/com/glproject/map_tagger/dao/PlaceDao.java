@@ -13,6 +13,8 @@ public interface PlaceDao {
 
 	Place getPlace(Long ID);
 	
+	List<Place> getPlaces(String name);
+	
 	Place addPlaceTo(Long mapId, Place place);
 	
 	Place updatePlace(Place place);

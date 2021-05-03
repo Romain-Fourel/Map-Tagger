@@ -135,6 +135,37 @@ public class PlaceDaoImpl implements PlaceDao {
 		}
 		return detached;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Place> getPlaces(String name) {
+		List<Place> places = null;
+		List<Place> detached = null;
+
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			tx.begin();
+			Query q = pm.newQuery(Place.class);
+			q.declareParameters("String placeName");
+			q.setFilter("name == placeName");
+			
+			places = (List<Place>) q.execute(name);
+			places.toString();
+
+			detached = (List<Place>) pm.detachCopyAll(places);
+			
+			tx.commit();
+
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return detached;
+	}
 
 
 	@Override

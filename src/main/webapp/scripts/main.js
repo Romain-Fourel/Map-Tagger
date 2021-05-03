@@ -638,12 +638,7 @@ class ClickManager {
             }
             
             LeafletManager.searchingPlacesLayerGroup = L.layerGroup();
-
-            console.log(LeafletManager.map.getZoom());
-
             var pointUpLeft = LeafletManager.map.unproject(LeafletManager.map.getPixelOrigin());
-            console.log(LeafletManager.map.getPixelOrigin());
-            console.log(pointUpLeft);
             
             var radius = LeafletManager.map.getCenter().distanceTo(pointUpLeft);
             
@@ -824,7 +819,7 @@ class ClickManager {
                 
             fileReader.onload = function(fileLoadedEvent){
                 var image = fileLoadedEvent.target.result;
-                
+
                 postServerdata("ws/Place/"+place.id+"/add/image",image,function(updatedPlace1){
 
                     updatedPlace1.name = namePlace;
