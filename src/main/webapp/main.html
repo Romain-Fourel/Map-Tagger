@@ -108,13 +108,12 @@
                     <label for="share-map">Find your friend with his name!</label>
                     <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="text" class="searchInput" id="share-map-user-name">&nbsp;&nbsp;&nbsp; <button class="searchInputButton" id="searchUsersButton"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <br><br>
                     <div id="user-list" class="Scrollbar users-list"></div>
                     <script id="templateUserList" type="text/template">
-                        <p class='OneDivSmall'>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class='labelOneDiv'> <%= nameUser %> </label>
-                            <button class='buttonShowsDetails2' id= <%= oneUserButtonId %> > 
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i> 
-                            </button>
+                        <p class='OneDivLeft' id= <%= oneUserButtonId %>>
+                            <label class='OneDivLeftL'> <%= nameUser %> </label>
+                            <i class="fa fa-paper-plane" aria-hidden="true"></i> 
                         </p>
                     </script>
                     <button id="small-modal-done" class="modal-done">I'm done!</button>
@@ -165,7 +164,7 @@
 
                 </script>
 
-                <button class="btn-bottom modifyButton" id="addAMapB"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                <button class="btn-bottom addButton" id="addAMapB"><i class="fa fa-plus" aria-hidden="true"></i></button>
                 <button class="RightSlidingPanelQuit" id="savedMapsMenuQuit" ><i class="fa fa-angle-right" aria-hidden="true"></i></button>
 
                 
@@ -261,7 +260,7 @@
 
                 <button class="btn-bottom delButton" id="removeMap"><i class="fa fa-trash-o"></i></button>
                 <button class="btn-bottom modifyButton" id="modifyMap"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                <button class="btn-bottom modifyButton" id="followMap">Follow</button>
+                <button class="btn-bottom addButton" id="followMap">Follow</button>
                 <button class="RightSlidingPanelQuit" id="oneMapMenuQuit"><i class="fa fa-angle-right" aria-hidden="true"></i></button> 
             </div>
 
@@ -306,8 +305,8 @@
                     <div id="mapsSharedDiv"></div>
 
                     <script id="templateMapsSharedDiv" type="text/template">
-                        <p class='OneDivSmall' id= <%= oneMapSharedId %> >
-                            <label class='labelOneDiv'><%= nameMap %></label>
+                        <p class='OneDivSmallLeft' id= <%= oneMapSharedId %> >
+                            <label class='labelOneDivLeft'><%= nameMap %></label>
                             <button class='oneMapSharedFollowButton' id= <%= oneMapSharedFollowButtonId %> > <i class="fa fa-share" aria-hidden="true"></i> </button>
                             <button class='oneMapSharedIgnoreButton' id= <%= oneMapSharedIgnoreButtonId %> > <i class="fa fa-close" aria-hidden="true"></i> </button>
                         </p>
