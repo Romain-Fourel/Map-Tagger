@@ -77,7 +77,7 @@
             "confidentiality":"PRIVATE",
             "places":[
                 {
-                    "name":"Appartment in Alfortville",
+                    "name":"My appartment",
                     "description":"Next to the train station, this appartment is really good for many reasons, but a little bit noisy",
                     "latitude":48.802605,
                     "longitude":2.42433,
@@ -145,11 +145,11 @@
     "mapsVisibility":{},
     "mapsShared":[]
 },{
-    "name":"Alfredo",
-    "password":"123456",
+    "name":"Georgeo",
+    "password":"geo123",
     "mapList":[
         {
-            "name":"My favorite Restaurants",
+            "name":"Favorite Restaurants",
             "description":"If you like good meals and discovering new places, take a look to this map!",
             "confidentiality":"PUBLIC",
             "places":[
@@ -228,7 +228,7 @@
     "mapsShared":[]
 },{
     "name":"Augustin",
-    "password":"monpapaestriche",
+    "password":"augmper",
     "mapList":[
         {
             "name":"Musées chics",
@@ -253,7 +253,7 @@
     "mapsVisibility":{},
     "mapsShared":[]    
 },{
-    "name":"Laura",
+    "name":"Georges",
     "password":"hgLOJE458p",
     "mapList":[
         {
@@ -279,8 +279,8 @@
     "mapsVisibility":{},
     "mapsShared":[]    
 },{
-    "name":"Georgeo",
-    "password":"gergeo54L",
+    "name":"Alfredo",
+    "password":"alfredo456",
     "mapList":[
         {
             "name":"Beautiful waterfalls",
@@ -309,7 +309,7 @@
     "mapsVisibility":{},
     "mapsShared":[]    
 },{
-    "name":"Sacha35",
+    "name":"GeoBox",
     "password":"zter5gr8t",
     "mapList":[
         {

@@ -197,7 +197,7 @@ public class UserResource {
 				          + "per itinera conaretur, remoti sunt omnes de industria milites agentes in civitatibus perviis.";
 		
 		List<String> toShare = Arrays.asList(new String[] {"Best cinema in Tours",
-														   "My favorite Restaurants",
+														   "Favorite Restaurants",
 														   "Beautiful waterfalls"});
 		
 		/**

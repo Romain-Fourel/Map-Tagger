@@ -70,7 +70,6 @@ function addImageTo(fileName, place){
         fileReader.onload = function(fileLoadedEvent){
             var image = fileLoadedEvent.target.result;
             postServerData("ws/Place/"+place.id+"/add/image",image,()=>{
-                console.log("IMAGE LOADED SUCCESSFULLY");
             });
         }
         fileReader.readAsDataURL(file);        
@@ -120,14 +119,13 @@ $(document).ready(function () {
     $.getJSON("scripts/data.json",function (data) {
             for (const user of data) {
                 postServerData("ws/User/add",JSON.stringify(user),function(newUser){
-                    console.log(newUser);
                     if(newUser.name==="Romain"){
                         addImagesToRomain();
                     }
                     if(newUser.name==="MrBoulanger"){
                         addImagesBoulangerie(newUser);
                     }
-                    if(newUser.name==="Alfredo"){
+                    if(newUser.name==="Georgeo"){
                         addImageRestaurant(newUser);
                     }
                 });             

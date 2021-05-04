@@ -4,6 +4,14 @@ import java.util.List;
 
 public interface UserDao {
 	
+	
+	/**
+	 * 
+	 * @return all users in the database
+	 */
+	List<User> getUsers();
+	
+	
 	/**
 	 * 
 	 * @param ID is a primary key
@@ -11,11 +19,6 @@ public interface UserDao {
 	 */
 	User getUser(Long ID);
 
-	/**
-	 * 
-	 * @return all users in the database
-	 */
-	List<User> getUsers();
 
 	/**
 	 * 
